@@ -1,7 +1,15 @@
 <div class="container">
+    <p-card>
+        <div class="flex justify-content-center text-5xl">
+            Bewerte hier deine Woche ({{week}} {{test}})
+        </div>
+    </p-card>
     <div *ngFor="let item of itemList">
         <p-card>
                 <app-voting-detail [inputItem]="item" (result)="getVotingResult($event)"></app-voting-detail>
         </p-card>
+    </div>
+    <div>
+        <textarea rows="4" [style]="{'width':'100%'}" pInputTextarea [(ngModel)]="comment" placeholder="Hier kannst du ein Kommentar erfassen"></textarea> 
     </div>
 </div>

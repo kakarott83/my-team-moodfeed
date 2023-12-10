@@ -15,6 +15,7 @@ import { PasswordModule } from 'primeng/password';
 import { DividerModule } from 'primeng/divider';
 import { VotingComponent } from './logic/voting/voting.component';
 import { VotingDetailComponent } from './logic/voting-detail/voting-detail.component';
+import { InputTextareaModule } from 'primeng/inputtextarea';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { VotingDetailComponent } from './logic/voting-detail/voting-detail.compo
     CardModule,
     InputTextModule,
     PasswordModule,
-    DividerModule
+    DividerModule,
+    InputTextareaModule
   ],
   providers: [],
   bootstrap: [AppComponent]

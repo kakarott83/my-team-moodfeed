@@ -1,14 +1,20 @@
 <div class="voting-detail">
-    <div class="voting-questions voting-detail-font-size">
-        <div>{{votingItem.question}}</div>
-    </div>
-    <div class="voting-icons">
-        <div *ngFor="let item of ratings">
-            <div class="block mr-3 voting-group">
-                <div [ngClass] = "[item.id == selectedRating.id? 'voting-selected': 'voting-default']" [ngStyle]="item.id == selectedRating.id ? {'color': item.color} : {'color':'grey'}" id = "item5" #item5 class="flex justify-content-center voting-detail-font-size voting-icon" (click)="select(item)">
-                    <i [ngClass]="item.iconName"></i>
+    <div class="flex row">
+        <div class="col-2">
+            <div class="voting-questions voting-detail-font-size">
+                <div>{{votingItem.question}}</div>
+            </div>
+        </div>
+        <div class="col-10">
+            <div class="voting-icons">
+                <div *ngFor="let item of ratings">
+                            <div class="block mr-3 voting-group">
+                                <div [ngClass] = "[item.id == selectedRating.id? 'voting-selected': 'voting-default']" [ngStyle]="item.id == selectedRating.id ? {'color': item.color} : {'color':'grey'}" id = "item5" #item5 class="flex justify-content-center voting-detail-font-size voting-icon" (click)="select(item)">
+                                    <i [ngClass]="item.iconName"></i>
+                                </div>
+                            </div>
+                            <span class="">{{item.displayText}}</span>
                 </div>
-                <span class="">{{item.displayText}}</span>
             </div>
         </div>
     </div>
