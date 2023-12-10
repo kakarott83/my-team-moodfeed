@@ -1,0 +1,7 @@
+<div class="container">
+    <div *ngFor="let item of itemList">
+        <p-card>
+                <app-voting-detail [inputItem]="item" (result)="getVotingResult($event)"></app-voting-detail>
+        </p-card>
+    </div>
+</div>

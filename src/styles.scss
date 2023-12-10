@@ -1,1 +1,98 @@
 /* You can add global styles to this file, and also import other style files */
+/* You can add global styles to this file, and also import other style files */
+@import "primeng/resources/themes/lara-light-blue/theme.css";
+@import "primeng/resources/primeng.css";
+@import "primeicons/primeicons.css";
+@import 'primeflex/primeflex.scss';
+
+:root {
+    --primary: #25374A;
+    --text-color: white;
+    --box-bg: white;
+    --color2: #084167;
+    --color3: #083858;
+    --color4: #1C415D;
+    --color5: #2E526C;
+
+
+
+}
+
+html, body {
+    height: 100%;
+    margin: 0px;
+        /*https://pixabay.com/vectors/blue-background-abstract-structure-1634110/*/
+        background-image: url('/assets/images/bg_1920.png');
+        height: 100%; 
+        background-position: center;
+        background-repeat: no-repeat;
+        background-size: cover;
+}
+
+.container {
+    display: block;
+    justify-content: center;
+    align-content: center;
+    /*Top, Right, Bottom, Left*/
+    margin: 5rem 5rem 5rem 10rem;
+}
+
+.auth-box {
+    left: 50%;
+    top: 40%;
+    position: absolute;
+    transform : translate(-50%, -50%);
+}
+
+.p-card {
+    background-color: var(--box-bg);
+}
+
+.p-inputgroup {
+    margin-bottom: 1rem;
+}
+
+.header {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+}
+
+.voting-detail {
+    display: block;
+}
+
+.voting-icons {
+    display: flex;
+    justify-content:space-evenly;
+    margin-left: 3rem;
+    margin-right: 3rem;
+}
+
+.voting-detail-font-size {
+    font-size: 1rem;
+}
+
+.voting-questions {
+    display: flex;
+    justify-content:center;
+    margin-bottom: 1.5rem;
+}
+
+.voting-icon {
+    :hover {
+        font-size: 1.5rem;
+        cursor: pointer;
+    }
+}
+
+.voting-selected {
+    font-weight: bolder;
+    font-size: 1.5rem;
+}
+
+.voting-default {
+    font-weight: lighter;
+    color: rgb(128, 124, 124);
+}
+
