@@ -17,7 +17,8 @@ export class VotingComponent implements OnInit {
   week = '4';
   comment = '';
 
-  test = moment(Date.now()).startOf('week').isoWeekday(1).format("dd MM yyyy")
+  start = moment(Date.now()).startOf('week').isoWeekday(1).format("DD.MM.yyyy")
+  end = moment(Date.now()).endOf('week').isoWeekday(0).format("DD.MM.yyyy")
 
   ngOnInit(): void {
     this.getItems();

@@ -1,7 +1,12 @@
 <div class="container">
     <p-card>
-        <div class="flex justify-content-center text-5xl">
-            Bewerte hier deine Woche ({{week}} {{test}})
+        <div class="flex flex-wrap align-items-center justify-content-center text-5xl">
+            <div class="flex align-content-end">
+                Bewerte hier deine Woche
+            </div>
+            <div class="vertical-align-bottom text-lg ml-3">
+                ({{start}} - {{end}})
+            </div>
         </div>
     </p-card>
     <div *ngFor="let item of itemList">
