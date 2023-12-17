@@ -17,4 +17,7 @@
     <div>
         <textarea rows="4" [style]="{'width':'100%'}" pInputTextarea [(ngModel)]="comment" placeholder="Hier kannst du ein Kommentar erfassen"></textarea> 
     </div>
+    <div>
+        <button (click)="submitVoting()" pButton pRipple label="Abschließen" class="p-button-success" icon="pi pi-check"></button>
+    </div>
 </div>

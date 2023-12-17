@@ -1,0 +1,30 @@
+<div class="block w-full h-full mt-4">
+    <p-table [value]="questionList" [tableStyle]="{'width': '100%'}">
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="width: 4rem"></th>
+                <th pSortableColumn="question" style="width:50%">Frage <p-sortIcon field="question"></p-sortIcon></th>
+                <th pSortableColumn="active" style="width:20%">Aktiv <p-sortIcon field="active"></p-sortIcon></th>
+                <th pSortableColumn="id" style="width:20%">Id <p-sortIcon field="id"></p-sortIcon></th>
+                <th pSortableColumn="action" style="width:20%"></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-item>
+            <tr>
+                <td>
+                    <p-tableRadioButton [value]="item" (click)="selectQuestion(item)"></p-tableRadioButton>
+                </td>
+                <td>{{item.question}}</td>
+                <td>
+                    <p-checkbox [(ngModel)]="item.active" [binary]="true" inputId="active" [disabled]="true"></p-checkbox>
+                </td>
+                <td>{{item.id}}</td>
+                <td>
+                    <div>
+                        <p-button icon="pi pi-times" styleClass="p-button-rounded p-button-danger p-button-text"></p-button>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>

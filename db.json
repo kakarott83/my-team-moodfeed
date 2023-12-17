@@ -1,0 +1,193 @@
+{
+  "votes": [
+    {
+      "department": "FoMo",
+      "votingWeek": "4",
+      "votings": [
+        {
+          "question": "Wie war deine Arbeitswoche?",
+          "id": "item1",
+          "rating": {
+            "id": "good",
+            "value": 2,
+            "iconName": "fa-regular fa-face-smile",
+            "displayText": "Gut",
+            "color": "#b0ce71"
+          }
+        },
+        {
+          "question": "Wie ist deine Arbeitbelastung?",
+          "id": "item3",
+          "rating": {
+            "id": "good",
+            "value": 2,
+            "iconName": "fa-regular fa-face-smile",
+            "displayText": "Gut",
+            "color": "#b0ce71"
+          }
+        },
+        {
+          "question": "Wie ist deine persönliche Stimmung?",
+          "id": "item2",
+          "rating": {
+            "id": "good",
+            "value": 2,
+            "iconName": "fa-regular fa-face-smile",
+            "displayText": "Gut",
+            "color": "#b0ce71"
+          }
+        },
+        {
+          "question": "Wie schätzt du die Stimmung im Unternehmen ein?",
+          "id": "item4",
+          "rating": {
+            "id": "good",
+            "value": 2,
+            "iconName": "fa-regular fa-face-smile",
+            "displayText": "Gut",
+            "color": "#b0ce71"
+          }
+        },
+        {
+          "question": "Wie war die Zusammenarbeit mit anderen Abteilungen?",
+          "id": "item5",
+          "rating": {
+            "id": "good",
+            "value": 2,
+            "iconName": "fa-regular fa-face-smile",
+            "displayText": "Gut",
+            "color": "#b0ce71"
+          }
+        }
+      ],
+      "comment": "",
+      "id": "1sadfasd"
+    },
+    {
+      "department": "FoMo",
+      "votingWeek": "4",
+      "votings": [
+        {
+          "question": "Wie war deine Arbeitswoche?",
+          "id": "item1",
+          "rating": {
+            "id": "normal",
+            "value": 3,
+            "iconName": "fa-regular fa-face-smile",
+            "displayText": "Geht so",
+            "color": "#e6e22e"
+          }
+        },
+        {
+          "question": "Wie ist deine persönliche Stimmung?",
+          "id": "item2",
+          "rating": {
+            "id": "normal",
+            "value": 3,
+            "iconName": "fa-regular fa-face-smile",
+            "displayText": "Geht so",
+            "color": "#e6e22e"
+          }
+        },
+        {
+          "question": "Wie ist deine Arbeitbelastung?",
+          "id": "item3",
+          "rating": {
+            "id": "normal",
+            "value": 3,
+            "iconName": "fa-regular fa-face-smile",
+            "displayText": "Geht so",
+            "color": "#e6e22e"
+          }
+        },
+        {
+          "question": "Wie schätzt du die Stimmung im Unternehmen ein?",
+          "id": "item4",
+          "rating": {
+            "id": "normal",
+            "value": 3,
+            "iconName": "fa-regular fa-face-smile",
+            "displayText": "Geht so",
+            "color": "#e6e22e"
+          }
+        },
+        {
+          "question": "Wie war die Zusammenarbeit mit anderen Abteilungen?",
+          "id": "item5",
+          "rating": {
+            "id": "normal",
+            "value": 3,
+            "iconName": "fa-regular fa-face-smile",
+            "displayText": "Geht so",
+            "color": "#e6e22e"
+          }
+        }
+      ],
+      "comment": "asdfasdf",
+      "id": "27"
+    },
+    {
+      "department": "FoMo",
+      "votingWeek": "4",
+      "votings": [
+        {
+          "question": "Wie war deine Arbeitswoche?",
+          "id": "item1",
+          "rating": {
+            "id": "good",
+            "value": 2,
+            "iconName": "fa-regular fa-face-smile",
+            "displayText": "Gut",
+            "color": "#b0ce71"
+          }
+        },
+        {
+          "question": "Wie ist deine persönliche Stimmung?",
+          "id": "item2",
+          "rating": {
+            "id": "good",
+            "value": 2,
+            "iconName": "fa-regular fa-face-smile",
+            "displayText": "Gut",
+            "color": "#b0ce71"
+          }
+        },
+        {
+          "question": "Wie ist deine Arbeitbelastung?",
+          "id": "item3",
+          "rating": {
+            "id": "good",
+            "value": 2,
+            "iconName": "fa-regular fa-face-smile",
+            "displayText": "Gut",
+            "color": "#b0ce71"
+          }
+        },
+        {
+          "question": "Wie schätzt du die Stimmung im Unternehmen ein?",
+          "id": "item4",
+          "rating": {
+            "id": "good",
+            "value": 2,
+            "iconName": "fa-regular fa-face-smile",
+            "displayText": "Gut",
+            "color": "#b0ce71"
+          }
+        },
+        {
+          "question": "Wie war die Zusammenarbeit mit anderen Abteilungen?",
+          "id": "item5",
+          "rating": {
+            "id": "normal",
+            "value": 3,
+            "iconName": "fa-regular fa-face-smile",
+            "displayText": "Geht so",
+            "color": "#e6e22e"
+          }
+        }
+      ],
+      "comment": "asdfasdf",
+      "id": "61"
+    }
+  ]
+}

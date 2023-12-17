@@ -26,7 +26,7 @@ export class VotingDetailComponent implements OnInit {
 
   ngOnInit(): void {
     this.ratings = this.ratingService.getRatings();
-    this.selectedRating = this.ratings[2];
+    this.selectedRating = this.ratings[0];
     this.votingItem = this.inputItem;
   }
 

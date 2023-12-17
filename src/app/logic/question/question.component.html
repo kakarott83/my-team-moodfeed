@@ -1,0 +1,18 @@
+<p-card>
+    <form [formGroup]="questionForm">
+        <div class="flex flex-column gap-2">
+            <div class="flex justify-content-between">
+                <div class="flex align-items-center gap-1 mb-4">
+                    <p-checkbox formControlName="activeFlag" [binary]="true" inputId="active"></p-checkbox>
+                    <label for="active">Aktiv</label>
+                </div>
+                <div>
+                    <input type="text" pInputText formControlName="id"/>
+                </div>
+            </div>
+            <label for="question">Votingfragen</label>
+            <input type="text" pInputText formControlName="question"/>
+        </div>
+        <button (click)="saveQuestion()" pButton pRipple label="Speichern" class="p-button-success mt-3" icon="pi pi-check" [disabled]="!questionForm.valid"></button>
+    </form> 
+</p-card>
