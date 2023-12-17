@@ -30,7 +30,7 @@ export class VotingComponent implements OnInit {
       {question: "Wie ist deine persönliche Stimmung?", id: "item2"},
       {question: "Wie ist deine Arbeitbelastung?", id: "item3"},
       {question: "Wie schätzt du die Stimmung im Unternehmen ein?", id: "item4"},
-      {question: "Wie war die Zusammenarbeit mit anderen Abteilungen?", id: "item5"},
+      {question: "Wie war die Zusammenarbeit mit anderen Abteilungen in der CIC?", id: "item5"},
     ]
   }
 
