@@ -14,5 +14,7 @@
             <input type="text" pInputText formControlName="question"/>
         </div>
         <button (click)="saveQuestion()" pButton pRipple label="Speichern" class="p-button-success mt-3" icon="pi pi-check" [disabled]="!questionForm.valid"></button>
+        <button (click)="showMessage()" pButton pRipple label="Speichern" class="p-button-success mt-3" icon="pi pi-check" ></button>
     </form> 
 </p-card>
+<p-toast></p-toast>

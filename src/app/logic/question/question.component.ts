@@ -4,6 +4,7 @@ import { Question } from '../../model/question';
 import { VotingService } from '../../services/voting.service';
 import { Observable, from } from 'rxjs';
 import { MessageService } from 'primeng/api';
+import { QuestionService } from '../../services/question.service';
 
 @Component({
   selector: 'app-question',
@@ -13,22 +14,25 @@ import { MessageService } from 'primeng/api';
 })
 export class QuestionComponent implements OnInit, OnChanges {
 
-  @Input() selectedQuestion!: Question;
+  question!: Observable<Question>;
 
   questionForm!: FormGroup;
   myQuestion: Question = {};
   submitted = false
 
-  constructor(private fb: FormBuilder, private votingService: VotingService, private msgService: MessageService) {
+  constructor(private fb: FormBuilder, private votingService: VotingService, private msgService: MessageService, private questionService: QuestionService) {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.createQuestionsForm(this.selectedQuestion);
   }
 
   ngOnInit(): void {
-    this.createQuestionsForm();
+    /*this.createQuestionsForm();*/
+    this.questionService.selectedQuestion.subscribe(data => {
+      this.createQuestionsForm(data);
+    });
   }
+
 
   createQuestionsForm(item?: Question) {
     if(item) {

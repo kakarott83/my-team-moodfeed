@@ -2,6 +2,7 @@ import { Component, OnInit, Output, EventEmitter, OnChanges, SimpleChanges } fro
 import { Question } from '../../model/question';
 import { VotingService } from '../../services/voting.service';
 import { map } from 'rxjs/operators';
+import { QuestionService } from '../../services/question.service';
 
 @Component({
   selector: 'app-question-list',
@@ -10,13 +11,10 @@ import { map } from 'rxjs/operators';
 })
 export class QuestionListComponent implements OnInit{
 
-  @Output() selectedQuestion = new EventEmitter<Question>();
-
-
   
   questionList: Question[] = []
 
-  constructor(private votingService: VotingService) {
+  constructor(private votingService: VotingService, private questionService: QuestionService) {
 
   }
 
@@ -33,8 +31,8 @@ export class QuestionListComponent implements OnInit{
     })
   }
 
-  selectQuestion(item: any) {
-    this.selectedQuestion.emit(item);
+  selectQuestion(item: Question) {
+    this.questionService.selectedQuestion.next(item);
   }
 
 
