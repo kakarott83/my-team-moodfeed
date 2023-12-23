@@ -4,14 +4,15 @@ import { Question } from '../../model/question';
 import { VotingService } from '../../services/voting.service';
 import { Observable, from } from 'rxjs';
 import { MessageService } from 'primeng/api';
-import { QuestionService } from '../../services/question.service';
+import { DataService } from '../../services/shared/data.service';
 
 @Component({
   selector: 'app-question',
   templateUrl: './question.component.html',
   styleUrl: './question.component.scss',
-  providers: [MessageService]
+  providers: [MessageService, DataService]
 })
+
 export class QuestionComponent implements OnInit, OnChanges {
 
   question!: Observable<Question>;
@@ -20,15 +21,14 @@ export class QuestionComponent implements OnInit, OnChanges {
   myQuestion: Question = {};
   submitted = false
 
-  constructor(private fb: FormBuilder, private votingService: VotingService, private msgService: MessageService, private questionService: QuestionService) {
+  constructor(private fb: FormBuilder, private votingService: VotingService, private msgService: MessageService, private dataService: DataService) {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
   }
 
   ngOnInit(): void {
-    /*this.createQuestionsForm();*/
-    this.questionService.selectedQuestion.subscribe(data => {
+    this.dataService.selectedQuestion.subscribe(data => {
       this.createQuestionsForm(data);
     });
   }
@@ -76,11 +76,6 @@ export class QuestionComponent implements OnInit, OnChanges {
 
     this.questionForm.reset();
   }
-
-  showMessage() {
-    this.msgService.add({ severity: 'success', summary: 'Success', detail: 'Änderung gespeichert' });
-  }
-
 }
 
 

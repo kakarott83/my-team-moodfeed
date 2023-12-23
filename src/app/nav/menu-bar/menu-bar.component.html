@@ -1,12 +1,13 @@
-<div class="card navbar" *ngIf="logged">
+<div class="card navbar" *ngIf="isLoggedIn">
     <p-menubar [model]="items">
         <ng-template pTemplate="start">
             <img src="https://primefaces.org/cdn/primeng/images/primeng.svg" height="40" class="mr-2" />
         </ng-template>
         <ng-template pTemplate="end">
             <div class="flex mr-4">
+                {{isLoggedIn}}
                 <p-button icon="fa-solid fa-circle-user fa-lg" [rounded]="true" [text]="true" severity="secondary"></p-button>
-                <p-button icon="fa-solid fa-right-from-bracket fa-lg" [rounded]="true" [text]="true" severity="secondary"></p-button>
+                <p-button icon="fa-solid fa-right-from-bracket fa-lg" (click)="logout()" [rounded]="true" [text]="true" severity="secondary"></p-button>
             </div>
         </ng-template>
     </p-menubar>

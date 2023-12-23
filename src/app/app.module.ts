@@ -25,14 +25,26 @@ import { CheckboxModule } from 'primeng/checkbox';
 import { TabViewModule } from 'primeng/tabview';
 import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { DynamicDialogModule } from 'primeng/dynamicdialog';
 
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
 import { environment } from '../environments/environment';
 import { AdminComponent } from './logic/admin/admin.component';
 import { QuestionComponent } from './logic/question/question.component';
-import { QuestionListComponent } from './logic/question-list/question-list.component';
-import { QuestionBundleComponent } from './logic/question-bundle/question-bundle.component';
+import { QuestionListComponent } from './logic/question/question-list/question-list.component';
+import { HomeComponent } from './logic/home/home.component';
+import { ThanksDialogComponent } from './logic/thanks-dialog/thanks-dialog.component';
+import { DepartmentListComponent } from './logic/department/department-list/department-list.component';
+import { DepartmentComponent } from './logic/department/department.component';
+import { LogoutComponent } from './auth/logout/logout.component';
+import { RegisterComponent } from './auth/register/register.component';
+import { UserProfileComponent } from './logic/user-profile/user-profile.component';
+import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
+import { VerifyEmailComponent } from './auth/verify-email/verify-email.component';
+import { AuthService } from './services/auth.service';
+import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +57,16 @@ import { QuestionBundleComponent } from './logic/question-bundle/question-bundle
     AdminComponent,
     QuestionComponent,
     QuestionListComponent,
-    QuestionBundleComponent
+    HomeComponent,
+    ThanksDialogComponent,
+    DepartmentListComponent,
+    DepartmentComponent,
+    LogoutComponent,
+    RegisterComponent,
+    UserProfileComponent,
+    ForgotPasswordComponent,
+    VerifyEmailComponent,
+    ResetPasswordComponent
   ],
   imports: [
     BrowserModule,
@@ -59,8 +80,10 @@ import { QuestionBundleComponent } from './logic/question-bundle/question-bundle
     PasswordModule,
     DividerModule,
     InputTextareaModule,
+    DynamicDialogModule,
     MenuModule,
     MenubarModule,
+    ConfirmDialogModule,
     TabViewModule,
     ToastModule,
     TableModule,
@@ -69,7 +92,7 @@ import { QuestionBundleComponent } from './logic/question-bundle/question-bundle
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule, // for firestore
   ],
-  providers: [],
+  providers: [AuthService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

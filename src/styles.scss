@@ -14,6 +14,15 @@
     --color4: #1C415D;
     --color5: #2E526C;
 
+    //https://colorhunt.co/palette/053b50176b8764ccc5eeeeee
+
+
+    //blue
+    --theme1-bg: #DDE6ED;
+    --theme1-light: #9DB2BF;
+    --theme1-medium: #526D82;
+    --theme1-dark: #27374D;
+
 
 
 }
@@ -22,7 +31,8 @@ html, body {
     height: 100%;
     margin: 0px;
         /*https://pixabay.com/vectors/blue-background-abstract-structure-1634110/*/
-        background-image: url('/assets/images/bg_1920.png');
+        //background-image: url('/assets/images/bg_1920.png');
+        background-color: var(--theme1-bg);
         height: 100%; 
         background-position: center;
         background-repeat: no-repeat;

@@ -1,8 +1,8 @@
-import { Component, OnInit, Output, EventEmitter, OnChanges, SimpleChanges } from '@angular/core';
-import { Question } from '../../model/question';
-import { VotingService } from '../../services/voting.service';
+import { Component, OnInit} from '@angular/core';
+import { Question } from '../../../model/question';
+import { VotingService } from '../../../services/voting.service';
 import { map } from 'rxjs/operators';
-import { QuestionService } from '../../services/question.service';
+import { DataService } from '../../../services/shared/data.service';
 
 @Component({
   selector: 'app-question-list',
@@ -14,7 +14,7 @@ export class QuestionListComponent implements OnInit{
   
   questionList: Question[] = []
 
-  constructor(private votingService: VotingService, private questionService: QuestionService) {
+  constructor(private votingService: VotingService, private dataService: DataService) {
 
   }
 
@@ -32,7 +32,7 @@ export class QuestionListComponent implements OnInit{
   }
 
   selectQuestion(item: Question) {
-    this.questionService.selectedQuestion.next(item);
+    this.dataService.selectedQuestion.next(item);
   }
 
 

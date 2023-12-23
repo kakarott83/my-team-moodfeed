@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { InputGroup } from 'primeng/inputgroup';
 import { InputGroupAddon } from 'primeng/inputgroupaddon';
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -16,21 +17,23 @@ export class LoginComponent implements OnInit {
   /**
    *
    */
-  constructor(private fb: FormBuilder, private router: Router) {
-        
-  }
+  constructor(private fb: FormBuilder, private router: Router, private authService: AuthService) { }
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
-      email: '',
-      password: ''
+      email: new FormControl('',Validators.required),
+      password: new FormControl('',Validators.required),
     })
   }
 
   onSubmit(event: any) {
-    console.log(this.loginForm.value)
-    console.log(event);
-    this.router.navigate(['voting']);
+    if(this.loginForm.valid) {
+      this.authService.signIn(this.loginForm.value.email, this.loginForm.value.password)
+    }
+  }
+
+  toRegister() {
+    this.router.navigate(['register']);
   }
 
 }

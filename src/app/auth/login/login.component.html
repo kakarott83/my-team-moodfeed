@@ -22,8 +22,12 @@
             <ng-template pTemplate="footer">
                 <div>
                     <p-button type="submit" label = "Login" icon="fa-solid fa-right-to-bracket" [style]="{ 'width': '100%' }"></p-button>
+                    <!--p-divider align="center">OR</p-divider>
+                    <p-button type="submit" label="Login with Google" icon="fa-brands fa-google" [style]="{ 'width': '100%' }"></p-button-->
+                </div>
                     <p-divider align="center">OR</p-divider>
-                    <p-button type="submit" label="Login with Google" icon="fa-brands fa-google" [style]="{ 'width': '100%' }"></p-button>
+                <div>
+                    <p-button type="button" (click)="toRegister()" label = "Neuen Account anlegen" icon="fa-solid fa-user-plus" [style]="{ 'width': '100%' }"></p-button>
                 </div>
             </ng-template>
         </p-card>
