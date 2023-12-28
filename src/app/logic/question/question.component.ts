@@ -1,7 +1,7 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Question } from '../../model/question';
-import { VotingService } from '../../services/voting.service';
+import { FireService } from '../../services/fire';
 import { Observable, from } from 'rxjs';
 import { MessageService } from 'primeng/api';
 import { DataService } from '../../services/shared/data.service';
@@ -21,7 +21,7 @@ export class QuestionComponent implements OnInit, OnChanges {
   myQuestion: Question = {};
   submitted = false
 
-  constructor(private fb: FormBuilder, private votingService: VotingService, private msgService: MessageService, private dataService: DataService) {
+  constructor(private fb: FormBuilder, private fire: FireService, private msgService: MessageService, private dataService: DataService) {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -64,11 +64,11 @@ export class QuestionComponent implements OnInit, OnChanges {
     const id = this.questionForm.get('id')?.value
 
     if(id) {
-      this.votingService.updateQuestion(id, this.myQuestion).then(() => {
+      this.fire.updateQuestion(id, this.myQuestion).then(() => {
         this.msgService.add({ severity: 'success', summary: 'Success', detail: 'Änderung gespeichert' });
       })
     } else {
-      this.votingService.createQuestion(this.myQuestion)
+      this.fire.createQuestion(this.myQuestion)
       .then(() => {
         this.msgService.add({ severity: 'success', summary: 'Success', detail: 'Frage gespeichert' });
       })

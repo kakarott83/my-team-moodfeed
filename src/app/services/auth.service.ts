@@ -5,7 +5,7 @@ import {
   AngularFirestoreDocument,
 } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
-import { GoogleAuthProvider, User } from 'firebase/auth';
+import { GoogleAuthProvider, User, getAuth, updateProfile } from 'firebase/auth';
 
 @Injectable({
   providedIn: 'root'
@@ -141,6 +141,33 @@ export class AuthService {
       this.router.navigate(['logout']);
       });
   }
+
+  getUserAuth() {
+    let auth = getAuth();
+    let user = auth.currentUser;
+
+    if(user !== null) {
+      return user.providerData;
+    }
+
+    return null;
+  }
+
+  updateUserProfile(userData: any): Promise<any> {
+    let auth = getAuth();
+    let user = auth.currentUser
+    
+    return new Promise((resolve, reject) => {
+      if(user) {
+        console.log(user, 'User');
+        updateProfile(user, {displayName: userData.displayName})
+        .then((result) => resolve(result))
+        .catch((error) => reject(error))
+      }
+    })
+  }
+
+
 
 
 }

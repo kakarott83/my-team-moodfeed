@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { VotingService } from '../../services/voting.service';
+import { FireService } from '../../services/fire';
 import { map } from 'rxjs/operators';
 import { Voting } from '../../model/voting';
 
@@ -12,12 +12,12 @@ export class TeamVotingComponent implements OnInit{
 
   votings?: Voting[]
 
-  constructor(private votingService: VotingService) {
+  constructor(private fire: FireService) {
   }
 
 
   ngOnInit(): void {
-    this.votingService.getAllVotings().snapshotChanges()
+    this.fire.getAllVotings().snapshotChanges()
     .pipe(
       map(changes => changes.map(c => 
         ({ id: c.payload.doc.id, ...c.payload.doc.data() })

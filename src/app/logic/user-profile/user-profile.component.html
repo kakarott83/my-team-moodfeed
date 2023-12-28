@@ -1,1 +1,127 @@
-<p>user-profile works!</p>
+<div class="container">
+  <div class="surface-section">
+    <div class="font-medium text-3xl text-900 mb-3">User Informationen</div>
+    <div class="text-500 mb-5">
+      Daten zum User.
+    </div>
+    <ul class="list-none p-0 m-0">
+      <li
+        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+      >
+        <div class="text-500 w-6 md:w-2 font-medium">Username</div>
+        <div *ngIf="!editDisplayName" class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">
+          {{ displayName }}
+        </div>
+        <div *ngIf="editDisplayName" class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">
+            <form [formGroup]="userForm">
+                <input formControlName="displayName" type="text" pInputText/>
+            </form>
+        </div>
+        <div class="w-6 md:w-2 flex justify-content-end">
+          <button *ngIf="!editDisplayName"
+            pButton
+            pRipple
+            label="Edit"
+            icon="pi pi-pencil"
+            class="p-button-text"
+            (click)="editUserName()"
+          ></button>
+          <button *ngIf="editDisplayName"
+            pButton
+            pRipple
+            label="Speichern"
+            icon="pi pi-save"
+            class="p-button-text"
+            (click)="saveDisplayName()"
+            [disabled] = !userForm.valid
+          ></button>
+        </div>
+      </li>
+      <li
+        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+      >
+        <div class="text-500 w-6 md:w-2 font-medium">E-Mail</div>
+        <!--div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">
+                <p-chips label="Crime" class="mr-2"></p-chips>
+                <p-chips label="Drama" class="mr-2"></p-chips>
+                <p-chips label="Thriller"></p-chips>
+            </div-->
+        <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">
+          {{ myUser.providerData[0].email }}
+        </div>
+        <div class="w-6 md:w-2 flex justify-content-end">
+        </div>
+      </li>
+      <li
+        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+      >
+        <div class="text-500 w-6 md:w-2 font-medium">Angemeldet seit</div>
+        <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">
+          {{ myUser.createdAt | date : "dd.MM.yyyy HH:mm" }}
+        </div>
+        <div class="w-6 md:w-2 flex justify-content-end">
+        </div>
+      </li>
+      <li
+        class="flex align-items-center py-3 px-2 border-top-1 surface-border flex-wrap"
+      >
+        <div class="text-500 w-6 md:w-2 font-medium">Letzter Login</div>
+        <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">
+          {{ myUser.lastLoginAt | date : "dd.MM.yyyy HH:mm" }}
+        </div>
+        <div class="w-6 md:w-2 flex justify-content-end">
+        </div>
+      </li>
+      <li
+        class="flex align-items-center py-3 px-2 border-top-1 border-bottom-1 surface-border flex-wrap"
+      >
+        <div class="text-500 w-6 md:w-2 font-medium">UID</div>
+        <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">
+          {{ myUser.uid }}
+        </div>
+        <div class="w-6 md:w-2 flex justify-content-end">
+        </div>
+      </li>
+      <li
+        class="flex align-items-center py-3 px-2 border-top-1 border-bottom-1 surface-border flex-wrap"
+      >
+        <div class="text-500 w-6 md:w-2 font-medium">Rolle</div>
+        <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">
+          Team-Member
+        </div>
+        <div class="w-6 md:w-2 flex justify-content-end">
+          <button
+          pButton
+          pRipple
+          label="Edit"
+          icon="pi pi-pencil"
+          class="p-button-text"
+          (click)="setAdditionalData()"
+        ></button>
+          <button
+          pButton
+          pRipple
+          label="Get"
+          icon="pi pi-pencil"
+          class="p-button-text"
+          (click)="getAdditionalData()"
+        ></button>
+        </div>
+      </li>
+      <li
+        class="flex align-items-center py-3 px-2 border-top-1 border-bottom-1 surface-border flex-wrap"
+      >
+        <div class="text-500 w-6 md:w-2 font-medium">E-Mail verifiziert</div>
+        <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">
+            <p-checkbox [(ngModel)] = myUser.emailVerified
+            [binary]="true" [disabled]="true" inputId="binary"></p-checkbox>
+        </div>
+        
+        <div class="w-6 md:w-2 flex justify-content-end">
+        </div>
+      </li>
+    </ul>
+  </div>
+</div>
+<div>{{myUserData | json}}</div>
+<p-toast></p-toast>

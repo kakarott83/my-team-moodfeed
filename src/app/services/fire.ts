@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Voting } from '../model/voting';
 import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from '@angular/fire/compat/firestore';
+import { collection, query, where } from "firebase/firestore";
 import { Question } from '../model/question';
 import { Department } from '../model/department';
 import { UserData } from '../model/user-data';
+import { Role } from '../model/role';
 
 
 @Injectable({
@@ -12,16 +14,18 @@ import { UserData } from '../model/user-data';
 
 //https://www.bezkoder.com/angular-16-firestore-crud/
 
-export class VotingService {
+export class FireService {
   private votingPath = '/votings'
   private questionPath = '/questions'
   private departmentPath = '/department'
   private userDataPath = '/userdata'
+  private rolesPath = '/roles'
 
   votingRef!: AngularFirestoreCollection<Voting>;
   questionsRef!: AngularFirestoreCollection<Question>;
   departmentRef!: AngularFirestoreCollection<Department>;
   userDataRef!: AngularFirestoreCollection<UserData>;
+  rolesRef!: AngularFirestoreCollection<Role>;
   //userRef!: AngularFirestoreDocument<UserData>;
 
   constructor(private db: AngularFirestore) {
@@ -29,6 +33,7 @@ export class VotingService {
     this.questionsRef = db.collection(this.questionPath);
     this.departmentRef = db.collection(this.departmentPath);
     this.userDataRef = db.collection(this.userDataPath);
+    this.rolesRef = db.collection(this.rolesPath);
     //this.userRef = db.doc(this.userDataPath);
   }
 
@@ -69,7 +74,7 @@ export class VotingService {
 
    /**************Department Methods**************/
 
-   getAllDepartments(): AngularFirestoreCollection<Department> {
+  getAllDepartments(): AngularFirestoreCollection<Department> {
     return this.departmentRef;
   }
 
@@ -91,20 +96,31 @@ export class VotingService {
     return this.userDataRef;
   }
 
-  /*getUserById(id: string): any {
-    this.userDataRef.doc(id).snapshotChanges();
-  }*/
 
-  createUser(userData: UserData): any {
+  getUserDataByUserId(id: string): AngularFirestoreCollection<UserData> {
+    console.log(id);
+    let data = this.db.collection<UserData>('userdata', ref => {
+      return ref.where('userId','==',id)
+    })
+    return data;
+  }
+
+  createUserData(userData: UserData): any {
     return this.userDataRef.add({...userData});
   }
 
-  updateUser(id: string, data: any) {
+  updateUserData(id: string, data: any) {
     return this.userDataRef.doc(id).update(data);
   }
 
-  deleteUser(id: string) {
+  deleteUserData(id: string) {
     return this.userDataRef.doc(id).delete();
+  }
+
+  /**************Role Methods**************/
+
+  getAllRoles(): AngularFirestoreCollection<Role> {
+    return this.rolesRef;
   }
 
 }

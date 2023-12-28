@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Department } from '../../model/department';
-import { VotingService } from '../../services/voting.service';
+import { FireService } from '../../services/fire';
 import { MessageService } from 'primeng/api';
 import { DataService } from '../../services/shared/data.service';
 
@@ -18,7 +18,7 @@ export class DepartmentComponent implements OnInit {
   departmentForm!: FormGroup
   myDepartment: Department = {}
 
-  constructor(private fb: FormBuilder, private votingService: VotingService, private msgService: MessageService, private dataService: DataService) {}
+  constructor(private fb: FormBuilder, private fire: FireService, private msgService: MessageService, private dataService: DataService) {}
 
   ngOnInit(): void {
     this.dataService.selectedDepartment.subscribe(data => {
@@ -55,11 +55,11 @@ export class DepartmentComponent implements OnInit {
     const id = this.departmentForm.get('id')?.value
 
     if(id) {
-      this.votingService.updateDepartment(id, this.myDepartment).then(() => {
+      this.fire.updateDepartment(id, this.myDepartment).then(() => {
         this.msgService.add({ severity: 'success', summary: 'Success', detail: 'Änderung gespeichert' });
       })
     } else {
-      this.votingService.createDepartment(this.myDepartment)
+      this.fire.createDepartment(this.myDepartment)
       .then(() => {
         this.msgService.add({ severity: 'success', summary: 'Success', detail: 'Abteilung gespeichert' });
       })

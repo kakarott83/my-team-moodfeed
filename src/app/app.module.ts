@@ -27,6 +27,8 @@ import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
+import { ChipsModule } from 'primeng/chips';
+import { MultiSelectModule } from 'primeng/multiselect';
 
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
@@ -81,6 +83,8 @@ import { ResetPasswordComponent } from './auth/reset-password/reset-password.com
     DividerModule,
     InputTextareaModule,
     DynamicDialogModule,
+    MultiSelectModule,
+    ChipsModule,
     MenuModule,
     MenubarModule,
     ConfirmDialogModule,

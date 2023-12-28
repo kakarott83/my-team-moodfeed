@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Votingdetail } from '../../model/votingdetail';
 import { Voting } from '../../model/voting';
 import moment from 'moment';
-import { VotingService } from '../../services/voting.service';
+import { FireService } from '../../services/fire';
 import { map } from 'rxjs/operators';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ThanksDialogComponent } from '../thanks-dialog/thanks-dialog.component';
@@ -32,7 +32,7 @@ export class VotingComponent implements OnInit {
   start = moment(Date.now()).startOf('week').isoWeekday(1).format("DD.MM.yyyy")
   end = moment(Date.now()).endOf('week').isoWeekday(0).format("DD.MM.yyyy")
 
-  constructor(private votingService: VotingService, public dialogService: DialogService, private router: Router) {
+  constructor(private fire: FireService, public dialogService: DialogService, private router: Router) {
     
   }
 
@@ -41,7 +41,7 @@ export class VotingComponent implements OnInit {
   }
 
   getItemsFromAf() {
-    this.votingService.getAllQuestions().snapshotChanges()
+    this.fire.getAllQuestions().snapshotChanges()
       .pipe(
         map(changes => changes.map(x => 
           ({id: x.payload.doc.id, ...x.payload.doc.data()})
@@ -79,7 +79,7 @@ export class VotingComponent implements OnInit {
     let myVoting = this.createVoting();
     console.log(myVoting);
 
-    this.votingService.createVoting(myVoting)
+    this.fire.createVoting(myVoting)
       .then(() => {
         console.log('Saved')
         this.submitted = false;

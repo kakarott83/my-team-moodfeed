@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Department } from '../../../model/department';
-import { VotingService } from '../../../services/voting.service';
+import { FireService } from '../../../services/fire';
 import { map } from 'rxjs/operators';
 import { DataService } from '../../../services/shared/data.service';
 
@@ -13,10 +13,10 @@ export class DepartmentListComponent implements OnInit{
 
   departmentList: Department[] = []
 
-  constructor(private votingService: VotingService, private dataService: DataService) {}
+  constructor(private fire: FireService, private dataService: DataService) {}
 
   ngOnInit(): void {
-    this.votingService.getAllDepartments().snapshotChanges()
+    this.fire.getAllDepartments().snapshotChanges()
       .pipe(
         map(changes => changes.map(c => 
           ({id: c.payload.doc.id, ...c.payload.doc.data()})

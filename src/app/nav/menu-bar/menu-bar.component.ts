@@ -2,24 +2,26 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { AuthService } from '../../services/auth.service';
+import { UserService } from '../../services/shared/user.service';
 
 @Component({
   selector: 'app-menu-bar',
   templateUrl: './menu-bar.component.html',
-  styleUrl: './menu-bar.component.scss'
+  styleUrl: './menu-bar.component.scss',
+  providers: [UserService]
 })
 export class MenuBarComponent implements OnInit {
 
   items: MenuItem[] | undefined;
-  isLoggedIn!: boolean
+  isLoggedIn!: boolean;
+  myUser: any;
 
-  constructor(private router: Router, private authService: AuthService) {}
+  constructor(private router: Router, private authService: AuthService, private userService: UserService) {}
 
   ngOnInit(): void {
-    //this.isLoggedIn = !!this.authService.afAuth.currentUser
-    //console.log(this.authService.afAuth.currentUser, 'CurrentUserMenu')
-    //console.log(this.isLoggedIn,'this.isLoggedIn')
-
+    this.myUser = this.userService.getUser();
+    console.log(this.myUser);
+    if(this.myUser) this.isLoggedIn = true;
 
     this.items = [
       {
@@ -51,5 +53,6 @@ export class MenuBarComponent implements OnInit {
 
   userProfile() {
     this.router.navigate(['user-profile']);
+    
   }
 }
