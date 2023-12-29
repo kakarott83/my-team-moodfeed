@@ -20,16 +20,20 @@ export class UserProfileComponent implements OnInit {
   myUser: any
   displayName!: string;
   editDisplayName = false;
+  editRole = false;
+  disableVerfify = true;
+  verifyAdmin!: boolean
   userForm!: FormGroup;
+  userRoleForm!: FormGroup;
   user: any;
   myUserData: UserData = {}
   selectedRoles!: Role[];
-  roles!: Role[]
+  roles: string[] = [];
 
   constructor(private authService: AuthService, private fire: FireService, private userService: UserService, private fb: FormBuilder, private messageService: MessageService) {}
 
   ngOnInit(): void {
-    this.createForm();
+    this.createUserForm();
     this.myUser = this.userService.getUser();
     console.log(this.myUser);
     if(this.myUser) {
@@ -44,14 +48,23 @@ export class UserProfileComponent implements OnInit {
 
   }
 
-  createForm() {
+  createUserForm() {
     this.userForm = this.fb.group({
-      displayName: new FormControl('', [Validators.required, Validators.minLength(3)])
+      displayName: new FormControl('', [Validators.required, Validators.minLength(3)]),
+      role: new FormControl('', [Validators.required, Validators.minLength(3)])
     })
   }
 
   editUserName() {
     this.editDisplayName = true;
+  }
+
+  editUserRole() {
+    this.editRole = true;
+  }
+
+  editVerifify() {
+    this.disableVerfify = false;
   }
 
   saveDisplayName() {
@@ -71,6 +84,40 @@ export class UserProfileComponent implements OnInit {
       .catch((error) => {
         this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Fehler beim aktualisieren' });
       })
+  }
+
+  saveUserData() {
+    console.log(this.myUserData,'myUserData')
+    const id = this.myUserData.id
+
+    if(!!id) {
+      /*let userData = {
+        department: this.myUserData.department,
+        userId: this.myUserData.userId,
+        role: this.userForm.get('role')?.value
+      }*/
+
+      let data = this.createUserData();
+
+      this.fire.updateUserData(id, data)
+        .then(() => {
+          this.editRole = false
+          this.disableVerfify = true
+          this.getAdditionalData();
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'User aktualisiert' });
+        })
+        .catch((error) => {
+          this.editRole = false
+          this.disableVerfify = true
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Fehler beim aktualisieren' });
+        })
+      
+    }
+  }
+
+  saveVerifify() {
+    let data = this.createUserData;
+
   }
 
   setAdditionalData() {
@@ -93,9 +140,21 @@ export class UserProfileComponent implements OnInit {
           ))
       )
       .subscribe(data => {
-        this.roles = data
-        console.log(data,'Roles')
+        data.forEach(x => {
+          if(x.name !== undefined)
+          this.roles.push(x.name)
+        })
       })
+  }
+
+  createUserData() {
+    console.log(this.userForm.get('role')?.value);
+    return {
+      department: this.myUserData.department,
+      userId: this.myUserData.userId,
+      role: this.userForm.get('role')?.value !== '' ? this.userForm.get('role')?.value : this.myUserData.role,
+      verifyAdmin: this.myUserData.verifyAdmin
+    }
   }
 
 

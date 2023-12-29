@@ -14,7 +14,7 @@
         </div>
         <div *ngIf="editDisplayName" class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">
             <form [formGroup]="userForm">
-                <input formControlName="displayName" type="text" pInputText/>
+                <input formControlName="role" type="text" pInputText/>
             </form>
         </div>
         <div class="w-6 md:w-2 flex justify-content-end">
@@ -85,27 +85,44 @@
       <li
         class="flex align-items-center py-3 px-2 border-top-1 border-bottom-1 surface-border flex-wrap"
       >
-        <div class="text-500 w-6 md:w-2 font-medium">Rolle</div>
+        <div class="text-500 w-6 md:w-2 font-medium">Abteilung</div>
         <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">
-          Team-Member
+          Front-Middleoffice
         </div>
         <div class="w-6 md:w-2 flex justify-content-end">
-          <button
+        </div>
+      </li>
+      <li
+        class="flex align-items-center py-3 px-2 border-top-1 border-bottom-1 surface-border flex-wrap"
+      >
+        <div class="text-500 w-6 md:w-2 font-medium">Rolle</div>
+        <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">
+          <div *ngIf="!editRole" class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">
+            {{ myUserData.role }}
+          </div>
+          <div *ngIf="editRole" class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">
+              <form [formGroup]="userForm">
+                <p-multiSelect [options]="roles" formControlName="role" placeholder="Rolen"></p-multiSelect>
+              </form>
+          </div>
+        </div>
+        <div class="w-6 md:w-2 flex justify-content-end">
+          <button *ngIf="!editRole"
           pButton
           pRipple
           label="Edit"
           icon="pi pi-pencil"
           class="p-button-text"
-          (click)="setAdditionalData()"
+          (click)="editUserRole()"
         ></button>
-          <button
-          pButton
-          pRipple
-          label="Get"
-          icon="pi pi-pencil"
-          class="p-button-text"
-          (click)="getAdditionalData()"
-        ></button>
+        <button *ngIf="editRole"
+            pButton
+            pRipple
+            label="Speichern"
+            icon="pi pi-save"
+            class="p-button-text"
+            (click)="saveUserData()"
+          ></button>
         </div>
       </li>
       <li
@@ -118,6 +135,34 @@
         </div>
         
         <div class="w-6 md:w-2 flex justify-content-end">
+        </div>
+      </li>
+      <li
+        class="flex align-items-center py-3 px-2 border-top-1 border-bottom-1 surface-border flex-wrap"
+      >
+        <div class="text-500 w-6 md:w-2 font-medium">Verifiziert durch Admin</div>
+        <div class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">
+            <p-checkbox [(ngModel)] = myUserData.verifyAdmin
+            [binary]="true" [disabled]="disableVerfify" inputId="binary"></p-checkbox>
+        </div>
+        
+        <div class="w-6 md:w-2 flex justify-content-end">
+          <button *ngIf="disableVerfify"
+          pButton
+          pRipple
+          label="Edit"
+          icon="pi pi-pencil"
+          class="p-button-text"
+          (click)="editVerifify()"
+        ></button>
+        <button *ngIf="!disableVerfify"
+            pButton
+            pRipple
+            label="Speichern"
+            icon="pi pi-save"
+            class="p-button-text"
+            (click)="saveUserData()"
+          ></button>
         </div>
       </li>
     </ul>

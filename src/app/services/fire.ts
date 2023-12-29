@@ -98,7 +98,6 @@ export class FireService {
 
 
   getUserDataByUserId(id: string): AngularFirestoreCollection<UserData> {
-    console.log(id);
     let data = this.db.collection<UserData>('userdata', ref => {
       return ref.where('userId','==',id)
     })
@@ -110,6 +109,7 @@ export class FireService {
   }
 
   updateUserData(id: string, data: any) {
+    console.log(id);
     return this.userDataRef.doc(id).update(data);
   }
 
