@@ -23,6 +23,7 @@ import { MenuBarComponent } from './nav/menu-bar/menu-bar.component';
 import { TeamVotingComponent } from './logic/team-voting/team-voting.component';
 import { CheckboxModule } from 'primeng/checkbox';
 import { TabViewModule } from 'primeng/tabview';
+import { RatingModule } from 'primeng/rating';
 import { TableModule } from 'primeng/table';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
@@ -47,6 +48,7 @@ import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.
 import { VerifyEmailComponent } from './auth/verify-email/verify-email.component';
 import { AuthService } from './services/auth.service';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
+import { TeamVotingListComponent } from './logic/team-voting/team-voting-list/team-voting-list.component';
 
 @NgModule({
   declarations: [
@@ -68,7 +70,8 @@ import { ResetPasswordComponent } from './auth/reset-password/reset-password.com
     UserProfileComponent,
     ForgotPasswordComponent,
     VerifyEmailComponent,
-    ResetPasswordComponent
+    ResetPasswordComponent,
+    TeamVotingListComponent
   ],
   imports: [
     BrowserModule,
@@ -85,6 +88,7 @@ import { ResetPasswordComponent } from './auth/reset-password/reset-password.com
     DynamicDialogModule,
     MultiSelectModule,
     ChipsModule,
+    RatingModule,
     MenuModule,
     MenubarModule,
     ConfirmDialogModule,

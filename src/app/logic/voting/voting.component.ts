@@ -7,13 +7,16 @@ import { map } from 'rxjs/operators';
 import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 import { ThanksDialogComponent } from '../thanks-dialog/thanks-dialog.component';
 import { Route, Router } from '@angular/router';
+import { UserData } from '../../model/user-data';
+import { UserService } from '../../services/shared/user.service';
+import { AuthService } from '../../services/auth.service';
 
 
 @Component({
   selector: 'app-voting',
   templateUrl: './voting.component.html',
   styleUrl: './voting.component.scss',
-  providers: [DialogService]
+  providers: [DialogService, UserService]
 })
 export class VotingComponent implements OnInit {
 
@@ -22,22 +25,28 @@ export class VotingComponent implements OnInit {
   itemList!: Votingdetail[]
   votingResults: Votingdetail[] = [];
   voting!: Voting;
-  department = 'Boch'; /*It Comes from User*/
-  week = '4';
+  department!: string;
+  week = moment().isoWeek().toString();
   comment = '';
   submitted = false;
+  myUser: any
+  myUserData: UserData = {}
 
   ref: DynamicDialogRef | undefined;
 
   start = moment(Date.now()).startOf('week').isoWeekday(1).format("DD.MM.yyyy")
   end = moment(Date.now()).endOf('week').isoWeekday(0).format("DD.MM.yyyy")
 
-  constructor(private fire: FireService, public dialogService: DialogService, private router: Router) {
-    
+  constructor(private fire: FireService, public dialogService: DialogService, private router: Router, private userService: UserService, private authService: AuthService) {
   }
 
   ngOnInit(): void {
     this.getItemsFromAf();
+    this.myUser = this.userService.getUser();
+    this.getAdditionalData();
+
+    console.log(this.myUser,'MyUser')
+    console.log(this.myUserData,'MyUserData')
   }
 
   getItemsFromAf() {
@@ -54,7 +63,7 @@ export class VotingComponent implements OnInit {
 
   createVoting() {
     return this.voting = {
-      department: this.department,
+      department: this.myUserData.department,
       votingWeek: this.week,
       votings: this.votingResults,
       comment: this.comment,
@@ -97,4 +106,14 @@ export class VotingComponent implements OnInit {
       this.router.navigate(['home']);
     })
   }
+
+  async getAdditionalData() {
+    if(!!this.myUser) {
+      await this.userService.getUserData(this.myUser.uid).then((data) => {
+        this.myUserData = data[0];
+      });
+    }
+  }
+
+
 }

@@ -44,7 +44,6 @@ export class UserProfileComponent implements OnInit {
     this.user = this.authService.getUserAuth();
     this.getAdditionalData();
     this.getRoles();
-    console.log(this.user);
 
   }
 

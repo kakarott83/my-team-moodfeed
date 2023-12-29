@@ -23,7 +23,7 @@ export class DepartmentListComponent implements OnInit{
         )) 
       )
       .subscribe(data => {
-        this.departmentList = data
+        this.departmentList = data;
       })
   }
 
