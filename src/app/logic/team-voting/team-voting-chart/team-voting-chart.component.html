@@ -1,0 +1,8 @@
+<div *ngIf="!isLoading; else loading">
+    <p-chart type="line" [data]="data" [options]="options"></p-chart>
+</div>
+<ng-template #loading>
+    <div class="flex justify-content-center">
+        <p-progressSpinner></p-progressSpinner>  
+    </div>
+</ng-template>

@@ -23,6 +23,7 @@ import { MenuBarComponent } from './nav/menu-bar/menu-bar.component';
 import { TeamVotingComponent } from './logic/team-voting/team-voting.component';
 import { CheckboxModule } from 'primeng/checkbox';
 import { TabViewModule } from 'primeng/tabview';
+import { ChartModule } from 'primeng/chart';
 import { RatingModule } from 'primeng/rating';
 import { DropdownModule } from 'primeng/dropdown';
 import { TableModule } from 'primeng/table';
@@ -51,6 +52,7 @@ import { VerifyEmailComponent } from './auth/verify-email/verify-email.component
 import { AuthService } from './services/auth.service';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 import { TeamVotingListComponent } from './logic/team-voting/team-voting-list/team-voting-list.component';
+import { TeamVotingChartComponent } from './logic/team-voting/team-voting-chart/team-voting-chart.component';
 
 @NgModule({
   declarations: [
@@ -73,7 +75,8 @@ import { TeamVotingListComponent } from './logic/team-voting/team-voting-list/te
     ForgotPasswordComponent,
     VerifyEmailComponent,
     ResetPasswordComponent,
-    TeamVotingListComponent
+    TeamVotingListComponent,
+    TeamVotingChartComponent
   ],
   imports: [
     BrowserModule,
@@ -95,6 +98,7 @@ import { TeamVotingListComponent } from './logic/team-voting/team-voting-list/te
     RatingModule,
     MenuModule,
     MenubarModule,
+    ChartModule,
     ConfirmDialogModule,
     TabViewModule,
     ToastModule,
