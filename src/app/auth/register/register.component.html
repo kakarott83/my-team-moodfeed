@@ -21,7 +21,7 @@
             </div>
 
             <div class="mt-3">
-              <label for="username">Email</label>
+              <label for="username">E-Mail</label>
 
               <div>
                 <input
@@ -60,6 +60,10 @@
                   placeholder="Confirm Password"
                 />
               </div>
+            </div>
+            <div class="flex flex-column mt-3">
+              <label for="department">Abteilung</label>
+              <p-dropdown [style]="{'width':'15.5rem'}" formControlName="department" [options]="depts" optionLabel="name" placeholder="Select a City"></p-dropdown>
             </div>
           </ng-template>
 

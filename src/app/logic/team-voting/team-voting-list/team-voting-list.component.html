@@ -1,26 +1,56 @@
 <p-table
+  #votingList
   [value]="votings"
   [tableStyle]="{ 'min-width': '50rem' }"
   [paginator]="true"
   [rows]="5"
+  [loading]="isLoading"
   [showCurrentPageReport]="true"
-  currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries"
+  currentPageReportTemplate="{first} bis {last} von {totalRecords} Ratings"
   [rowsPerPageOptions]="[5, 10, 20]"
+  dataKey="id"
+  styleClass="p-datatable-striped"
+  [globalFilterFields]="['votingYear', 'votingWeek']"
 >
+<ng-template pTemplate="caption"> Votingübersicht 
+</ng-template>
   <ng-template pTemplate="header">
     <tr>
-      <th>Woche</th>
-      <th>Team Gesamt</th>
-      <th>Id</th>
+      <th style="width: 5%"></th>
+      <th style="width: 20%" pSortableColumn="votingYear">Jahr<p-sortIcon field="votingYear"></p-sortIcon></th>
+      <th style="width: 20%" pSortableColumn="votingWeek">Woche <p-sortIcon field="votingWeek"></p-sortIcon></th>
+      <th style="width: 20%" pSortableColumn="total">Team Gesamt <p-sortIcon field="total"></p-sortIcon> </th>
+      <th style="width: 20%">Id</th>
+    </tr>
+    <tr>
+        <th></th>
+        <th>
+            <p-columnFilter type="text" field="votingYear"></p-columnFilter>
+        </th>
+        <th>
+            <p-columnFilter type="text" field="votingWeek"></p-columnFilter>
+        </th>
+        <th></th>
+        <th></th>
     </tr>
   </ng-template>
-  <ng-template pTemplate="body" let-voting>
+  <ng-template pTemplate="body" let-voting let-expanded="expanded">
     <tr>
+      <td>
+        <button
+          type="button"
+          pButton
+          pRipple
+          [pRowToggler]="voting"
+          class="p-button-text p-button-rounded p-button-plain"
+          [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"
+        ></button>
+      </td>
+      <td>{{ voting.votingYear }}</td>
       <td>{{ voting.votingWeek }}</td>
-      <td hidden>{{ sum(voting) }}</td>
       <td>
         <p-rating
-          [ngModel]="rating"
+          [ngModel]="voting.total"
           [stars]="6"
           [readonly]="true"
           [cancel]="false"
@@ -29,4 +59,36 @@
       <td>{{ voting.id }}</td>
     </tr>
   </ng-template>
+  <ng-template pTemplate="rowexpansion" let-votingResult>
+    <tr>
+      <td colspan="7">
+        <div class="p-3">
+          <p-table [value]="votingResult.votings" dataKey="votings.id">
+            <ng-template pTemplate="header">
+              <tr>
+                  <th>Frage</th>
+                  <th>Voting</th>
+                  <th>Id</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-votingItem>
+              <tr>
+                  <th>{{ votingItem.question }}</th>
+                  <td>
+                    <p-rating
+                      [ngModel]= "votingItem.rating?.value"
+                      [stars]="6"
+                      [readonly]="true"
+                      [cancel]="false"
+                    ></p-rating>
+                  </td>
+                  <th>{{ votingItem.id }}</th>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </td>
+    </tr>
+  </ng-template>
+  <!--ng-template pTemplate="summary"> Footer </ng-template-->
 </p-table>

@@ -6,6 +6,9 @@ import {
 } from '@angular/fire/compat/firestore';
 import { Router } from '@angular/router';
 import { GoogleAuthProvider, User, getAuth, updateProfile } from 'firebase/auth';
+import { UserService } from './shared/user.service';
+import { UserData } from '../model/user-data';
+import { FireService } from './fire';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +18,7 @@ export class AuthService {
 
   userData!: any;
 
-  constructor(public afAuth: AngularFireAuth, public afs: AngularFirestore, public ngZone: NgZone, public router: Router) {
+  constructor(public afAuth: AngularFireAuth,private fire: FireService, public afs: AngularFirestore, public ngZone: NgZone, public router: Router) {
     /* Saving user data in localstorage when
     logged in and setting up null when logged out */
 
@@ -50,7 +53,7 @@ export class AuthService {
   }
 
   // Sign up with email/password
-  signUp(email: string, password: string) {
+  signUp(email: string, password: string, displayName: string, department: string) {
 
     return this.afAuth
      .createUserWithEmailAndPassword(email, password)
@@ -58,7 +61,8 @@ export class AuthService {
     /* Call the SendVerificaitonMail() function when new user sign
     up and returns promise */
      this.sendVerificationMail();
-     this.setUserData(result.user);
+     this.setUserData(result.user, displayName);
+     this.setAdditionalData(result.user, displayName, department)
     })
       .catch((error) => {
         window.alert(error.message);
@@ -116,7 +120,7 @@ export class AuthService {
     }
 
   /* Setting up user data when sign in with username/password */
-  setUserData(user: any) {
+  setUserData(user: any, displayName?: string) {
     const userRef: AngularFirestoreDocument<any> = this.afs.doc(
       `users/${user.uid}`
       );
@@ -124,7 +128,7 @@ export class AuthService {
     const userData: any = {
       uid: user.uid,
       email: user.email,
-      displayName: user.displayName,
+      displayName: displayName !== undefined ? displayName : user.displayName,
       photoURL: user.photoURL,
       emailVerified: user.emailVerified,
     };
@@ -132,6 +136,18 @@ export class AuthService {
     return userRef.set(userData, {
       merge: true
     });    
+  }
+
+  setAdditionalData(user: any, displayName: string, department: string, ) {
+    const userAdditionalData: UserData = {
+      department: department,
+      userId: user.uid,
+      name: displayName,
+      role: [],
+      verifyAdmin: false
+    }
+
+    this.fire.createUserData(userAdditionalData);
   }
 
   // Sign out

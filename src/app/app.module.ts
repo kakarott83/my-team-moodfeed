@@ -24,7 +24,9 @@ import { TeamVotingComponent } from './logic/team-voting/team-voting.component';
 import { CheckboxModule } from 'primeng/checkbox';
 import { TabViewModule } from 'primeng/tabview';
 import { RatingModule } from 'primeng/rating';
+import { DropdownModule } from 'primeng/dropdown';
 import { TableModule } from 'primeng/table';
+import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ToastModule } from 'primeng/toast';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
@@ -87,6 +89,8 @@ import { TeamVotingListComponent } from './logic/team-voting/team-voting-list/te
     InputTextareaModule,
     DynamicDialogModule,
     MultiSelectModule,
+    ProgressSpinnerModule,
+    DropdownModule,
     ChipsModule,
     RatingModule,
     MenuModule,

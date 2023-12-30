@@ -3,5 +3,6 @@ export interface UserData {
     role?: string[],
     userId?: string,
     department?: string,
-    verifyAdmin?: boolean
+    verifyAdmin?: boolean,
+    name?: string
 }

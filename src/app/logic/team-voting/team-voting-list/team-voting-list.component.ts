@@ -1,7 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Voting } from '../../../model/voting';
 import { FireService } from '../../../services/fire';
-import { map } from 'rxjs';
+import { Table } from 'primeng/table'
+import { map, tap } from 'rxjs';
 import { UserData } from '../../../model/user-data';
 import { UserService } from '../../../services/shared/user.service';
 
@@ -17,6 +18,7 @@ export class TeamVotingListComponent implements OnInit {
   myUser: any;
   myUserData: UserData = {};
   rating = 0;
+  isLoading = false;
 
   constructor(private fire: FireService, private userService: UserService) {}
 
@@ -27,15 +29,17 @@ export class TeamVotingListComponent implements OnInit {
   }
 
   getVotingByTeam() {
+    this.isLoading = true;
     this.fire.getAllVotings().snapshotChanges()
       .pipe(
         map(changes => changes.map(x => 
           ({id: x.payload.doc.id, ...x.payload.doc.data()})
-          ))
+          )),
       )
       .subscribe(data => {
         this.votings = data
         console.log(this.votings,'voting-lis')
+        this.isLoading = false;
       })
   }
 
@@ -58,6 +62,12 @@ export class TeamVotingListComponent implements OnInit {
 
     return this.rating
   }
+
+  clear(table: Table) {
+    table.clear();
+}
+
+
 
 
 

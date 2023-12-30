@@ -1,0 +1,7 @@
+{
+    "data": [
+        {"name":"Front-Middleoffice","code":"FOMO"},
+        {"name":"Backoffice DE/AT","code":"BOATDE"},
+        {"name":"Backoffice CH","code":"BOCH"}
+    ]
+}

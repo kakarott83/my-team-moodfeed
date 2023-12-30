@@ -33,7 +33,6 @@ export class UserProfileComponent implements OnInit {
   constructor(private authService: AuthService, private fire: FireService, private userService: UserService, private fb: FormBuilder, private messageService: MessageService) {}
 
   ngOnInit(): void {
-    this.createUserForm();
     this.myUser = this.userService.getUser();
     console.log(this.myUser);
     if(this.myUser) {
@@ -42,15 +41,19 @@ export class UserProfileComponent implements OnInit {
     }
 
     this.user = this.authService.getUserAuth();
-    this.getAdditionalData();
-    this.getRoles();
+    this.getAdditionalData().then(() => {
+      this.getRoles();
+      this.createUserForm();
+    });
+    
+    
 
   }
 
   createUserForm() {
     this.userForm = this.fb.group({
-      displayName: new FormControl('', [Validators.required, Validators.minLength(3)]),
-      role: new FormControl('', [Validators.required, Validators.minLength(3)])
+      displayName: new FormControl(this.myUserData.name, [Validators.required, Validators.minLength(3)]),
+      role: new FormControl(this.myUserData.role, [Validators.required, Validators.minLength(3)])
     })
   }
 
@@ -152,7 +155,8 @@ export class UserProfileComponent implements OnInit {
       department: this.myUserData.department,
       userId: this.myUserData.userId,
       role: this.userForm.get('role')?.value !== '' ? this.userForm.get('role')?.value : this.myUserData.role,
-      verifyAdmin: this.myUserData.verifyAdmin
+      verifyAdmin: this.myUserData.verifyAdmin,
+      name: this.userForm.get('displayName')?.value !== '' ? this.userForm.get('displayName')?.value : this.myUserData.name,
     }
   }
 

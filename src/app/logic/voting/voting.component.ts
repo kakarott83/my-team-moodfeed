@@ -10,13 +10,14 @@ import { Route, Router } from '@angular/router';
 import { UserData } from '../../model/user-data';
 import { UserService } from '../../services/shared/user.service';
 import { AuthService } from '../../services/auth.service';
+import { CalculateRatingService } from '../../services/calculate-rating.service';
 
 
 @Component({
   selector: 'app-voting',
   templateUrl: './voting.component.html',
   styleUrl: './voting.component.scss',
-  providers: [DialogService, UserService]
+  providers: [DialogService, UserService, CalculateRatingService]
 })
 export class VotingComponent implements OnInit {
 
@@ -26,7 +27,6 @@ export class VotingComponent implements OnInit {
   votingResults: Votingdetail[] = [];
   voting!: Voting;
   department!: string;
-  week = moment().isoWeek().toString();
   comment = '';
   submitted = false;
   myUser: any
@@ -37,7 +37,7 @@ export class VotingComponent implements OnInit {
   start = moment(Date.now()).startOf('week').isoWeekday(1).format("DD.MM.yyyy")
   end = moment(Date.now()).endOf('week').isoWeekday(0).format("DD.MM.yyyy")
 
-  constructor(private fire: FireService, public dialogService: DialogService, private router: Router, private userService: UserService, private authService: AuthService) {
+  constructor(private fire: FireService,private calcService: CalculateRatingService, public dialogService: DialogService, private router: Router, private userService: UserService, private authService: AuthService) {
   }
 
   ngOnInit(): void {
@@ -62,11 +62,15 @@ export class VotingComponent implements OnInit {
   }
 
   createVoting() {
+    this.votingResults
+
     return this.voting = {
       department: this.myUserData.department,
-      votingWeek: this.week,
+      votingWeek: moment().isoWeek().toString(),
+      votingYear: new Date().getFullYear().toString(),
       votings: this.votingResults,
       comment: this.comment,
+      total: this.calcService.calculateRating(this.votingResults)
       //id: Math.floor(Math.random() * 100).toString()
     }
   }

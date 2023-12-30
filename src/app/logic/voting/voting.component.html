@@ -2,25 +2,29 @@
     <p-card>
         <div class="flex flex-wrap align-items-center justify-content-center text-5xl">
             <div class="flex align-content-end">
-                Hallo {{myUser.displayName}}, bewerte hier deine Woche
+                Hallo {{myUserData.name}}, bewerte hier deine Woche
             </div>
             <div class="vertical-align-bottom text-lg ml-3">
                 ({{start}} - {{end}})
             </div>
         </div>
     </p-card>
-    <div *ngFor="let item of itemList">
-        <p-card>
-                <app-voting-detail [inputItem]="item" (result)="getVotingResult($event)"></app-voting-detail>
-        </p-card>
+    <div *ngIf="itemList; else loading">    
+        <div *ngFor="let item of itemList">
+            <p-card>
+                    <app-voting-detail [inputItem]="item" (result)="getVotingResult($event)"></app-voting-detail>
+            </p-card>
+        </div>
+        <div>
+            <textarea rows="4" [style]="{'width':'100%'}" pInputTextarea [(ngModel)]="comment" placeholder="Hier kannst du ein Kommentar erfassen"></textarea> 
+        </div>
+        <div>
+            <button (click)="submitVoting()" pButton pRipple label="Abschließen" class="p-button-success" icon="pi pi-check"></button>
+        </div>
     </div>
-    <div>
-        <textarea rows="4" [style]="{'width':'100%'}" pInputTextarea [(ngModel)]="comment" placeholder="Hier kannst du ein Kommentar erfassen"></textarea> 
-    </div>
-    <div>
-        <button (click)="submitVoting()" pButton pRipple label="Abschließen" class="p-button-success" icon="pi pi-check"></button>
-    </div>
-    <div>
-        <button (click)="showDialog()" pButton pRipple label="Test" class="p-button-success" icon="pi pi-check"></button>
-    </div>
+    <ng-template #loading>
+        <div class="flex justify-content-center">
+            <p-progressSpinner></p-progressSpinner>  
+        </div>
+    </ng-template>
 </div>
