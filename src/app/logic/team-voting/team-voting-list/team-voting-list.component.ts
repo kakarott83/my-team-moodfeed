@@ -19,6 +19,7 @@ export class TeamVotingListComponent implements OnInit {
   myUserData: UserData = {};
   rating = 0;
   isLoading = false;
+  comment: string = '';
 
   constructor(private fire: FireService, private userService: UserService) {}
 
@@ -62,6 +63,8 @@ export class TeamVotingListComponent implements OnInit {
 
     return this.rating
   }
+
+  
 
   clear(table: Table) {
     table.clear();

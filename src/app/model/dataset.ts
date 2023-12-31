@@ -3,5 +3,7 @@ export interface Dataset {
     data?: number[],
     fill?: boolean,
     borderColor?: any,
-    tension?: number
+    tension?: number,
+    borderDash?: any,
+    backgroundColor?: any,
 }

@@ -1,5 +1,7 @@
 <div *ngIf="!isLoading; else loading">
-    <p-chart type="line" [data]="data" [options]="options"></p-chart>
+    <div class="card surface-border surface-ground mb-5">
+        <p-chart type="line" [data]="data" [options]="options"></p-chart>
+    </div>
 </div>
 <ng-template #loading>
     <div class="flex justify-content-center">

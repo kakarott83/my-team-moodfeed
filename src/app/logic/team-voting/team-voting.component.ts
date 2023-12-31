@@ -8,6 +8,7 @@ import { Voting } from '../../model/voting';
   templateUrl: './team-voting.component.html',
   styleUrl: './team-voting.component.scss'
 })
+
 export class TeamVotingComponent implements OnInit{
 
   votings?: Voting[]

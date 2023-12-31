@@ -17,44 +17,64 @@ export class TeamVotingChartComponent implements OnInit {
   constructor(private chartService: ChartService) {}
 
   ngOnInit(): void {
-    console.log(this.chartService.getVotingMain(),'Chart');
-    this.weeks = this.chartService.getWeeksPerYear(new Date().getFullYear());
+
     this.isLoading = true;
-    this.chartService.getQuestions().then((sets) => {
-      console.log(sets);
-      this.isLoading = false;
-      this.createChart(sets);
-    });
+    this.chartService.calcDataSets()
+    .then(
+      dataSets => this.createChart(dataSets, this.chartService.getWeeksPerYear(new Date().getFullYear()))
+    )
+    .then(() => this.isLoading = false)
+
   }
 
-  createChart(dataSets: any) {
+  createChart(dataSets: any, weeks: any) {
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--text-color');
     const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
     const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+    const CHART_AREA = true;
 
     this.data = {
-      labels: this.weeks,
+      labels: weeks,
       datasets: dataSets
     };
     this.options = {
       maintainAspectRatio: false,
       aspectRatio: 0.6,
       plugins: {
+          customCanvasBackgroundColor: {
+            color: 'lightGrey'
+          },
+          title: {
+              display: true,
+              text: 'Stimmungsverlauf '+ new Date().getFullYear(),
+              position: 'top',
+              font: {
+                size: 14,
+                weight: 'bold'
+              }
+          },
           legend: {
               labels: {
-                  color: textColor
-              }
+                  color: 'black'
+              },
+              position: 'right'
           }
       },
       scales: {
           x: {
               ticks: {
-                  color: textColorSecondary
+                  color: textColorSecondary,
               },
               grid: {
                   color: surfaceBorder,
-                  drawBorder: false
+                  drawBorder: true,
+                  display: true
+              },
+              display: true,
+              title: {
+                display: true,
+                text: 'Kalenderwochen'
               }
           },
           y: {
@@ -63,7 +83,13 @@ export class TeamVotingChartComponent implements OnInit {
               },
               grid: {
                   color: surfaceBorder,
-                  drawBorder: false
+                  drawBorder: true,
+                  display: true
+              },
+              display: true,
+              title: {
+                display: true,
+                text: 'Bewertung'
               }
           }
       }
