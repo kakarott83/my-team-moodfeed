@@ -62,7 +62,7 @@ export class AuthService {
     /* Call the SendVerificaitonMail() function when new user sign
     up and returns promise */
      this.sendVerificationMail();
-     this.setUserData(result.user, displayName);
+     this.setUserData(result.user);
      this.setAdditionalData(result.user, displayName, department)
     })
       .catch((error) => {
@@ -131,7 +131,7 @@ export class AuthService {
     const userData: any = {
       uid: user.uid,
       email: user.email,
-      displayName: displayName !== undefined ? displayName : user.displayName,
+      displayName: user.displayName,
       photoURL: user.photoURL,
       emailVerified: user.emailVerified,
     };
@@ -141,7 +141,7 @@ export class AuthService {
     });    
   }
 
-  setAdditionalData(user: any, displayName: string, department: string, ) {
+  setAdditionalData(user: any, displayName: string, department: string) {
     const userAdditionalData: UserData = {
       department: department,
       userId: user.uid,

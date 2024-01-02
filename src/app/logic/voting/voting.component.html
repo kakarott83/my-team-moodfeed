@@ -4,9 +4,9 @@
             <div class="flex align-content-end">
                 Hallo {{myUserData.name}}, bewerte hier deine Woche
             </div>
-            <div class="vertical-align-bottom text-lg ml-3">
+            <!--div class="vertical-align-bottom text-lg ml-3">
                 ({{start}} - {{end}})
-            </div>
+            </div-->
         </div>
     </p-card>
     <div *ngIf="itemList; else loading">    
@@ -28,3 +28,4 @@
         </div>
     </ng-template>
 </div>
+<p-toast></p-toast>

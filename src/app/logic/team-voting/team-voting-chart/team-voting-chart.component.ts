@@ -1,11 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { ChartService } from '../../../services/chart.service';
+import { UserService } from '../../../services/shared/user.service';
+import { UserData } from '../../../model/user-data';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-team-voting-chart',
   templateUrl: './team-voting-chart.component.html',
   styleUrl: './team-voting-chart.component.scss',
-  providers: [ChartService]
+  providers: [ChartService, UserService]
 })
 export class TeamVotingChartComponent implements OnInit {
 
@@ -13,17 +16,29 @@ export class TeamVotingChartComponent implements OnInit {
   options: any;
   weeks: any;
   isLoading = false;
+  year = new Date().getFullYear();
+  myUser: any;
+  user: any;
+  myUserData: UserData = {};
+  minDataValue = 0;
+  maxDataValue = 6
 
-  constructor(private chartService: ChartService) {}
+  constructor(private chartService: ChartService, private userService: UserService, private authService: AuthService) {}
 
   ngOnInit(): void {
 
+    this.user = this.authService.getUserAuth();
+    this.myUser = this.userService.getUser();
     this.isLoading = true;
-    this.chartService.calcDataSets()
+    this.getAdditionalData().then(() => {
+    console.log(this.myUserData)
+    if(this.myUserData.department !== undefined)
+    this.chartService.calcDataSets(this.year, this.myUserData.department)
     .then(
       dataSets => this.createChart(dataSets, this.chartService.getWeeksPerYear(new Date().getFullYear()))
     )
     .then(() => this.isLoading = false)
+  });
 
   }
 
@@ -78,6 +93,8 @@ export class TeamVotingChartComponent implements OnInit {
               }
           },
           y: {
+              suggestedMin: this.minDataValue,
+              suggestedMax: this.maxDataValue,
               ticks: {
                   color: textColorSecondary
               },
@@ -95,6 +112,19 @@ export class TeamVotingChartComponent implements OnInit {
       }
     };
   }
+
+  setAdditionalData() {
+    this.userService.createAdditionalData();
+  }
+
+  async getAdditionalData() {
+    if(!!this.myUser) {
+      await this.userService.getUserData(this.myUser.uid).then((data) => {
+        this.myUserData = data[0];
+      });
+    }
+  }
+
 
 
 

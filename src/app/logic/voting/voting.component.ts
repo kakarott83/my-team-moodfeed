@@ -11,13 +11,14 @@ import { UserData } from '../../model/user-data';
 import { UserService } from '../../services/shared/user.service';
 import { AuthService } from '../../services/auth.service';
 import { CalculateRatingService } from '../../services/calculate-rating.service';
+import { MessageService } from 'primeng/api';
 
 
 @Component({
   selector: 'app-voting',
   templateUrl: './voting.component.html',
   styleUrl: './voting.component.scss',
-  providers: [DialogService, UserService, CalculateRatingService]
+  providers: [DialogService, UserService, CalculateRatingService, MessageService]
 })
 export class VotingComponent implements OnInit {
 
@@ -37,7 +38,7 @@ export class VotingComponent implements OnInit {
   start = moment(Date.now()).startOf('week').isoWeekday(1).format("DD.MM.yyyy")
   end = moment(Date.now()).endOf('week').isoWeekday(0).format("DD.MM.yyyy")
 
-  constructor(private fire: FireService,private calcService: CalculateRatingService, public dialogService: DialogService, private router: Router, private userService: UserService, private authService: AuthService) {
+  constructor(private fire: FireService,private msgService: MessageService,private calcService: CalculateRatingService, public dialogService: DialogService, private router: Router, private userService: UserService, private authService: AuthService) {
   }
 
   ngOnInit(): void {
@@ -78,11 +79,22 @@ export class VotingComponent implements OnInit {
   getVotingResult(result: any) {
     const index = this.votingResults.findIndex(x => x == result)
 
-    //Find and Replace Or Add
+    console.log(index, 'Index')
+    console.log(result, 'result')
+
+    //Find and Replace Or Add Or Remove
     if(index >= 0) {
-      this.votingResults.splice(index,1,result);
+      if(result.rating.value == 0) {
+        this.votingResults.splice(index,1);
+      } else {
+        this.votingResults.splice(index,1,result);
+      }
     } else {
-      this.votingResults.push(result);
+      if(result.rating.value == 0) {
+        this.votingResults.splice(index,1);
+      } else {
+        this.votingResults.push(result);
+      }
     }
   }
 
@@ -90,14 +102,20 @@ export class VotingComponent implements OnInit {
 
   submitVoting() {
     let myVoting = this.createVoting();
-    console.log(myVoting);
+    let checkValid
+    console.log(myVoting.votings.length+' '+ this.itemList.length,'Check');
 
-    this.fire.createVoting(myVoting)
-      .then(() => {
-        console.log('Saved')
-        this.submitted = false;
-        this.showDialog();
-      })
+    if(myVoting.votings.length == this.itemList.length) {
+      this.fire.createVoting(myVoting)
+        .then(() => {
+          console.log('Saved')
+          this.submitted = false;
+          this.showDialog();
+        })
+    } else {
+      this.msgService.add({ severity: 'error', summary: 'Error', detail: 'Rating nicht vollständig'});
+    }
+
 
 
   }

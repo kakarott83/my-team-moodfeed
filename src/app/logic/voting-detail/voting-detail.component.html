@@ -1,4 +1,4 @@
-<div class="voting-detail">
+<!--div class="voting-detail">
     <div class="flex row">
         <div class="col-2">
             <div class="voting-questions voting-detail-font-size">
@@ -18,4 +18,12 @@
             </div>
         </div>
     </div>
+</div-->
+<div class="flex row">
+<div class="col-4">
+    <div>{{votingItem.question}}</div>
+</div>
+<div class="col-8">
+    <p-rating [(ngModel)]="value" [stars]="6" (onRate)="vote($event)" (onCancel)="cancel($event)"></p-rating>
+</div>
 </div>

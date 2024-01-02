@@ -20,7 +20,6 @@ export class MenuBarComponent implements OnInit {
 
   ngOnInit(): void {
     this.myUser = this.userService.getUser();
-    console.log(this.myUser);
     if(this.myUser) this.isLoggedIn = true;
 
     this.items = [

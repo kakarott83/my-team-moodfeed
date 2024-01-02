@@ -16,6 +16,7 @@ export class VotingDetailComponent implements OnInit {
   votingItem!: Votingdetail;
   ratings!: Rating[];
   selectedRating!:Rating;
+  value!: number;
 
   /**
    *
@@ -33,6 +34,25 @@ export class VotingDetailComponent implements OnInit {
   select(rating: any) {
     this.votingItem.rating = rating;
     this.selectedRating = rating;
+    this.result.emit(this.votingItem);
+  }
+
+  vote(e: any) {
+    let r = {
+      value: this.value
+    }
+
+    this.votingItem.rating = r;
+    this.result.emit(this.votingItem);
+  }
+
+  cancel(e: any) {
+    console.log(this.votingItem)
+    let r = {
+      value: 0
+    }
+    
+    this.votingItem.rating = r;
     this.result.emit(this.votingItem);
   }
 

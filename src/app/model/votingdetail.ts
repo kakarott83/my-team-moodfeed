@@ -3,5 +3,6 @@ import { Rating } from "./rating"
 export interface Votingdetail {
     id?: string
     question?:string,
-    rating?: Rating
+    rating?: Rating,
+    result?: number
 }

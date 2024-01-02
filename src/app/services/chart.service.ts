@@ -28,7 +28,7 @@ export class ChartService {
 
   getWeeksPerYear(year: number) {
     let weeksArr: string[] = [];
-    let currWeek = moment().year(year).isoWeek()
+    let currWeek = 4// moment().year(year).isoWeek()
 
     for (let index = 0; index < currWeek; index++) {
       let week = index + 1
@@ -40,14 +40,14 @@ export class ChartService {
 
 
 
-  getVotings() {
+  getVotings(year: number, department: string) {
       return new Promise((resolve, reject) => {
         this.fire.getAllVotings().snapshotChanges()
         .pipe(
           map(changes => changes.map(c => 
             ({ id: c.payload.doc.id, ...c.payload.doc.data() })
           )),
-          map(items => items.filter(item => item.department == "FOMO" && item.votingYear == "2023")
+          map(items => items.filter(item => item.department == department.toUpperCase() && item.votingYear == year.toString())
           )
         )
         .subscribe(data => resolve(data))
@@ -69,7 +69,7 @@ export class ChartService {
 
 
 
-  async calcDataSets() {
+  async calcDataSets(year: number, department: string) {
       let votings: Voting[] = []
       let questions: Question[] = []
       let dataSetArray: Dataset[] = []
@@ -77,7 +77,7 @@ export class ChartService {
       await this.getQuestions().then(data => {
         questions = data as Question[]
       })
-      await this.getVotings().then(data => {
+      await this.getVotings(year, department).then(data => {
         votings = data as Voting[]
       })
   
