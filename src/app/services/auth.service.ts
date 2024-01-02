@@ -41,11 +41,12 @@ export class AuthService {
     return this.afAuth
      .signInWithEmailAndPassword(email, password)
      .then((result) => {
-    this.setUserData(result.user);
-    this.afAuth.authState.subscribe((user) => {
-      if (user) {
-        this.router.navigate(['home']);
-      }});
+        this.setUserData(result.user);
+        this.afAuth.authState.subscribe((user) => {
+          if (user) {
+            this.router.navigate(['home']);
+          }
+        });
   })
     .catch((error) => {
     window.alert(error.message);
@@ -93,10 +94,12 @@ export class AuthService {
   }
 
   // Returns true when user is looged in and email is verified
-  get isLoggedIn(): boolean {
+  public get isLoggedIn(): boolean {
     const user = JSON.parse(localStorage.getItem('user')!);
     return user !== null && user.emailVerified !== false ? true : false;
   }
+
+
 
   // Sign in with Google
   googleAuth() {

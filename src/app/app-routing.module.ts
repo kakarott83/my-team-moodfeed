@@ -11,17 +11,18 @@ import { UserProfileComponent } from './logic/user-profile/user-profile.componen
 import { VerifyEmailComponent } from './auth/verify-email/verify-email.component';
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
+import { AuthGuard } from './auth/guard.guard';
 
 const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
   {path: 'login', component:LoginComponent},
   {path: 'logout', component:LogoutComponent},
   {path: 'register', component:RegisterComponent},
-  {path: 'voting', component: VotingComponent},
-  {path: 'team-voting', component: TeamVotingComponent},
-  {path: 'admin', component: AdminComponent},
-  {path: 'home', component: HomeComponent},
-  {path: 'user-profile', component: UserProfileComponent},
+  {path: 'voting', component: VotingComponent, canActivate: [AuthGuard]},
+  {path: 'team-voting', component: TeamVotingComponent, canActivate: [AuthGuard]},
+  {path: 'admin', component: AdminComponent, canActivate: [AuthGuard]},
+  {path: 'home', component: HomeComponent, canActivate: [AuthGuard]},
+  {path: 'user-profile', component: UserProfileComponent, canActivate: [AuthGuard]},
   {path: 'forgot-password', component: ForgotPasswordComponent},
   {path: 'reset-password', component: ResetPasswordComponent},
   {path: 'verify-email-address', component: VerifyEmailComponent},

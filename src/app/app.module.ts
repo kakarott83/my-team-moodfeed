@@ -53,6 +53,7 @@ import { AuthService } from './services/auth.service';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 import { TeamVotingListComponent } from './logic/team-voting/team-voting-list/team-voting-list.component';
 import { TeamVotingChartComponent } from './logic/team-voting/team-voting-chart/team-voting-chart.component';
+import { NotVerfifiedComponent } from './auth/not-verfified/not-verfified.component';
 
 @NgModule({
   declarations: [
@@ -76,7 +77,8 @@ import { TeamVotingChartComponent } from './logic/team-voting/team-voting-chart/
     VerifyEmailComponent,
     ResetPasswordComponent,
     TeamVotingListComponent,
-    TeamVotingChartComponent
+    TeamVotingChartComponent,
+    NotVerfifiedComponent
   ],
   imports: [
     BrowserModule,

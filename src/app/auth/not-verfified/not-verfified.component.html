@@ -1,0 +1,16 @@
+<div class="container">
+    <div class="auth-box">
+        <p-card header="Team Meed Feed" subheader="Verfizierung" [style]="{ width: '360px' }">
+            <ng-template pTemplate="header">
+                <img alt="Card" src="https://primefaces.org/cdn/primeng/images/usercard.png" />
+            </ng-template>
+            <p>
+                Die E-Mail wurde noch nicht bestätigt!
+                Bestätige jetzt die E-Mail in deinem Postfach
+            </p>
+            <ng-template pTemplate="footer">
+                <p-button label="zum Login" (click)="login()" icon="pi pi-check"></p-button>
+            </ng-template>
+        </p-card>
+    </div>
+</div>

@@ -4,20 +4,20 @@ import { Router, RouterLink } from '@angular/router';
 import { InputGroup } from 'primeng/inputgroup';
 import { InputGroupAddon } from 'primeng/inputgroupaddon';
 import { AuthService } from '../../services/auth.service';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrl: './login.component.scss'
+  styleUrl: './login.component.scss',
+  providers: [MessageService]
 })
 export class LoginComponent implements OnInit {
 
   loginForm!: FormGroup;
+  emailVerify!: boolean | undefined;
 
-  /**
-   *
-   */
-  constructor(private fb: FormBuilder, private router: Router, private authService: AuthService) { }
+  constructor(private fb: FormBuilder, private router: Router, private authService: AuthService, private msgService: MessageService) { }
 
   ngOnInit(): void {
     this.loginForm = this.fb.group({
@@ -28,7 +28,13 @@ export class LoginComponent implements OnInit {
 
   onSubmit(event: any) {
     if(this.loginForm.valid) {
-      this.authService.signIn(this.loginForm.value.email, this.loginForm.value.password)
+      this.authService.signIn(this.loginForm.value.email, this.loginForm.value.password).then((result) => {
+        this.authService.afAuth.authState.subscribe(data => {
+          console.log(data?.emailVerified,'emailVerified')
+          this.emailVerify = data?.emailVerified
+          this.msgService.add({ severity: 'error', summary: 'Error', detail: 'E-Mail nicht verifiziert'});
+        })
+      })
     }
   }
 

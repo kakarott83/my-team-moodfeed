@@ -16,7 +16,7 @@ export class MenuBarComponent implements OnInit {
   isLoggedIn!: boolean;
   myUser: any;
 
-  constructor(private router: Router, private authService: AuthService, private userService: UserService) {}
+  constructor(private router: Router, public authService: AuthService, private userService: UserService) {}
 
   ngOnInit(): void {
     this.myUser = this.userService.getUser();
