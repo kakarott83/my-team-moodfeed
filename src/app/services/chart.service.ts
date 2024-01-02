@@ -5,6 +5,7 @@ import { filter, map, pipe, tap } from 'rxjs';
 import { Question } from '../model/question';
 import { Dataset } from '../model/dataset';
 import { Voting } from '../model/voting';
+import { UtilitiesService } from './shared/utilities.service';
 
 enum LineColor {
   Green = 1,
@@ -23,19 +24,11 @@ export class ChartService {
 
 
 
-  constructor(private fire: FireService) { }
+  constructor(private fire: FireService, private utilities: UtilitiesService) { }
 
 
   getWeeksPerYear(year: number) {
-    let weeksArr: string[] = [];
-    let currWeek = 4// moment().year(year).isoWeek()
-
-    for (let index = 0; index < currWeek; index++) {
-      let week = index + 1
-      weeksArr.push(week.toString())
-    }
-
-    return weeksArr
+    return this.utilities.getWeeksPerYear(year);
   }
 
 

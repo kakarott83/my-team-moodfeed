@@ -3,12 +3,13 @@ import { ChartService } from '../../../services/chart.service';
 import { UserService } from '../../../services/shared/user.service';
 import { UserData } from '../../../model/user-data';
 import { AuthService } from '../../../services/auth.service';
+import { UtilitiesService } from '../../../services/shared/utilities.service';
 
 @Component({
   selector: 'app-team-voting-chart',
   templateUrl: './team-voting-chart.component.html',
   styleUrl: './team-voting-chart.component.scss',
-  providers: [ChartService, UserService]
+  providers: [ChartService, UserService, UtilitiesService]
 })
 export class TeamVotingChartComponent implements OnInit {
 

@@ -9,3 +9,8 @@ margin-bottom: 1.5rem !important;
 :host ::ng-deep .p-card-content {
     padding: 0% !important;
 }
+
+:host ::ng-deep.p-dropdown {
+    min-width: 200px !important;
+    height: 49px !important;
+}

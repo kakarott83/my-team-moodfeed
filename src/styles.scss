@@ -12,7 +12,7 @@
     --color2: #084167;
     --color3: #083858;
     --color4: #1C415D;
-    --color5: #2E526C;
+    --color5: #102838;
 
     //https://colorhunt.co/palette/053b50176b8764ccc5eeeeee
 
@@ -45,6 +45,45 @@ html, body {
     align-content: center;
     /*Top, Right, Bottom, Left*/
     margin: 5rem 5rem 5rem 5rem;
+}
+
+.bodies {
+    display: flex;
+    justify-content: space-around;
+    border: solid;
+    font-size: xx-large;
+    color: white;
+    border-radius: 10px;
+    background-color: #084167;
+    height: 100vh;
+    /* box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.03), 0px 0px 2px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.12); */
+    box-shadow: 0px 9px 46px 8px rgba(0, 0, 0, 0.12), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 11px 15px rgba(0, 0, 0, 0.2);
+}
+
+.headers {
+    display: flex;
+    justify-content: center;
+    border: solid;
+    font-size: xx-large;
+    color: white;
+    border-radius: 10px;
+    background-color: #084167;
+    margin-bottom: 20px;
+    height: 4rem;
+    align-items: center;
+    /* box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.03), 0px 0px 2px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.12); */
+    box-shadow: 0px 9px 46px 8px rgba(0, 0, 0, 0.12), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 11px 15px rgba(0, 0, 0, 0.2);
+}
+
+.cards {
+    display: flex;  
+    margin: 2rem;
+    /* border: solid; */
+    border-radius: 10px;
+    padding: 0.5rem;
+    background: #9DB2BF;
+    background-image: linear-gradient(to right,#27374D, transparent);
+    color: white;
 }
 
 .auth-box {

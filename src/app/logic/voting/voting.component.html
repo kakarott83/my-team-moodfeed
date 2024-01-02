@@ -1,10 +1,13 @@
 <div class="container">
-    <div class="surface-ground h-screen px-4 py-5 md:px-6 lg:px-8">
-        <p-card>
-            <div class="flex flex-wrap align-items-center justify-content-center text-5xl">
-                Hallo {{myUserData.name}}, bewerte jetzt deine Woche
-            </div>
-        </p-card>
+    <div class="headers">
+        <div>
+            Hallo {{myUserData.name}}, bewerte jetzt deine Woche
+        </div>
+        <div class="flex ml-5">
+            <p-dropdown class="h-full justify-content-center" [options]="weeks" [(ngModel)]="selectedWeek" (onChange)="changeWeek($event)"></p-dropdown>
+        </div>
+    </div>
+    <div class="h-screen px-4 py-5 md:px-6 lg:px-8">
         <div *ngIf="itemList; else loading">    
             <div *ngFor="let item of itemList">
                 <p-card class="block">

@@ -12,13 +12,14 @@ import { UserService } from '../../services/shared/user.service';
 import { AuthService } from '../../services/auth.service';
 import { CalculateRatingService } from '../../services/calculate-rating.service';
 import { MessageService } from 'primeng/api';
+import { UtilitiesService } from '../../services/shared/utilities.service';
 
 
 @Component({
   selector: 'app-voting',
   templateUrl: './voting.component.html',
   styleUrl: './voting.component.scss',
-  providers: [DialogService, UserService, CalculateRatingService, MessageService]
+  providers: [DialogService, UserService, CalculateRatingService, MessageService, UtilitiesService]
 })
 export class VotingComponent implements OnInit {
 
@@ -31,23 +32,30 @@ export class VotingComponent implements OnInit {
   comment = '';
   submitted = false;
   myUser: any
-  myUserData: UserData = {}
+  myUserData: UserData = {};
+  weeks: number[] = [];
+  years: number[] = [];
+  selectedWeek = moment().isoWeek();
+  selectedYear = new Date().getFullYear();
 
   ref: DynamicDialogRef | undefined;
 
   start = moment(Date.now()).startOf('week').isoWeekday(1).format("DD.MM.yyyy")
   end = moment(Date.now()).endOf('week').isoWeekday(0).format("DD.MM.yyyy")
 
-  constructor(private fire: FireService,private msgService: MessageService,private calcService: CalculateRatingService, public dialogService: DialogService, private router: Router, private userService: UserService, private authService: AuthService) {
+  constructor(private fire: FireService, private utilities: UtilitiesService, private msgService: MessageService,private calcService: CalculateRatingService, public dialogService: DialogService, private router: Router, private userService: UserService, private authService: AuthService) {
   }
 
   ngOnInit(): void {
     this.getItemsFromAf();
     this.myUser = this.userService.getUser();
     this.getAdditionalData();
+    this.createWeeks(this.selectedYear);
+    this.createYear();
 
-    console.log(this.myUser,'MyUser')
-    console.log(this.myUserData,'MyUserData')
+
+
+
   }
 
   getItemsFromAf() {
@@ -62,12 +70,12 @@ export class VotingComponent implements OnInit {
     });
   }
 
-  createVoting() {
+  createVoting(week: number) {
     this.votingResults
 
     return this.voting = {
       department: this.myUserData.department,
-      votingWeek: moment().isoWeek().toString(),
+      votingWeek: week.toString(),
       votingYear: new Date().getFullYear().toString(),
       votings: this.votingResults,
       comment: this.comment,
@@ -101,7 +109,7 @@ export class VotingComponent implements OnInit {
 
 
   submitVoting() {
-    let myVoting = this.createVoting();
+    let myVoting = this.createVoting(this.selectedWeek);
     let checkValid
     console.log(myVoting.votings.length+' '+ this.itemList.length,'Check');
 
@@ -135,6 +143,23 @@ export class VotingComponent implements OnInit {
         this.myUserData = data[0];
       });
     }
+  }
+
+  createWeeks(year: number) {
+    let w = this.utilities.getWeeksPerYear(year);
+    w.forEach(x => {
+      this.weeks.push(Number(x))
+    });
+  }
+
+  createYear() {
+    for (let index = 0; index < 10; index++) {
+      this.years.push(moment().year(2024).add(index,'y').year())
+    }
+  }
+
+  changeWeek(e: any) {
+    
   }
 
 
