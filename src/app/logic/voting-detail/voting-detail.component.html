@@ -19,11 +19,15 @@
         </div>
     </div>
 </div-->
-<div class="flex row">
+<div class="flex justify-content-evenly shadow-2 hover:shadow-8">
 <div class="col-4">
     <div>{{votingItem.question}}</div>
 </div>
-<div class="col-8">
+<div class="p-2">
     <p-rating [(ngModel)]="value" [stars]="6" (onRate)="vote($event)" (onCancel)="cancel($event)"></p-rating>
+</div>
+<div class="p-2">
+    <i *ngIf="votingItem.rating?.value" class="fa-regular fa-circle-check text-green-500"></i>
+    <i *ngIf="votingItem.rating?.value == undefined || votingItem.rating?.value == 0" class="fa-regular fa-circle-question text-yellow-500"></i>
 </div>
 </div>
