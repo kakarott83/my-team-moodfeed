@@ -1,6 +1,6 @@
 <div *ngIf="!isLoading; else loading">
     <div class="card surface-border surface-ground mb-5">
-        <p-chart type="line" [data]="data" [options]="options"></p-chart>
+        <p-chart class="team-voting-chart" type="line" [data]="data" [options]="options" [plugins]="plugins"></p-chart>
     </div>
 </div>
 <ng-template #loading>

@@ -11,10 +11,12 @@ import { UtilitiesService } from '../../../services/shared/utilities.service';
   styleUrl: './team-voting-chart.component.scss',
   providers: [ChartService, UserService, UtilitiesService]
 })
+
 export class TeamVotingChartComponent implements OnInit {
 
   data: any;
   options: any;
+  plugins: any
   weeks: any;
   isLoading = false;
   year = new Date().getFullYear();
@@ -22,7 +24,7 @@ export class TeamVotingChartComponent implements OnInit {
   user: any;
   myUserData: UserData = {};
   minDataValue = 0;
-  maxDataValue = 6
+  maxDataValue = 6;
 
   constructor(private chartService: ChartService, private userService: UserService, private authService: AuthService) {}
 
@@ -50,6 +52,27 @@ export class TeamVotingChartComponent implements OnInit {
     const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
     const CHART_AREA = true;
 
+    const image = new Image();
+    image.src = '../../../../assets/images/bg_gradient.png';
+
+
+    const plugin = {
+      id: 'customCanvasBackgroundImage',
+      beforeDraw: (chart: any) => {
+        if (image.complete) {
+          const ctx = chart.ctx;
+          const {top, left, width, height} = chart.chartArea;
+          const x = left + width / 2 - image.width / 2;
+          const y = top + height / 2 - image.height / 2;
+          ctx.drawImage(image, x, y);
+        } else {
+          image.onload = () => chart.draw();
+        }
+      }
+    };
+
+
+    this.plugins = [plugin],
     this.data = {
       labels: weeks,
       datasets: dataSets
@@ -58,11 +81,11 @@ export class TeamVotingChartComponent implements OnInit {
       maintainAspectRatio: false,
       aspectRatio: 0.6,
       plugins: {
-          customCanvasBackgroundColor: {
-            color: 'lightGrey'
-          },
+        customCanvasBackgroundColor: {
+          color: 'none'
+        },
           title: {
-              display: true,
+              //display: true,
               text: 'Stimmungsverlauf '+ new Date().getFullYear(),
               position: 'top',
               font: {
@@ -80,34 +103,36 @@ export class TeamVotingChartComponent implements OnInit {
       scales: {
           x: {
               ticks: {
-                  color: textColorSecondary,
+                  color: 'white',
               },
               grid: {
-                  color: surfaceBorder,
-                  drawBorder: true,
-                  display: true
+                  //color: surfaceBorder,
+                  drawBorder: false,
+                  //display: true
               },
               display: true,
-              title: {
-                display: true,
-                text: 'Kalenderwochen'
+               title: {
+                 display: true,
+                 text: 'Kalenderwochen',
+                 color: 'white'
               }
           },
           y: {
               suggestedMin: this.minDataValue,
               suggestedMax: this.maxDataValue,
               ticks: {
-                  color: textColorSecondary
+                  color: 'white'
               },
               grid: {
-                  color: surfaceBorder,
+                  //color: surfaceBorder,
                   drawBorder: true,
-                  display: true
+                  //display: true
               },
               display: true,
-              title: {
-                display: true,
-                text: 'Bewertung'
+               title: {
+                 display: true,
+                 text: 'Bewertung',
+                 color: 'white'
               }
           }
       }
