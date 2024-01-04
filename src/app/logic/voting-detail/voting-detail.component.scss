@@ -1,0 +1,12 @@
+.grad {
+    background: #9DB2BF;
+    background-image: linear-gradient(to right,#27374D, transparent);
+    color: white;
+}
+
+:host ::ng-deep  
+    .p-rating-icon:not(.p-rating-cancel), 
+:host ::ng-deep  
+    .p-rating-icon:not(.p-rating-cancel):hover { 
+    color: white !important; 
+}

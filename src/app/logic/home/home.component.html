@@ -3,85 +3,38 @@
         Dashboard
     </div>
     <div class="bodies">
-        <div class="grid">
-            <div class="col-12 md:col-6 lg:col-3">
-                <div class="cards shadow-2 hover:shadow-8">
-                    <div class="">
-                        <div>
-                            <span>Test</span>
-                            <div>{{myUser.lastLoginAt | date: 'dd.MM.yyyy HH:mm' }}</div>
+        <div class="flex" *ngFor="let item of items">
+            <div class="cards shadow-2 hover:shadow-8">
+                <div class="flex-row w-full">
+                    <div class="col-12">
+                        <div class="row">
+                            <div class="flex justify-content-between">
+                                <span class="text-base mb-2">{{item.header}}</span>
+                                <i class="{{item.icon}} text-blue-600"></i>
+                            </div>
                         </div>
-                        <div >
-                            <i class="fa-solid fa-right-to-bracket text-blue-500 text-xl"></i>
-                        </div>
+                        <div class="text-lg font-bold">{{item.body}}</div>
                     </div>
-                    <span>Demo 24 new </span>
-                    <span>since last visit</span>
-                </div>
-            </div>
-            <!---->
-            <div class="col-12 md:col-6 lg:col-3">
-                <div class="surface-card shadow-2 hover:shadow-8 p-3 border-round">
-                    <div class="flex justify-content-between mb-3">
-                        <div>
-                            <span class="block text-500 font-medium mb-3">Letzter Login</span>
-                            <div class="text-900 font-medium text-xl">{{myUser.lastLoginAt | date: 'dd.MM.yyyy HH:mm' }}</div>
-                        </div>
-                        <div class="flex align-items-center justify-content-center bg-blue-100 border-round" style="width:2.5rem;height:2.5rem">
-                            <i class="fa-solid fa-right-to-bracket text-blue-500 text-xl"></i>
-                        </div>
-                    </div>
-                    <span class="text-green-500 font-medium">Demo 24 new </span>
-                    <span class="text-500">since last visit</span>
-                </div>
-            </div>
-            <div class="col-12 md:col-6 lg:col-3">
-                <div class="surface-card shadow-2 hover:shadow-8 p-3 border-round">
-                    <div class="flex justify-content-between mb-3">
-                        <div>
-                            <span class="block text-500 font-medium mb-3">Rolle</span>
-                            <div class="text-900 font-medium text-xl">Team Member</div>
-                        </div>
-                        <div class="flex align-items-center justify-content-center bg-orange-100 border-round" style="width:2.5rem;height:2.5rem">
-                            <i class="fa-solid fa-user-tag text-orange-500 text-xl"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 md:col-6 lg:col-3">
-                <div class="surface-card shadow-2 hover:shadow-8 p-3 border-round">
-                    <div class="flex justify-content-between mb-3">
-                        <div>
-                            <span class="block text-500 font-medium mb-3">Arbeitzeit (tbd)</span>
-                            <div class="text-900 font-medium text-xl">30h / 40h</div>
-                        </div>
-                        <div class="flex align-items-center justify-content-center bg-cyan-100 border-round" style="width:2.5rem;height:2.5rem">
-                            <i class="fa-solid fa-clock text-cyan-500 text-xl"></i>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-12 md:col-6 lg:col-3">
-                <div class="surface-card shadow-2 hover:shadow-8 p-3 border-round">
-                    <div class="flex justify-content-between mb-3">
-                        <div>
-                            <span class="block text-500 font-medium mb-3">Reisekosten (tbd)</span>
-                            <div class="text-900 font-medium text-xl">0€ ausstehend</div>
-                        </div>
-                        <div class="flex align-items-center justify-content-center bg-purple-100 border-round" style="width:2.5rem;height:2.5rem">
-                            <i class="fa-solid fa-business-time fa-clock text-purple-500 text-xl"></i>
+                    <div class="col">
+                        <div class="flex flex-column">
+                            <span class="text-base mb-2">{{item.footer}}</span>
+                            <div class="flex justify-content-between align-content-center text-sm" *ngIf="item.header == 'Arbeitszeit'">
+                                <div>
+                                    {{stopwatch.hours}} h {{stopwatch.minutes}} m
+                                </div>
+                                <div>
+                                    <p-button class="ml-1" *ngIf="!startStopBtn" label="Start" icon="fa-solid fa-circle-play" size="small" severity="success" (onClick)="startStop()"></p-button>
+                                    <p-button class="ml-1" *ngIf="startStopBtn" label="Stop" icon="fa-solid fa-circle-stop" size="small" severity="danger" (onClick)="startStop()"></p-button>
+                                    <p-button class="ml-1" *ngIf="!breakBtn && startStopBtn" label="Pause" icon="fa-solid fa-circle-pause" size="small" severity="warning" (onClick)="break()"></p-button>
+                                    <p-button class="ml-1" *ngIf="breakBtn" label="Weiter" icon="fa-solid fa-circle-pause" size="small" severity="success" (onClick)="break()"></p-button>
+                                    <!--p-button class="ml-1" *ngIf="startStopBtn" icon="fa-solid fa-arrwo-rotate-left" severity="secondary" (onClick)="reset()"></p-button-->
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="h-screen px-4 py-5 md:px-6 lg:px-8">
-        <!--p-card>
-            <div class="flex flex-wrap align-items-center justify-content-center text-5xl">
-                <div class="flex justify-content-center">Dashboard</div>
-            </div>
-        </p-card-->
-
-    </div>    
+    <app-workweek></app-workweek>
 </div>

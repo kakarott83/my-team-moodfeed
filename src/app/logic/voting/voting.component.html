@@ -7,25 +7,25 @@
             <p-dropdown class="h-full justify-content-center" [options]="weeks" [(ngModel)]="selectedWeek" (onChange)="changeWeek($event)"></p-dropdown>
         </div>
     </div>
-    <div class="h-screen px-4 py-5 md:px-6 lg:px-8">
-        <div *ngIf="itemList; else loading">    
-            <div *ngFor="let item of itemList">
-                <p-card class="block">
-                        <app-voting-detail [inputItem]="item" (result)="getVotingResult($event)"></app-voting-detail>
-                </p-card>
+    <div class="bodies">
+        <div class="w-full mt-5">
+            <div *ngIf="itemList; else loading">
+                <div class="block mx-8" *ngFor="let item of itemList">
+                    <p-card class="block">
+                            <app-voting-detail [inputItem]="item" (result)="getVotingResult($event)"></app-voting-detail>
+                    </p-card>
+                </div>
+                <div class="block mx-8 mt-3">
+                    <textarea rows="4" [style]="{'width':'100%'}" pInputTextarea [(ngModel)]="comment" placeholder="Hier kannst du ein Kommentar erfassen"></textarea> 
+                    <button (click)="submitVoting()" pButton pRipple label="Abschließen" class="p-button-success" icon="pi pi-check"></button>
+                </div>
             </div>
-            <div>
-                <textarea rows="4" [style]="{'width':'100%'}" pInputTextarea [(ngModel)]="comment" placeholder="Hier kannst du ein Kommentar erfassen"></textarea> 
-            </div>
-            <div>
-                <button (click)="submitVoting()" pButton pRipple label="Abschließen" class="p-button-success" icon="pi pi-check"></button>
-            </div>
+            <ng-template class="w-full" #loading>
+                <div class="flex justify-content-center">
+                    <p-progressSpinner></p-progressSpinner>  
+                </div>
+            </ng-template>
         </div>
-        <ng-template #loading>
-            <div class="flex justify-content-center">
-                <p-progressSpinner></p-progressSpinner>  
-            </div>
-        </ng-template>
     </div>
 </div>
 <p-toast></p-toast>

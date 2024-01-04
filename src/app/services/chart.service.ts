@@ -145,10 +145,6 @@ export class ChartService {
       //console.log(votings,'Votings')
   }
 
-
-    
-
-
   createDateSet(label: string, total?: boolean) {
     let myDateSet: Dataset = {
       label: label,

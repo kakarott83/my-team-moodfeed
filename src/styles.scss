@@ -39,6 +39,10 @@ html, body {
         background-size: cover;
 }
 
+body .ui-rating .ui-rating-star-on a {
+    color: yellow;
+}
+
 .container {
     display: block;
     justify-content: center;
@@ -49,7 +53,7 @@ html, body {
 
 .bodies {
     display: flex;
-    justify-content: space-around;
+    justify-content: space-between;
     border: solid;
     font-size: xx-large;
     color: white;
@@ -76,7 +80,7 @@ html, body {
 }
 
 .cards {
-    display: flex;  
+    display: flex;
     margin: 2rem;
     /* border: solid; */
     border-radius: 10px;
@@ -84,6 +88,8 @@ html, body {
     background: #9DB2BF;
     background-image: linear-gradient(to right,#27374D, transparent);
     color: white;
+    height: 10rem;
+    width: 22rem;
 }
 
 .auth-box {

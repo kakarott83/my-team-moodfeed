@@ -1,12 +1,15 @@
-<div class="flex justify-content-evenly shadow-2 hover:shadow-8">
-<div class="col-4">
+<div class="flex justify-content-start shadow-2 hover:shadow-8 grad">
+<div class="col-5">
     <div>{{votingItem.question}}</div>
 </div>
-<div class="p-2">
+<div class="col-2">
     <p-rating [(ngModel)]="value" [stars]="6" (onRate)="vote($event)" (onCancel)="cancel($event)"></p-rating>
 </div>
-<div class="p-2">
-    <i *ngIf="votingItem.rating?.value" class="fa-regular fa-circle-check text-green-500"></i>
-    <i *ngIf="votingItem.rating?.value == undefined || votingItem.rating?.value == 0" class="fa-regular fa-circle-question text-yellow-500"></i>
+<div class="col-4">
+    <i *ngIf="votingItem.rating?.value" class="fa-regular fa-circle-check text-white-500"></i>
+    <i *ngIf="votingItem.rating?.value == undefined || votingItem.rating?.value == 0" class="fa-solid fa-triangle-exclamation text-white-500"></i>
+</div>
+<div class="col">
+    <i class="fa-solid fa-circle-question"></i>
 </div>
 </div>
