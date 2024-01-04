@@ -3,5 +3,6 @@ export interface Card {
     icon?: any;
     body?: any;
     footer?: any;
+    subFooter?: any;
     btnAction?: any;
 }

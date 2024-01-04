@@ -17,13 +17,11 @@ export class UtilitiesService {
   myUserData: UserData = {}
   myUser: any
 
-
-
   constructor(private authService: AuthService, private fire: FireService, private userService: UserService) {}
 
   getWeeksPerYear(year: number) {
     let weeksArr: string[] = [];
-    let currWeek = moment().year(year).isoWeek()
+    let currWeek = 4 // moment().year(year).isoWeek()
 
     for (let index = 0; index < currWeek; index++) {
       let week = index + 1
@@ -48,14 +46,15 @@ export class UtilitiesService {
             header: 'Letzter Login',
             icon: 'fa-solid fa-right-to-bracket',
             body: new Date(Number(this.myUser.lastLoginAt)).toLocaleString('de-DE', { hour12: false}),
-            footer: 'Demo Test',
+            footer: 'angemeldet seit',
+            subFooter: new Date(Number(this.myUser.createdAt)).toLocaleString('de-DE', { hour12: false}),
             btnAction: ''
           },
           {
             header: 'Rolle',
             icon: 'fa-solid fa-user-tag',
             body: this.roles,
-            footer: 'Demo Test',
+            footer: '',
             btnAction: ''
           },
           {
@@ -66,7 +65,7 @@ export class UtilitiesService {
             btnAction: ''
           },
           {
-            header: 'Reisekosten',
+            header: 'Reisekosten (draft)',
             icon: 'fa-solid fa-plane',
             body: 'Ausstehender Betrag 51€',
             footer: '3 Reisen erfasst',

@@ -12,6 +12,7 @@ import { VerifyEmailComponent } from './auth/verify-email/verify-email.component
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 import { AuthGuard } from './auth/guard.guard';
+import { WorktimeComponent } from './logic/worktime/worktime.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
@@ -19,6 +20,7 @@ const routes: Routes = [
   {path: 'logout', component:LogoutComponent},
   {path: 'register', component:RegisterComponent},
   {path: 'voting', component: VotingComponent, canActivate: [AuthGuard]},
+  {path: 'worktime', component: WorktimeComponent, canActivate: [AuthGuard]},
   {path: 'team-voting', component: TeamVotingComponent, canActivate: [AuthGuard]},
   {path: 'admin', component: AdminComponent, canActivate: [AuthGuard]},
   {path: 'home', component: HomeComponent, canActivate: [AuthGuard]},

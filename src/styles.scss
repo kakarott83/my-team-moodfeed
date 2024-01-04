@@ -92,6 +92,17 @@ body .ui-rating .ui-rating-star-on a {
     width: 22rem;
 }
 
+.chart-dashboard {
+    margin: 2rem;
+    /* border: solid; */
+    border-radius: 10px;
+    padding: 0.5rem;
+    background: #9DB2BF;
+    background-image: linear-gradient(to right,#27374D, transparent);
+    color: white;
+    height: 30rem;
+}
+
 .auth-box {
     left: 50%;
     top: 40%;

@@ -34,6 +34,11 @@ export class MenuBarComponent implements OnInit {
         routerLink: 'voting'
       },
       {
+        label: 'Arbeitszeit',
+        icon: 'fa-solid fa-clock',
+        routerLink: 'worktime'
+      },
+      {
         label: 'Team',
         icon: 'fa-solid fa-people-group',
         routerLink: 'team-voting'

@@ -54,7 +54,9 @@ import { ResetPasswordComponent } from './auth/reset-password/reset-password.com
 import { TeamVotingListComponent } from './logic/team-voting/team-voting-list/team-voting-list.component';
 import { TeamVotingChartComponent } from './logic/team-voting/team-voting-chart/team-voting-chart.component';
 import { NotVerfifiedComponent } from './auth/not-verfified/not-verfified.component';
-import { HomeChartWorkweekComponent } from './home/home-chart-workweek/home-chart-workweek.component';
+import { HomeChartWorkweekComponent } from './logic/home/home-chart-workweek/home-chart-workweek.component';
+import { HomeChartTravelComponent } from './logic/home/home-chart-travel/home-chart-travel.component';
+import { WorktimeComponent } from './logic/worktime/worktime.component';
 
 @NgModule({
   declarations: [
@@ -80,7 +82,9 @@ import { HomeChartWorkweekComponent } from './home/home-chart-workweek/home-char
     TeamVotingListComponent,
     TeamVotingChartComponent,
     NotVerfifiedComponent,
-    HomeChartWorkweekComponent
+    HomeChartWorkweekComponent,
+    HomeChartTravelComponent,
+    WorktimeComponent
   ],
   imports: [
     BrowserModule,
