@@ -4,6 +4,7 @@
 @import "primeng/resources/primeng.css";
 @import "primeicons/primeicons.css";
 @import 'primeflex/primeflex.scss';
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600&display=swap');
 
 :root {
     --primary: #25374A;
@@ -23,6 +24,18 @@
     --theme1-medium: #526D82;
     --theme1-dark: #27374D;
 
+    //CIC Color
+    --cic-dark-blue: #001E2F;
+    --cic-medium-blue: #00507D;
+    --cic-light-blue: #006C97;
+    --cic-red: #A81430;
+    --cic-white: #FFFFFF;
+    --cic-light-grey: #9F9F9F;
+
+    /*Font: Rajdhani-SemiBold,sans-serif*/
+
+
+
 
 
 }
@@ -32,15 +45,36 @@ html, body {
     margin: 0px;
         /*https://pixabay.com/vectors/blue-background-abstract-structure-1634110/*/
         //background-image: url('/assets/images/bg_1920.png');
-        background-color: var(--theme1-bg);
+        background-color: var(--cic-white);
         height: 100%; 
         background-position: center;
         background-repeat: no-repeat;
         background-size: cover;
+        font-family: 'Rajdhani', sans-serif;
 }
 
-body .ui-rating .ui-rating-star-on a {
-    color: yellow;
+.p-menubar {
+    background-color: var(--cic-dark-blue);
+    color: var(--cic-white);
+    .p-button {
+        color: var(--cic-white);
+    }
+    span {
+        
+        color: white;
+    }
+}
+
+.p-menuitem-text {
+    font-family: 'Rajdhani', sans-serif;
+}
+
+.p-menuitem {
+    :hover {
+        span {
+            color: black;
+        }
+    }
 }
 
 .container {
@@ -52,44 +86,60 @@ body .ui-rating .ui-rating-star-on a {
 }
 
 .bodies {
-    display: flex;
-    justify-content: space-between;
-    border: solid;
-    font-size: xx-large;
-    color: white;
+    //display: flex;
+    //justify-content: space-between;
+    border: solid 0.5px;
+    //font-size: xx-large;
+    padding: 0.25rem;
+    border-color: var(--cic-light-grey);
+    color: black;
     border-radius: 10px;
-    background-color: #084167;
+    background-color: var(--cic-white);
     height: 100vh;
     /* box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.03), 0px 0px 2px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.12); */
-    box-shadow: 0px 9px 46px 8px rgba(0, 0, 0, 0.12), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 11px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.03), 0px 0px 2px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.12);
 }
 
 .headers {
     display: flex;
     justify-content: center;
-    border: solid;
+    border: solid 0.5px;
     font-size: xx-large;
-    color: white;
+    font-weight: bold;
+    color: black;
     border-radius: 10px;
-    background-color: #084167;
+    background-color: var(--cic-white);
+    border-color: var(--cic-light-grey);
     margin-bottom: 20px;
     height: 4rem;
     align-items: center;
-    /* box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.03), 0px 0px 2px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.12); */
-    box-shadow: 0px 9px 46px 8px rgba(0, 0, 0, 0.12), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 11px 15px rgba(0, 0, 0, 0.2);
+    //box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.03), 0px 0px 2px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.12); */
+    //box-shadow: 0px 9px 46px 8px rgba(0, 0, 0, 0.12), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 11px 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.03), 0px 0px 2px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.12);
 }
 
 .cards {
     display: flex;
     margin: 2rem;
-    /* border: solid; */
+    border: solid 1px;
     border-radius: 10px;
+    border-color: var(--cic-light-blue);
+    background-color: var(--cic-white);
     padding: 0.5rem;
-    background: #9DB2BF;
-    background-image: linear-gradient(to right,#27374D, transparent);
-    color: white;
+    //background-image: linear-gradient(to right,#27374D, transparent);
     height: 10rem;
     width: 22rem;
+    box-shadow: 0px 1px 7px rgba(0, 0, 0, 0.1), 0px 4px 5px -2px rgba(0, 0, 0, 0.12), 0px 10px 15px -5px rgba(0, 0, 0, 0.2);
+    i {
+        color: var(--cic-dark-blue)
+    }
+
+    .cardStyle {
+        :hover {
+            box-shadow: 0px 9px 46px 8px rgba(0, 0, 0, 0.12), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 11px 15px rgba(0, 0, 0, 0.2);
+        }
+    }
+    
 }
 
 .chart-dashboard {

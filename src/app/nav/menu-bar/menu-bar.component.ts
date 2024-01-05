@@ -26,7 +26,7 @@ export class MenuBarComponent implements OnInit {
       {
         label: 'Home',
         icon: 'fa-solid fa-home',
-        routerLink: 'home'
+        routerLink: 'home',
       },
       {
         label: 'Bewertung',

@@ -54,7 +54,7 @@ export class UtilitiesService {
             header: 'Rolle',
             icon: 'fa-solid fa-user-tag',
             body: this.roles,
-            footer: '',
+            footer: 'zum Userprofile',
             btnAction: ''
           },
           {

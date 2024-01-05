@@ -3,36 +3,61 @@
         Dashboard
     </div>
     <div class="bodies" *ngIf="items; else loading">
-        <div class="flex flex-wrap w-full h-30rem">
-                <div class="col" *ngFor="let item of items">
-                    <div class="cards border-1 shadow-2 hover:shadow-8">
-                        <div class="flex-row w-full">
-                            <div class="col-12">
-                                <div class="row">
-                                    <div class="flex justify-content-between">
-                                        <span class="text-base mb-2">{{item.header}}</span>
-                                        <i class="{{item.icon}} text-blue-600"></i>
-                                    </div>
-                                </div>
-                                <div class="text-lg font-bold">{{item.body}}</div>
+        <div class="px-4 py-5 md:px-6 lg:px-8">
+            <div class="grid">
+                <div class="col-12 md:col-6 lg:col-3" *ngFor="let item of items">
+                    <div class="surface-card shadow-2 p-3 border-round">
+                        <div class="flex justify-content-between mb-3">
+                            <div>
+                                <span class="block text-500 font-medium mb-3 text-red-500" [ngStyle]="{'color':'var(--indigo-500)'}">{{item.header}}</span>
+                                <div class="text-900 font-medium text-xl">{{item.body}}</div>
                             </div>
-                            <div class="col">
-                                <div class="flex flex-column">
-                                    <span class="text-base mb-2">{{item.footer}}</span>
-                                    <div class="flex justify-content-between align-content-center text-sm" *ngIf="item.header == 'Arbeitszeit'">
-                                        <div>
-                                            {{stopwatch.hours}} h {{stopwatch.minutes}} m
-                                        </div>
-                                        <div>
-                                            <p-button class="ml-1" *ngIf="!startStopBtn" label="Start" icon="fa-solid fa-circle-play" size="small" severity="success" (onClick)="startStop()"></p-button>
-                                            <p-button class="ml-1" *ngIf="startStopBtn" label="Stop" icon="fa-solid fa-circle-stop" size="small" severity="danger" (onClick)="startStop()"></p-button>
-                                            <p-button class="ml-1" *ngIf="!breakBtn && startStopBtn" label="Pause" icon="fa-solid fa-circle-pause" size="small" severity="warning" (onClick)="break()"></p-button>
-                                            <p-button class="ml-1" *ngIf="breakBtn" label="Weiter" icon="fa-solid fa-circle-pause" size="small" severity="success" (onClick)="break()"></p-button>
+                            <div class="flex align-items-center justify-content-center border-round" [ngStyle]="{'width':'2.5rem','height':'2.5rem', 'color':'var(--cic-dark-blue)'}">
+                                <i class="{{item.icon}}"></i>
+                            </div>
+                        </div>
+                        <div>
+                            <span class="text-500">{{item.footer}} </span>
+                            <span class="font-medium"> {{item.subFooter}}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="grid">
+            </div>
+        </div>
+        <!--div class="flex flex-wrap w-full h-30rem">
+                <div class="col" *ngFor="let item of items">
+                    <div class="cards">
+                        <div class="flex-row w-full">
+                            <div class="">
+                                <div class="col-12">
+                                    <div class="row">
+                                        <div class="flex justify-content-between">
+                                            <span class="text-base mb-2">{{item.header}}</span>
+                                            <i class="{{item.icon}}"></i>
                                         </div>
                                     </div>
-                                    <div class="flex justify-content-between align-content-center text-sm" *ngIf="item.subFooter !== 'undefined'">
-                                        <div>
-                                            {{item.subFooter}}
+                                    <div class="text-lg font-bold">{{item.body}}</div>
+                                </div>
+                                <div class="col">
+                                    <div class="flex flex-column">
+                                        <span class="text-base mb-2">{{item.footer}}</span>
+                                        <div class="flex justify-content-between align-content-center text-sm" *ngIf="item.header == 'Arbeitszeit'">
+                                            <div>
+                                                {{stopwatch.hours}} h {{stopwatch.minutes}} m
+                                            </div>
+                                            <div>
+                                                <p-button class="ml-1" *ngIf="!startStopBtn" label="Start" icon="fa-solid fa-circle-play" size="small" severity="success" (onClick)="startStop()"></p-button>
+                                                <p-button class="ml-1" *ngIf="startStopBtn" label="Stop" icon="fa-solid fa-circle-stop" size="small" severity="danger" (onClick)="startStop()"></p-button>
+                                                <p-button class="ml-1" *ngIf="!breakBtn && startStopBtn" label="Pause" icon="fa-solid fa-circle-pause" size="small" severity="warning" (onClick)="break()"></p-button>
+                                                <p-button class="ml-1" *ngIf="breakBtn" label="Weiter" icon="fa-solid fa-circle-pause" size="small" severity="success" (onClick)="break()"></p-button>
+                                            </div>
+                                        </div>
+                                        <div class="flex justify-content-between align-content-center text-sm" *ngIf="item.subFooter !== 'undefined'">
+                                            <div>
+                                                {{item.subFooter}}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -50,7 +75,7 @@
                     <app-home-chart-travel></app-home-chart-travel>
                 </div>
             </div>
-        </div>
+        </div-->
     </div>
     <ng-template #loading>
         <div class="bodies flex justify-content-center mt-10">
