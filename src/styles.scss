@@ -26,6 +26,16 @@
 
     //CIC Color
     --cic-dark-blue: #001E2F;
+    --cic-main-blue-800: #113146;
+    --cic-main-blue-700: #2e5570;
+    --cic-main-blue-600: #2e5570;
+    --cic-main-blue-500: #3a6380;
+    --cic-main-blue-400: #567994;
+    --cic-main-blue-300: #3a6380;
+    --cic-main-blue-200: #95afc6;
+    --cic-main-blue-100: #b9d0e3;
+    --cic-main-blue-50: #deecfe;
+
     --cic-medium-blue: #00507D;
     --cic-light-blue: #006C97;
     --cic-red: #A81430;
@@ -77,6 +87,63 @@ html, body {
     }
 }
 
+.cic-btn {
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border: 1px solid transparent;
+    background-color: var(--cic-light-blue);
+    vertical-align: middle;
+    padding: 0.1rem 0.6rem 0.1rem 0.6rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: 0;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    i {
+        margin-right: 0.25rem;
+        font-size: smaller;
+    }
+}
+
+.cic-btn-small {
+    display: inline-block;
+    font-weight: 400;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    border: 1px solid transparent;
+    background-color: var(--cic-light-blue);
+    vertical-align: middle;
+    padding: 0.1rem 0.6rem 0.1rem 0.6rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: 0;
+    color: var(--cic-white);
+    margin-right: 5px;
+    transition: color .15s ease-in-out,background-color .15s ease-in-out,border-color .15s ease-in-out,box-shadow .15s ease-in-out;
+    i {
+        margin-right: 0.25rem;
+        font-size: smaller;
+    }
+}
+
+.cic-btn-small:hover{
+    background-color: var(--cic-medium-blue);
+    color: var(--cic-white);
+    border-color: var(--cic-medium-blue);
+}
+
+
 .container {
     display: block;
     justify-content: center;
@@ -113,6 +180,7 @@ html, body {
     margin-bottom: 20px;
     height: 4rem;
     align-items: center;
+    font-family: 'Rajdhani', sans-serif;
     //box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.03), 0px 0px 2px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.12); */
     //box-shadow: 0px 9px 46px 8px rgba(0, 0, 0, 0.12), 0px 24px 38px 3px rgba(0, 0, 0, 0.14), 0px 11px 15px rgba(0, 0, 0, 0.2);
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.03), 0px 0px 2px rgba(0, 0, 0, 0.06), 0px 2px 6px rgba(0, 0, 0, 0.12);

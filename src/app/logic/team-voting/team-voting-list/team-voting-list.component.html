@@ -1,7 +1,7 @@
 <p-table
   #votingList
   [value]="votings"
-  [tableStyle]="{ 'min-width': '50rem' }"
+  [style]="{'font-family': 'Rajdhani','color':'var(--surface-900)'}"
   [paginator]="true"
   [rows]="5"
   [loading]="isLoading"
@@ -11,8 +11,10 @@
   dataKey="id"
   styleClass="p-datatable-striped"
   [globalFilterFields]="['votingYear', 'votingWeek']"
->
-<ng-template pTemplate="caption"> Votingübersicht 
+>    <ng-template pTemplate="caption">
+  <div class="flex align-items-center justify-content-center text-xl">
+      Votings
+  </div>
 </ng-template>
   <ng-template pTemplate="header">
     <tr>
@@ -63,7 +65,7 @@
     <tr>
       <td colspan="7">
         <div class="p-3">
-          <p-table [value]="votingResult.votings" dataKey="votings.id">
+          <p-table [value]="votingResult.votings" dataKey="votings.id" [tableStyle]="{'font-family': 'Rajdhani' }">
             <ng-template pTemplate="header">
               <tr>
                   <th>Frage</th>

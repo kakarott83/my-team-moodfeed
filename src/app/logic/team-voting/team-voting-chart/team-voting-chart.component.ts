@@ -47,8 +47,8 @@ export class TeamVotingChartComponent implements OnInit {
 
   createChart(dataSets: any, weeks: any) {
     const documentStyle = getComputedStyle(document.documentElement);
-    const textColor = documentStyle.getPropertyValue('--text-color');
-    const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
+    const textColor = documentStyle.getPropertyValue('--surface-900');
+    const textColorSecondary = documentStyle.getPropertyValue('--surface-900');
     const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
     const CHART_AREA = true;
 
@@ -57,17 +57,14 @@ export class TeamVotingChartComponent implements OnInit {
 
 
     const plugin = {
-      id: 'customCanvasBackgroundImage',
-      beforeDraw: (chart: any) => {
-        if (image.complete) {
-          const ctx = chart.ctx;
-          const {top, left, width, height} = chart.chartArea;
-          const x = left + width / 2 - image.width / 2;
-          const y = top + height / 2 - image.height / 2;
-          ctx.drawImage(image, x, y);
-        } else {
-          image.onload = () => chart.draw();
-        }
+      id: 'customCanvasBackgroundColor',
+      beforeDraw: (chart: any, args: any, options: any) => {
+        const {ctx} = chart;
+        ctx.save();
+        ctx.globalCompositeOperation = 'destination-over';
+        ctx.fillStyle = options.color || '#99ffff';
+        ctx.fillRect(0, 0, chart.width, chart.height);
+        ctx.restore();
       }
     };
 
@@ -81,21 +78,27 @@ export class TeamVotingChartComponent implements OnInit {
       maintainAspectRatio: false,
       aspectRatio: 0.6,
       plugins: {
-        customCanvasBackgroundColor: {
-          color: 'none'
-        },
+          customCanvasBackgroundColor: {
+            color: 'white',
+          },
           title: {
-              //display: true,
+              display: true,
               text: 'Stimmungsverlauf '+ new Date().getFullYear(),
               position: 'top',
               font: {
-                size: 14,
-                weight: 'bold'
+                size: 20,
+                weight: 'bold',
+                color: textColor,
+                family: "'Rajdhani'",
               }
           },
           legend: {
               labels: {
-                  color: 'black'
+                  color: textColor,
+                  font: {
+                    family: "'Rajdhani'",
+                    size: 14
+                  }
               },
               position: 'right'
           }
@@ -103,7 +106,11 @@ export class TeamVotingChartComponent implements OnInit {
       scales: {
           x: {
               ticks: {
-                  color: 'white',
+                  color: textColor,
+                  font: {
+                    family: "'Rajdhani'",
+                    size: 14
+                  }
               },
               grid: {
                   //color: surfaceBorder,
@@ -114,14 +121,22 @@ export class TeamVotingChartComponent implements OnInit {
                title: {
                  display: true,
                  text: 'Kalenderwochen',
-                 color: 'white'
+                 color: textColor,
+                 font: {
+                  family: "'Rajdhani'",
+                  size: 14
+                }
               }
           },
           y: {
               suggestedMin: this.minDataValue,
               suggestedMax: this.maxDataValue,
               ticks: {
-                  color: 'white'
+                  color: textColor,
+                  font: {
+                    family: "'Rajdhani'",
+                    size: 14
+                  }
               },
               grid: {
                   //color: surfaceBorder,
@@ -132,7 +147,11 @@ export class TeamVotingChartComponent implements OnInit {
                title: {
                  display: true,
                  text: 'Bewertung',
-                 color: 'white'
+                 color: textColor,
+                 font: {
+                  family: "'Rajdhani'",
+                  size: 14
+                }
               }
           }
       }

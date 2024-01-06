@@ -49,6 +49,7 @@ export class HomeComponent implements OnInit {
 
   startStop() {
     this.startStopBtn = !this.startStopBtn;
+    console.log('Click')
     
     /*Starten*/
     if(this.startStopBtn) {

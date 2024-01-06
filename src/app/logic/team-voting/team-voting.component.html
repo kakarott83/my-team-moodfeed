@@ -2,19 +2,22 @@
     <div class="headers">
         Team Übersicht
     </div>
-    <div class="bodies">
-        <div class="flex flex-wrap w-full h-30rem">
-            <div class="col">
-                <div>
-                    <app-team-voting-chart></app-team-voting-chart>
+    <div class="bodies" [ngStyle]="{'height':'75rem'}">
+        <div class="px-4 py-5 md:px-6 lg:px-8">
+            <div class="grid">
+                <div class="col-12">
+                    <div class="surface-card shadow-2 p-3 border-round">
+                        <app-team-voting-chart></app-team-voting-chart>
+                    </div>
+                    <!--app-team-voting-chart></app-team-voting-chart-->
+                    <!--app-team-voting-list></app-team-voting-list-->
                 </div>
-                <!--app-team-voting-chart></app-team-voting-chart-->
-                <!--app-team-voting-list></app-team-voting-list-->
+                <div class="col-12">
+                    <div class="surface-card shadow-2 p-3 border-round">
+                        <app-team-voting-list></app-team-voting-list>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
-    <div class="h-screen px-4 py-5 md:px-6 lg:px-8">
-        
-        
-    <div>
 </div>

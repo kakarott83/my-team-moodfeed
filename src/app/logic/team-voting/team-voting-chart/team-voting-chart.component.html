@@ -1,7 +1,5 @@
 <div *ngIf="!isLoading; else loading">
-    <div class="card surface-border surface-ground mb-5">
-        <p-chart class="team-voting-chart" type="line" [data]="data" [options]="options" [plugins]="plugins"></p-chart>
-    </div>
+    <p-chart class="team-voting-chart" type="line" [data]="data" [options]="options" [plugins]="plugins"></p-chart>
 </div>
 <ng-template #loading>
     <div class="flex justify-content-center">

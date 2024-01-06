@@ -9,21 +9,50 @@
                     <div class="surface-card shadow-2 p-3 border-round">
                         <div class="flex justify-content-between mb-3">
                             <div>
-                                <span class="block text-500 font-medium mb-3 text-red-500" [ngStyle]="{'color':'var(--indigo-500)'}">{{item.header}}</span>
+                                <span class="block font-medium mb-3" [style]="{'color':'var(--cic-red)'}">{{item.header}}</span>
                                 <div class="text-900 font-medium text-xl">{{item.body}}</div>
                             </div>
-                            <div class="flex align-items-center justify-content-center border-round" [ngStyle]="{'width':'2.5rem','height':'2.5rem', 'color':'var(--cic-dark-blue)'}">
+                            <div class="flex justify-content-center border-round" [ngStyle]="{'width':'2.5rem','height':'2.5rem', 'color':'var(--cic-dark-blue)'}">
                                 <i class="{{item.icon}}"></i>
                             </div>
                         </div>
                         <div>
-                            <span class="text-500">{{item.footer}} </span>
-                            <span class="font-medium"> {{item.subFooter}}</span>
+                            <div class="flex justify-content-between mb-3 align-items-center h-2rem">
+                                <div class="flex">
+                                    <span class="text-500 mr-1">{{item.footer}} </span>
+                                    <span *ngIf="item.header !== 'Arbeitszeit'" class="font-medium"> {{item.subFooter}}</span>
+                                    <span *ngIf="item.header == 'Arbeitszeit'" class="font-medium"> {{stopwatch.hours}} h {{stopwatch.minutes}} m</span>
+                                </div>
+                                <span *ngIf="item.header == 'Arbeitszeit'" class="font-medium">
+                                    <div *ngIf="!startStopBtn" class="cic-btn-small" (click)="startStop()">
+                                        <i class="fa-solid fa-circle-play"></i>
+                                        <span>Start</span>
+                                    </div>
+                                    <div *ngIf="startStopBtn" class="cic-btn-small" (click)="startStop()">
+                                        <i class="fa-solid fa-circle-stop"></i>
+                                        <span>Stop</span>
+                                    </div>
+                                    <div *ngIf="startStopBtn" class="cic-btn-small" [ngStyle]="breakBtn ? {'background-color':'var(--cic-red)'}: null" (click)="break()">
+                                        <i class="fa-solid fa-circle-pause"></i>
+                                        <span>Pause</span>
+                                    </div>
+                                </span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="grid">
+                <div class="col-6 h-15rem">
+                    <div class="surface-card shadow-2 p-3 border-round h-28rem">
+                            <app-home-chart-workweek></app-home-chart-workweek>
+                    </div>
+                </div>
+                <div class="col-6 h-15rem">
+                    <div class="surface-card shadow-2 p-3 border-round h-28rem">
+                        <app-home-chart-travel></app-home-chart-travel>
+                    </div>
+                </div>
             </div>
         </div>
         <!--div class="flex flex-wrap w-full h-30rem">

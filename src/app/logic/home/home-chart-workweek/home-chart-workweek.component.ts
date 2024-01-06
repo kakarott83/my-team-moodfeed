@@ -12,23 +12,23 @@ export class HomeChartWorkweekComponent {
 
   ngOnInit() {
       const documentStyle = getComputedStyle(document.documentElement);
-      const textColor = documentStyle.getPropertyValue('--text-color');
-      const textColorSecondary = 'white';
+      const textColor = documentStyle.getPropertyValue('--surface-900');
+      const textColorSecondary = documentStyle.getPropertyValue('--surface-900');
       const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
 
       this.data = {
           labels: ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag'],
           datasets: [
               {
-                  label: 'Stunden/Tag',
-                  backgroundColor: documentStyle.getPropertyValue('--blue-500'),
-                  borderColor: documentStyle.getPropertyValue('--blue-500'),
+                  label: 'Stunden/Tag (Ist)',
+                  backgroundColor: documentStyle.getPropertyValue('--cic-dark-blue'),
+                  borderColor: documentStyle.getPropertyValue('--cic-dark-blue'),
                   data: [8,8.5,7.5,9,6]
               },
               {
-                  label: 'Stunden/Tag',
-                  backgroundColor: documentStyle.getPropertyValue('--pink-500'),
-                  borderColor: documentStyle.getPropertyValue('--pink-500'),
+                  label: 'Stunden/Tag (Soll)',
+                  backgroundColor: documentStyle.getPropertyValue('--cic-main-blue-500'),
+                  borderColor: documentStyle.getPropertyValue('--cic-main-blue-500'),
                   data: [8,8,8,8,8]
               }
         ]
@@ -41,7 +41,11 @@ export class HomeChartWorkweekComponent {
           plugins: {
               legend: {
                   labels: {
-                      color: textColor
+                      color: textColor,
+                      font: {
+                        family: "'Rajdhani'",
+                        size: 14
+                      }
                   },
                   position: 'top'
 
@@ -52,17 +56,26 @@ export class HomeChartWorkweekComponent {
                   ticks: {
                       color: textColorSecondary,
                       font: {
-                          weight: 500
-                      }
+                        family: "'Rajdhani'",
+                        size: 14
+                      },
                   },
                   grid: {
                       color: surfaceBorder,
+                      font: {
+                        family: "'Rajdhani'",
+                        size: 14
+                      },
                       drawBorder: false
                   }
               },
               y: {
                   ticks: {
-                      color: textColorSecondary
+                      color: textColorSecondary,
+                      font: {
+                        family: "'Rajdhani'",
+                        size: 14
+                      },
                   },
                   grid: {
                       color: surfaceBorder,
