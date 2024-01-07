@@ -1,12 +1,34 @@
 .grad {
-    background: #9DB2BF;
-    background-image: linear-gradient(to right,#27374D, transparent);
-    color: white;
+    background: var(--cic-white);
+    color: var(--surface-900);
+    border-color: var(--cic-white);
+    font-family: 'Rajdhani', sans-serif;
 }
 
 :host ::ng-deep  
     .p-rating-icon:not(.p-rating-cancel), 
 :host ::ng-deep  
     .p-rating-icon:not(.p-rating-cancel):hover { 
-    color: white !important; 
+    color: var(--cic-medium-blue)
 }
+
+:host ::ng-deep .p-tooltip .p-tooltip-text {
+    font-family: 'Rajdhani', sans-serif;
+    background-color: aliceblue !important; 
+    color: green !important; 
+}
+
+i {
+    color: var(--cic-medium-blue)
+}
+
+:host ::ng-deep .fontStyle .ui-tooltip-text {
+    font-family: 'Rajdhani';
+}
+
+.fontStyle {
+    font-family: 'Rajdhani';
+}
+
+
+

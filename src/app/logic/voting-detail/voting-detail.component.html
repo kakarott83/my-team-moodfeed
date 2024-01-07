@@ -1,15 +1,15 @@
-<div class="flex justify-content-start shadow-2 hover:shadow-8 grad border-1 border-round-lg">
+<div class="flex justify-content-start shadow-2 hover:shadow-5 grad border-1 border-round-lg">
 <div class="col-5">
     <div>{{votingItem.question}}</div>
 </div>
 <div class="col-2">
     <p-rating [(ngModel)]="value" [stars]="6" (onRate)="vote($event)" (onCancel)="cancel($event)"></p-rating>
 </div>
-<div class="col-4">
-    <i *ngIf="votingItem.rating?.value" class="fa-regular fa-circle-check text-white-500"></i>
-    <i *ngIf="votingItem.rating?.value == undefined || votingItem.rating?.value == 0" class="fa-solid fa-triangle-exclamation text-white-500"></i>
-</div>
 <div class="col">
-    <i class="fa-solid fa-circle-question"></i>
+    <div class="flex justify-content-end mr-3">
+        <i *ngIf="votingItem.rating?.value" class="fa-regular fa-circle-check text-white-500 mr-3" pTooltip="Status"></i>
+        <i *ngIf="votingItem.rating?.value == undefined || votingItem.rating?.value == 0" class="fa-solid fa-triangle-exclamation text-white-500 mr-3" pTooltip="Status" ></i>
+        <i class="fa-solid fa-circle-question cursor-pointer" (click)="showDialog(votingItem.description)" pTooltip="Was soll gemacht werden?" tooltipStyleClass="fontStyle"></i>
+    </div>
 </div>
 </div>

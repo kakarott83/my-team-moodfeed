@@ -13,6 +13,7 @@ export class VotingDetailComponent implements OnInit {
 
   @Input() inputItem!: Votingdetail
   @Output() result = new EventEmitter<Votingdetail>();
+  @Output() dialogDesc = new EventEmitter<string>();
   votingItem!: Votingdetail;
   ratings!: Rating[];
   selectedRating!:Rating;
@@ -54,6 +55,10 @@ export class VotingDetailComponent implements OnInit {
     
     this.votingItem.rating = r;
     this.result.emit(this.votingItem);
+  }
+
+  showDialog(desc?: string) {
+    this.dialogDesc.emit(desc);
   }
 
 

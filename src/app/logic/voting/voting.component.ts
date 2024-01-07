@@ -13,6 +13,7 @@ import { AuthService } from '../../services/auth.service';
 import { CalculateRatingService } from '../../services/calculate-rating.service';
 import { MessageService } from 'primeng/api';
 import { UtilitiesService } from '../../services/shared/utilities.service';
+import { VotingDialogComponent } from './voting-dialog/voting-dialog.component';
 
 
 @Component({
@@ -118,7 +119,7 @@ export class VotingComponent implements OnInit {
         .then(() => {
           console.log('Saved')
           this.submitted = false;
-          this.showDialog();
+          this.showDialogThanks();
         })
     } else {
       this.msgService.add({ severity: 'error', summary: 'Error', detail: 'Rating nicht vollständig'});
@@ -128,7 +129,7 @@ export class VotingComponent implements OnInit {
 
   }
 
-  showDialog() {
+  showDialogThanks() {
     this.ref = this.dialogService.open(ThanksDialogComponent, {header: 'Danke'});
 
     this.ref.onClose.subscribe(() => {
@@ -136,6 +137,20 @@ export class VotingComponent implements OnInit {
       this.router.navigate(['home']);
     })
   }
+
+  showDialogQuestion(question: any) {
+    this.ref = this.dialogService.open(VotingDialogComponent,{
+      data: question,
+      header: 'Info',
+      width: '50vw',
+    });
+
+    this.ref.onClose.subscribe(() => {
+      console.log('Closed')
+    })
+  }
+
+
 
   async getAdditionalData() {
     if(!!this.myUser) {

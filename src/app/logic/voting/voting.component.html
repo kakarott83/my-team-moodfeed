@@ -1,30 +1,46 @@
 <div class="container">
     <div class="headers">
         <div>
-            Hallo {{myUserData.name}}, bewerte jetzt deine Woche
-        </div>
-        <div class="flex ml-5">
-            <p-dropdown class="h-full justify-content-center" [options]="weeks" [(ngModel)]="selectedWeek" (onChange)="changeWeek($event)"></p-dropdown>
+            Bewertung
         </div>
     </div>
     <div class="bodies">
-        <div class="w-full mt-5">
-            <div *ngIf="itemList; else loading">
-                <div class="block mx-8" *ngFor="let item of itemList">
-                    <p-card class="block">
-                            <app-voting-detail [inputItem]="item" (result)="getVotingResult($event)"></app-voting-detail>
-                    </p-card>
-                </div>
-                <div class="block mx-8 mt-3">
-                    <textarea rows="4" [style]="{'width':'100%'}" pInputTextarea [(ngModel)]="comment" placeholder="Hier kannst du ein Kommentar erfassen"></textarea> 
-                    <button (click)="submitVoting()" pButton pRipple label="Abschließen" class="p-button-success" icon="pi pi-check"></button>
+        <div class="px-4 py-5 md:px-6 lg:px-8">
+            <div class="grid">
+                <div class="col">
+                    <div class="surface-card shadow-2 p-3 border-round">
+                        <div class="flex justify-content-center mb-5 text-4xl align-items-center">
+                            <div>
+                                Hallo {{myUserData.name}}, bewerte jetzt deine Woche
+                            </div>
+                            <div class="flex ml-5">
+                                <p-dropdown class="h-full justify-content-center" [options]="weeks" [(ngModel)]="selectedWeek" (onChange)="changeWeek($event)"></p-dropdown>
+                            </div>
+                        </div>
+                        <div *ngIf="itemList; else loading">
+                            <div class="block mx-8" *ngFor="let item of itemList">
+                                <p-card class="block">
+                                        <app-voting-detail [inputItem]="item" (result)="getVotingResult($event)" (dialogDesc)="showDialogQuestion($event)"></app-voting-detail>
+                                </p-card>
+                            </div>
+                            <div class="block mx-8 mt-3">
+                                <textarea rows="4" [style]="{'width':'100%', 'font-family':'Rajdhani'}" pInputTextarea [(ngModel)]="comment" placeholder="Hier kannst du ein Kommentar erfassen"></textarea> 
+                                <div class="cic-btn font-bold text-center p-4" (click)="submitVoting()">
+                                    <i class="pi pi-check"></i>
+                                    <span>Abschließen</span>
+                                </div>
+                            </div>
+                        </div>
+                        <ng-template class="w-full" #loading>
+                            <div class="flex justify-content-center">
+                                <p-progressSpinner></p-progressSpinner>  
+                            </div>
+                        </ng-template>
+                    </div>
                 </div>
             </div>
-            <ng-template class="w-full" #loading>
-                <div class="flex justify-content-center">
-                    <p-progressSpinner></p-progressSpinner>  
-                </div>
-            </ng-template>
+        </div>
+        <div class="w-full mt-5">
         </div>
     </div>
 </div>

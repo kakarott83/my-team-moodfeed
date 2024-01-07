@@ -33,6 +33,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { ChipsModule } from 'primeng/chips';
 import { MultiSelectModule } from 'primeng/multiselect';
+import { TooltipModule } from 'primeng/tooltip';
 
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
@@ -57,6 +58,7 @@ import { NotVerfifiedComponent } from './auth/not-verfified/not-verfified.compon
 import { HomeChartWorkweekComponent } from './logic/home/home-chart-workweek/home-chart-workweek.component';
 import { HomeChartTravelComponent } from './logic/home/home-chart-travel/home-chart-travel.component';
 import { WorktimeComponent } from './logic/worktime/worktime.component';
+import { VotingDialogComponent } from './logic/voting/voting-dialog/voting-dialog.component';
 
 @NgModule({
   declarations: [
@@ -84,7 +86,8 @@ import { WorktimeComponent } from './logic/worktime/worktime.component';
     NotVerfifiedComponent,
     HomeChartWorkweekComponent,
     HomeChartTravelComponent,
-    WorktimeComponent
+    WorktimeComponent,
+    VotingDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -100,6 +103,7 @@ import { WorktimeComponent } from './logic/worktime/worktime.component';
     InputTextareaModule,
     DynamicDialogModule,
     MultiSelectModule,
+    TooltipModule,
     ProgressSpinnerModule,
     DropdownModule,
     ChipsModule,

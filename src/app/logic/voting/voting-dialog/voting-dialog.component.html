@@ -1,11 +1,10 @@
 <p-card [style]="{'font-family': 'Rajdhani'}">
-    <p class="m-0" [style]="{'font-family': 'Rajdhani'}">
-            Vielen Dank für deine Bewertung
-    </p>
+    <p>{{text}}</p>
     <ng-template pTemplate="footer">
         <div class="cic-btn font-bold text-center p-4" (click)="closeDialog()">
             <i class="pi pi-check"></i>
             <span>OK</span>
         </div>
+
     </ng-template>
 </p-card>
