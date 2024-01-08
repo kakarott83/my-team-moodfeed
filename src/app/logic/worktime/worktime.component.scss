@@ -1,0 +1,38 @@
+::ng-deep .p-datepicker-group-container {
+    font-family: 'Rajdhani', sans-serif;
+}
+
+::ng-deep .p-datepicker-header {
+    button {
+        font-family: 'Rajdhani', sans-serif;
+    }
+}
+
+::ng-deep .p-monthpicker {
+    font-family: 'Rajdhani', sans-serif;
+}
+
+::ng-deep .p-yearpicker {
+    font-family: 'Rajdhani', sans-serif;
+}
+
+.styleCalenderSimple .ui-inputtext {
+    border-left: 1px solid #0FB4E1 !important;
+    border-top: 1px solid #0FB4E1 !important;
+    border-bottom: 1px solid #0FB4E1 !important;
+    background-color: red !important;
+}
+
+::ng-deep .p-calendar .p-inputtext {
+    font-family: 'Rajdhani', sans-serif !important;
+}
+
+input {
+    color: var(--surface-900);
+    font-family: 'Rajdhani', sans-serif
+}
+
+::ng-deep .p-datepicker table td > span.p-highlight {
+    color: var(--cic-white);
+    background-color: var(--cic-medium-blue);
+}

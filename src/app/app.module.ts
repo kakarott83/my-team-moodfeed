@@ -34,6 +34,7 @@ import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { ChipsModule } from 'primeng/chips';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { TooltipModule } from 'primeng/tooltip';
+import { CalendarModule } from 'primeng/calendar';
 
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
@@ -108,6 +109,7 @@ import { VotingDialogComponent } from './logic/voting/voting-dialog/voting-dialo
     DropdownModule,
     ChipsModule,
     RatingModule,
+    CalendarModule,
     MenuModule,
     MenubarModule,
     ChartModule,

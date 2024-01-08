@@ -3,6 +3,41 @@
         Arbeitszeit
     </div>
     <div class="bodies">
-        Test
+        <div class="px-4 py-5 md:px-6 lg:px-8">
+            <div class="surface-card shadow-2 p-3 border-round">
+                <div class="grid">
+                    <div class="col-12">
+                        <div class="flex justify-content-center text-3xl">
+                            Zeiterfassung
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="flex flex-column justify-content-center">
+                            <p-calendar id="inlinedate" #inlineDate class="flex justify-content-center"  [(ngModel)]="date" dateFormat="dd.mm.yyyy" (onSelect)="selectedDate($event, 'inline')" [inline]="true" [showWeek]="true"></p-calendar>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <form [formGroup]="myWorkTimeForm">                        
+                            <div class="field">
+                                <label >Datum</label>
+                                <p-calendar id="date" #dateId formControlName="date" [iconDisplay]="'input'" dateFormat="dd.mm.yy" (onSelect)="selectedDate($event, 'input')" class="text-base text-900 flex surface-overlay surface-border" [style]="{'width':'100%', 'height': '2.3rem', 'font-family': 'Rajdhani'}" [showIcon]="true"></p-calendar>
+                            </div>
+                            <div class="field">
+                                <label >Beginn</label>
+                                <input id="start" formControlName="start" name="start" type="time" class="text-base text-900 surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                            </div>
+                            <div class="field">
+                                <label>Ende</label>
+                                <input id="end" formControlName="end" name="end" type="time" class="text-base text-900 surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full">
+                            </div>
+                            <div class="cic-btn font-bold text-center p-4 border-round-lg" (click)="submit()">
+                                <i class="pi pi-check"></i>
+                                <span>Speichern</span>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </div>
