@@ -20,7 +20,7 @@
                         <form [formGroup]="myWorkTimeForm">                        
                             <div class="field">
                                 <label >Datum</label>
-                                <p-calendar id="date" #dateId formControlName="date" [iconDisplay]="'input'" dateFormat="dd.mm.yy" (onSelect)="selectedDate($event, 'input')" class="text-base text-900 flex surface-overlay surface-border" [style]="{'width':'100%', 'height': '2.3rem', 'font-family': 'Rajdhani'}" [showIcon]="true"></p-calendar>
+                                <p-calendar id="date" #dateId formControlName="date" [iconDisplay]="'input'" dateFormat="dd.mm.yy" (onSelect)="selectedDate($event, 'input')" (onClickOutside)="selectedDate($event, 'input')" class="text-base text-900 flex surface-overlay surface-border" [style]="{'width':'100%', 'height': '2.3rem', 'font-family': 'Rajdhani'}" [showIcon]="true"></p-calendar>
                             </div>
                             <div class="field">
                                 <label >Beginn</label>

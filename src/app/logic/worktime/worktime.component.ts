@@ -21,7 +21,6 @@ export class WorktimeComponent implements OnInit {
 
   ngOnInit(): void {
     this.myUser = this.userService.getUser();
-    console.log(this.myUser,'MyUser')
     this.myWorkTimeForm = this.fb.group({
       start: new FormControl(),
       end:  new FormControl(),
@@ -31,8 +30,8 @@ export class WorktimeComponent implements OnInit {
 
   submit() {
     this.myWorktime = {
-      userId: this.myUser,
-      date: this.myWorkTimeForm.controls['date'].value,
+      userId: this.myUser.uid,
+      date: this.myWorkTimeForm.controls['date'].value.toString(),
       start: this.myWorkTimeForm.controls['start'].value,
       end: this.myWorkTimeForm.controls['end'].value
     }
