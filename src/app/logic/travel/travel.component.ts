@@ -7,6 +7,7 @@ import { UtilitiesService } from '../../services/shared/utilities.service';
 import { Customer } from '../../model/customer';
 import { Spend } from '../../model/spend';
 import { Spendtype } from '../../model/spendtype';
+import { Upload } from '../../model/upload';
 
 @Component({
   selector: 'app-travel',
@@ -28,9 +29,10 @@ export class TravelComponent implements OnInit {
   spendtyp = ''
   value = 0
   spendComment = ''
-  spendDate = new Date()
-  spendsItems = new FormArray([])
-  spendArray!: FormArray
+  spendDate = new Date();
+  spendsItems = new FormArray([]);
+  spendArray!: FormArray;
+  uploadedFiles: any[] = [];
 
 
   constructor(private fb: FormBuilder, private userService: UserService, private msgService: MessageService, private utilityService: UtilitiesService) {
@@ -77,6 +79,21 @@ export class TravelComponent implements OnInit {
 
   deleteSpend(i: any) {
     this.spendArray.removeAt(i);
+  }
+
+  onBasicUploadAuto(event: any) {
+    console.log('Hallo')
+    for(let file of event.files) {
+        this.uploadedFiles.push(file);
+    }
+
+    console.log(this.uploadedFiles)
+
+    this.msgService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
+  }
+
+  deleteFile(index: number) {
+    this.uploadedFiles.splice(index,1)
   }
 
   getItems() {

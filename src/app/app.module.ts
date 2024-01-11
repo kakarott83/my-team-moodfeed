@@ -35,6 +35,7 @@ import { ChipsModule } from 'primeng/chips';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { TooltipModule } from 'primeng/tooltip';
 import { CalendarModule } from 'primeng/calendar';
+import { FileUploadModule } from 'primeng/fileupload';
 
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
@@ -108,6 +109,7 @@ import { TravelComponent } from './logic/travel/travel.component';
     MultiSelectModule,
     TooltipModule,
     ProgressSpinnerModule,
+    FileUploadModule,
     DropdownModule,
     ChipsModule,
     RatingModule,

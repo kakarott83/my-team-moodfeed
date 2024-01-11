@@ -11,3 +11,51 @@
     font-family: 'Rajdhani', sans-serif !important;
     align-items: center;
 }
+
+::ng-deep .p-fileupload {
+    font-family: 'Rajdhani', sans-serif !important;
+    color: var(--cic-white);
+}
+
+::ng-deep .p-fileupload-buttonbar {
+    span {
+        font-family: 'Rajdhani', sans-serif !important;
+        color: var(--cic-white);
+        background-color: var(--cic-light-blue);
+    }
+
+    button {
+        font-family: 'Rajdhani', sans-serif !important;
+        color: var(--cic-white);
+        background-color: var(--cic-light-blue);
+    }
+}
+
+::ng-deep .p-fileupload-row {
+    span {
+        font-family: 'Rajdhani', sans-serif !important;
+        color: var(--cic-white);
+        background-color: var(--cic-light-blue);
+    }
+
+    button {
+        font-family: 'Rajdhani', sans-serif !important;
+        color: var(--surface-900);
+        background-color: var(--cic-white);
+        border: none;
+    }
+}
+
+::ng-deep .p-fileupload {
+    display: flex;
+    justify-content: center;
+    span {
+        font-family: 'Rajdhani', sans-serif !important;
+        background-color: var(--cic-white);
+        border: none;
+        svg {
+            height: 13px;
+            width: 13px;
+        }
+    }
+}
