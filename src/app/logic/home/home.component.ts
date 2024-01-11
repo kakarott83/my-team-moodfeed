@@ -4,8 +4,8 @@ import { FireService } from '../../services/fire';
 import { UserService } from '../../services/shared/user.service';
 import { UtilitiesService } from '../../services/shared/utilities.service';
 import { Subscription, fromEvent, sampleTime } from 'rxjs';
-import { TimerService } from '../../services/shared/timer.service';
 import { StopWatch } from '../../model/stop-watch';
+import { TimerService } from '../../services/shared/timer.service';
 
 @Component({
   selector: 'app-home',

@@ -39,6 +39,11 @@ export class MenuBarComponent implements OnInit {
         routerLink: 'worktime'
       },
       {
+        label: 'Reisekosten',
+        icon: 'fa-solid fa-plane',
+        routerLink: 'travel'
+      },
+      {
         label: 'Team',
         icon: 'fa-solid fa-people-group',
         routerLink: 'team-voting'

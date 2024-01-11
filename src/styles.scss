@@ -62,6 +62,12 @@ html, body {
         font-family: 'Rajdhani', sans-serif;
 }
 
+body .p-component
+{
+    font-family: 'Rajdhani', sans-serif;
+    color: var(--surface-900);
+}
+
 .p-menubar {
     background-color: var(--cic-dark-blue);
     color: var(--cic-white);

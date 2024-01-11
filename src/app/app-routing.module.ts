@@ -13,6 +13,7 @@ import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 import { AuthGuard } from './auth/guard.guard';
 import { WorktimeComponent } from './logic/worktime/worktime.component';
+import { TravelComponent } from './logic/travel/travel.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
@@ -21,6 +22,7 @@ const routes: Routes = [
   {path: 'register', component:RegisterComponent},
   {path: 'voting', component: VotingComponent, canActivate: [AuthGuard]},
   {path: 'worktime', component: WorktimeComponent, canActivate: [AuthGuard]},
+  {path: 'travel', component: TravelComponent, canActivate: [AuthGuard]},
   {path: 'team-voting', component: TeamVotingComponent, canActivate: [AuthGuard]},
   {path: 'admin', component: AdminComponent, canActivate: [AuthGuard]},
   {path: 'home', component: HomeComponent, canActivate: [AuthGuard]},

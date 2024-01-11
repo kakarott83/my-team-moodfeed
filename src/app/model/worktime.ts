@@ -3,5 +3,7 @@ export interface Worktime {
     start?:string,
     end?:string,
     userId?: string,
-    date?: string
+    date?: string,
+    break?: string,
+    comment?: string
 }

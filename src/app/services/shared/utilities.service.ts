@@ -31,6 +31,24 @@ export class UtilitiesService {
     return weeksArr
   }
 
+  createDateArray():Date[] {
+    let datArr: Date[] = []
+    let startDate = new Date()
+    startDate.setHours(8)
+    startDate.setMinutes(0)
+    startDate.setSeconds(0)
+
+    let endDate = new Date()
+    endDate.setHours(18)
+    endDate.setMinutes(0)
+    startDate.setSeconds(0)
+
+    datArr.push(startDate);
+    datArr.push(endDate);
+
+    return datArr
+  }
+
   createDashboardCards(): Promise<Card[]> {
 
     return new Promise((resolve, reject) => {

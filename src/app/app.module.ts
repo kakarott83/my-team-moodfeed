@@ -60,6 +60,7 @@ import { HomeChartWorkweekComponent } from './logic/home/home-chart-workweek/hom
 import { HomeChartTravelComponent } from './logic/home/home-chart-travel/home-chart-travel.component';
 import { WorktimeComponent } from './logic/worktime/worktime.component';
 import { VotingDialogComponent } from './logic/voting/voting-dialog/voting-dialog.component';
+import { TravelComponent } from './logic/travel/travel.component';
 
 @NgModule({
   declarations: [
@@ -88,7 +89,8 @@ import { VotingDialogComponent } from './logic/voting/voting-dialog/voting-dialo
     HomeChartWorkweekComponent,
     HomeChartTravelComponent,
     WorktimeComponent,
-    VotingDialogComponent
+    VotingDialogComponent,
+    TravelComponent
   ],
   imports: [
     BrowserModule,
