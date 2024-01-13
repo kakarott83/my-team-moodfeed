@@ -36,3 +36,12 @@ input {
     color: var(--cic-white);
     background-color: var(--cic-medium-blue);
 }
+
+::ng-deep .p-tabview-panels {
+    padding: 1.25rem 0 1.25rem 0;
+}
+
+::ng-deep .p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+    color: var(--cic-dark-blue);
+    border-bottom: solid;
+}

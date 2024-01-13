@@ -12,28 +12,28 @@
   styleClass="p-datatable-striped"
   [globalFilterFields]="['votingYear', 'votingWeek']"
 >    <ng-template pTemplate="caption">
-  <div class="flex align-items-center justify-content-center text-xl">
+  <div class="flex align-items-center justify-content-center text-xl text-900 border-none headerTableStyle">
       Votings
   </div>
 </ng-template>
   <ng-template pTemplate="header">
     <tr>
-      <th style="width: 5%"></th>
-      <th style="width: 10%" pSortableColumn="votingYear">Jahr<p-sortIcon field="votingYear"></p-sortIcon></th>
-      <th style="width: 10%" pSortableColumn="votingWeek">Woche <p-sortIcon field="votingWeek"></p-sortIcon></th>
-      <th style="width: 15%" pSortableColumn="total">Team Gesamt <p-sortIcon field="total"></p-sortIcon> </th>
-      <th style="width: 40%">Kommentar</th>
+      <th class="dateFilterStyle" style="width: 5%"></th>
+      <th class="dateFilterStyle" style="width: 10%" pSortableColumn="votingYear">Jahr<p-sortIcon field="votingYear"></p-sortIcon></th>
+      <th class="dateFilterStyle" style="width: 10%" pSortableColumn="votingWeek">Woche <p-sortIcon field="votingWeek"></p-sortIcon></th>
+      <th class="dateFilterStyle" style="width: 15%" pSortableColumn="total">Team Gesamt <p-sortIcon field="total"></p-sortIcon> </th>
+      <th class="dateFilterStyle" style="width: 40%">Kommentar</th>
     </tr>
     <tr>
-        <th></th>
-        <th>
-            <p-columnFilter type="text" field="votingYear"></p-columnFilter>
+        <th class="dateFilterStyle"></th>
+        <th class="dateFilterStyle">
+            <p-columnFilter  type="text" field="votingYear" class="tableFilter"></p-columnFilter>
         </th>
-        <th>
+        <th class="dateFilterStyle">
             <p-columnFilter type="text" field="votingWeek"></p-columnFilter>
         </th>
-        <th></th>
-        <th></th>
+        <th class="dateFilterStyle"></th>
+        <th class="dateFilterStyle"></th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-voting let-expanded="expanded">

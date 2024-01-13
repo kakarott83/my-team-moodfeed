@@ -1,0 +1,11 @@
+::ng-deep .p-button {
+    background-color: var(--cic-light-blue);
+    span {
+        color: var(--cic-white);
+    }
+}
+
+::ng-deep .p-button-label {
+    color: var(--cic-white);
+    background-color: var(--cic-light-blue);
+}
