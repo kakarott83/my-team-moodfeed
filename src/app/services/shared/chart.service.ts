@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import moment from 'moment';
-import { FireService } from './fire';
+import { FireService } from '../fire';
 import { filter, map, pipe, tap } from 'rxjs';
-import { Question } from '../model/question';
-import { Dataset } from '../model/dataset';
-import { Voting } from '../model/voting';
-import { UtilitiesService } from './shared/utilities.service';
+import { Question } from '../../model/question';
+import { Dataset } from '../../model/dataset';
+import { Voting } from '../../model/voting';
+import { UtilitiesService } from './utilities.service';
 
 enum LineColor {
   Green = 1,

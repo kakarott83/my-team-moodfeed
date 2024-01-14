@@ -6,6 +6,7 @@ import { FireService } from '../fire';
 import { UserService } from './user.service';
 import { map } from 'rxjs';
 import { UserData } from '../../model/user-data';
+import { Worktime } from '../../model/worktime';
 
 @Injectable()
 
@@ -29,6 +30,41 @@ export class UtilitiesService {
     }
 
     return weeksArr
+  }
+
+  calcTime(startTime: string, endTime: string, breakTime?: string) {
+    let start = moment(startTime,"HH:mm");
+    let end = moment(endTime,"HH:mm");
+    //let breakDuration = moment(0,"HH:mm");
+    let minutes = end.diff(start, 'minutes');
+    let interval = moment().hour(0).minute(minutes);
+    interval.subtract(breakTime,'minutes');
+    return interval.format("HH:mm");
+
+    // let breakDuration = breakTime !== undefined ?  moment(breakTime,"HH:mm") : moment('00:00',"HH:mm");
+
+    // let breakDiffHours = end.diff(breakDuration,'hours');
+    // let breakDiffMinutes = end.diff(breakDuration,'minutes');
+    // let breakClearMinutes = (breakDiffMinutes % 60);
+
+
+
+    // let totalHours = moment(breakDiffHours,"HH:mm")
+    // let totalMinutes = end.diff(start, 'minutes')
+    // let clearMinutes = (totalMinutes % 60)
+
+
+    
+    // // let totalHours = end.diff(start, 'hours')
+    // // let totalMinutes = end.diff(start, 'minutes')
+    // // let clearMinutes = (totalMinutes % 60)
+
+
+
+    // let m = moment().minute(clearMinutes)
+    // m.hour(totalHours)
+
+    // return m.format('HH:mm')
   }
 
   createDateArray():Date[] {

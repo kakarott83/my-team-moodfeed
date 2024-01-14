@@ -10,7 +10,7 @@ import { Route, Router } from '@angular/router';
 import { UserData } from '../../model/user-data';
 import { UserService } from '../../services/shared/user.service';
 import { AuthService } from '../../services/auth.service';
-import { CalculateRatingService } from '../../services/calculate-rating.service';
+import { CalculateRatingService } from '../../services/shared/calculate-rating.service';
 import { MessageService } from 'primeng/api';
 import { UtilitiesService } from '../../services/shared/utilities.service';
 import { VotingDialogComponent } from './voting-dialog/voting-dialog.component';

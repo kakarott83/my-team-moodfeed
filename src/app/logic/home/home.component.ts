@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { AuthService } from '../../services/auth.service';
 import { FireService } from '../../services/fire';
 import { UserService } from '../../services/shared/user.service';
@@ -80,10 +80,6 @@ export class HomeComponent implements OnInit {
     if(!this.breakBtn) {
       this.timerService.startCount();
     }
-  }
-
-  ngOnDestroy() {
-    this.stopTimerSubscription.unsubscribe();
   }
 
 

@@ -1,5 +1,5 @@
 export interface Spend {
-    typ?: string,
+    type?: string,
     value?: number,
     date?: string,
     comment?: string

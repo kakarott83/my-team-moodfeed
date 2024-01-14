@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ChartService } from '../../../services/chart.service';
+import { ChartService } from '../../../services/shared/chart.service';
 import { UserService } from '../../../services/shared/user.service';
 import { UserData } from '../../../model/user-data';
 import { AuthService } from '../../../services/auth.service';

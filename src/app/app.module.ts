@@ -39,6 +39,7 @@ import { FileUploadModule } from 'primeng/fileupload';
 
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
+import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { environment } from '../environments/environment';
 import { AdminComponent } from './logic/admin/admin.component';
 import { QuestionComponent } from './logic/question/question.component';
@@ -62,6 +63,7 @@ import { HomeChartTravelComponent } from './logic/home/home-chart-travel/home-ch
 import { WorktimeComponent } from './logic/worktime/worktime.component';
 import { VotingDialogComponent } from './logic/voting/voting-dialog/voting-dialog.component';
 import { TravelComponent } from './logic/travel/travel.component';
+import { WorktimeListComponent } from './logic/worktime/worktime-list/worktime-list.component';
 
 @NgModule({
   declarations: [
@@ -91,7 +93,8 @@ import { TravelComponent } from './logic/travel/travel.component';
     HomeChartTravelComponent,
     WorktimeComponent,
     VotingDialogComponent,
-    TravelComponent
+    TravelComponent,
+    WorktimeListComponent
   ],
   imports: [
     BrowserModule,
@@ -125,6 +128,7 @@ import { TravelComponent } from './logic/travel/travel.component';
     CheckboxModule,
     AngularFireModule.initializeApp(environment.firebase),
     AngularFirestoreModule, // for firestore
+    AngularFireStorageModule
   ],
   providers: [AuthService],
   bootstrap: [AppComponent]

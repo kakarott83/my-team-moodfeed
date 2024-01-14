@@ -1,10 +1,12 @@
 import { Customer } from "./customer";
+import { Spend } from "./spend";
 
 export interface Travel {
     id?: string,
     userId?: string,
-    date?:string,
+    date?:Date[],
     comment?: string,
     customer?: Customer,
-    reason?: string
+    reason?: string,
+    spends?: Spend[]
 }

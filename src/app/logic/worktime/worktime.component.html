@@ -13,7 +13,7 @@
                                     <p-calendar id="inlinedate" #inlineDate class="flex justify-content-center"  [(ngModel)]="date" dateFormat="dd.mm.yyyy" (onSelect)="selectedDate($event, 'inline')" [inline]="true" [showWeek]="true"></p-calendar>
                                 </div>
                                 <div>
-                                    <h2>Dauer: 8h</h2>
+                                    <h2>Dauer: {{duration}}</h2>
                                 </div>
                             </div>
                             <div class="col-6">
@@ -49,7 +49,11 @@
                     </div>
                 </p-tabPanel>
                 <p-tabPanel header="Alle Zeiten">
-                    <div class="surface-card shadow-2 p-3 border-round">Test</div>
+                    <div class="surface-card shadow-2 p-3 border-round">
+                        <div class="surface-card shadow-2 p-3 border-round">
+                            <app-worktime-list [data]="myWorktimeList"></app-worktime-list>
+                        </div>
+                    </div>
                 </p-tabPanel>
             </p-tabView>
         </div>

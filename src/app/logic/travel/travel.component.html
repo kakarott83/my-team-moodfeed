@@ -42,6 +42,10 @@
                                 <i class="pi pi-check"></i>
                                 <span>Speichern</span>
                             </div>
+                            <div class="cic-btn font-bold text-center p-4 border-round-lg" (click)="uploadFiles()">
+                                <i class="pi pi-check"></i>
+                                <span>Upload</span>
+                            </div>
                         </div>
                         <div class="col-6">
                             <div formArrayName="spends">
@@ -89,7 +93,7 @@
                                         [rounded]="true" [text]="true" severity="success "></p-button>
                                 </div>
                             </div>
-                            <div>
+                            <div class="border-top-1 border-300">
                                 <div class="field">
                                     <label>Belege</label>
                                 </div>

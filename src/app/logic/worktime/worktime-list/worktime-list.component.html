@@ -1,0 +1,57 @@
+<p-table
+  #votingList
+  [value]="data"
+  [style]="{'font-family': 'Rajdhani','color':'var(--surface-900)'}"
+  [paginator]="true"
+  [rows]="5"
+  [loading]="isLoading"
+  [showCurrentPageReport]="true"
+  currentPageReportTemplate="{first} bis {last} von {totalRecords} Zeiten"
+  [rowsPerPageOptions]="[5, 10, 20]"
+  [globalFilterFields]="['date','begin','end']"
+  dataKey="id"
+  styleClass="p-datatable-striped"
+>    <ng-template pTemplate="caption">
+  <div class="flex align-items-center justify-content-center text-xl text-900 border-none headerTableStyle">
+      Arbeitszeiten
+  </div>
+</ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th class="dateFilterStyle" style="width: 15%" pSortableColumn="date">Date<p-sortIcon field="date"></p-sortIcon></th>
+      <th class="dateFilterStyle" style="width: 15%" pSortableColumn="begin">Beginn <p-sortIcon field="begin"></p-sortIcon></th>
+      <th class="dateFilterStyle" style="width: 15%" pSortableColumn="end">Ende <p-sortIcon field="end"></p-sortIcon></th>
+      <th class="dateFilterStyle" style="width: 15%" pSortableColumn="break">Pause <p-sortIcon field="break"></p-sortIcon></th>
+      <th class="dateFilterStyle" style="width: 15%" pSortableColumn="total">Arbeitszeit <p-sortIcon field="total"></p-sortIcon></th>
+      <th class="dateFilterStyle" style="width: 35%">Kommentar</th>
+    </tr>
+    <tr>
+        <th class="dateFilterStyle">
+            <p-columnFilter  type="text" field="date" class="tableFilter"></p-columnFilter>
+        </th>
+        <th class="dateFilterStyle">
+            <p-columnFilter  type="text" field="begin" class="tableFilter"></p-columnFilter>
+        </th>
+        <th class="dateFilterStyle">
+            <p-columnFilter  type="text" field="end" class="tableFilter"></p-columnFilter>
+        </th>
+        <th class="dateFilterStyle"></th>
+        <th class="dateFilterStyle"></th>
+        <th class="dateFilterStyle">
+            <p-columnFilter  type="text" field="comment" class="tableFilter"></p-columnFilter>
+        </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-worktime>
+    <tr>
+      <td>{{ worktime.date | date: 'dd.MM.yyyy' }}</td>
+      <td>{{ worktime.start }}</td>
+      <td>{{ worktime.end }}</td>
+      <td>{{ worktime.break }}</td>
+      <td>{{calcTime(worktime)}}</td>
+      <td>{{ worktime.comment }}</td>
+    </tr>
+  </ng-template>
+  <!--ng-template pTemplate="summary"> Footer </ng-template-->
+</p-table>
+

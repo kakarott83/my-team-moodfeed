@@ -9,6 +9,8 @@ import { GoogleAuthProvider, User, getAuth, updateProfile } from 'firebase/auth'
 import { UserService } from './shared/user.service';
 import { UserData } from '../model/user-data';
 import { FireService } from './fire';
+import { Observable } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
