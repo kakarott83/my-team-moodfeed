@@ -8,5 +8,6 @@ export interface Travel {
     comment?: string,
     customer?: Customer,
     reason?: string,
-    spends?: Spend[]
+    spends?: Spend[],
+    fileRefs?: any[],
 }

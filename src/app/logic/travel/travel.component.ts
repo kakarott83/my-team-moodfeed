@@ -69,7 +69,23 @@ export class TravelComponent implements OnInit {
     })
   }
 
-  submit() {
+  async submit() {
+    let travel = this.createTravel()
+    const uploadResult = await this.uploadFiles()
+
+    if(uploadResult) {
+        travel.fileRefs = uploadResult;
+    }
+
+    if(travel) {
+      this.fire.createTravel(travel)
+        .then(() => {
+          this.msgService.add({ severity: 'success', summary: 'Arbeitszeit', detail: 'Arbeitszeit gespeichert'});
+        })
+    }    
+  }
+
+  createTravel(): Travel {
     this.myTravel = {
       date: this.myTravelForm.controls['dateRange'].value,
       customer: this.myTravelForm.controls['customer'].value,
@@ -91,29 +107,18 @@ export class TravelComponent implements OnInit {
 
     this.myTravel.spends = this.spends
 
-    if(this.myTravel) {
-      this.fire.createTravel(this.myTravel)
-        .then(() => {
-          this.msgService.add({ severity: 'success', summary: 'Arbeitszeit', detail: 'Arbeitszeit gespeichert'});
-        })
-    }
-
-    console.log(this.myTravel,'MyTravel')
+    return this.myTravel
   }
 
-  uploadFiles() {
+  async uploadFiles() {
     this.uploadedFiles.forEach(x => {
-      this.uploadToStorage(x).then(url => 
-        this.storeFile.push({url: url, name: x.name})
-      )
+      this.storeFile.push(this.uploadToStorage(x))
     })
-    console.log(this.storeFile, 'storeFile')
+    return await Promise.all(this.storeFile)
   }
 
-  uploadToStorage(file: File): Promise<string> {
-    return this.fire.uploadFile(file).then(url => {
-      return url
-    })
+  uploadToStorage(file: File): Promise<any> {
+    return this.fire.uploadFile(file)
   }
 
   addSpend() {

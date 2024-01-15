@@ -207,7 +207,17 @@ export class FireService {
       //     )
     
     const result = await uploadTask;
-    return  (await uploadTask).ref.getDownloadURL()
+    console.log(result,'Result');
+    const d = {
+      url: await result.ref.getDownloadURL(),
+      name: result.ref.name,
+      key: result.metadata.generation,
+      //ref: result.ref
+    }
+    console.log("🚀 ~ FireService ~ uploadFile ~ d:", d)
+    //return  (await uploadTask).ref.getDownloadURL()
+    return d;
+
   }
 
 
