@@ -47,7 +47,7 @@
                                                 <div class="col-3">
                                                     <div class="field">
                                                         <label>Datum</label>
-                                                        <p-calendar formControlName="date" dateFormat="dd.mm.yy"
+                                                        <p-calendar formControlName="date" dateFormat="dd.mm.yy" [maxDate]="maxDate" [minDate]="minDate"
                                                             class="text-base text-900 flex surface-overlay surface-border"
                                                             [style]="{'width':'100%', 'height': '2.3rem', 'font-family': 'Rajdhani'}"></p-calendar>
                                                     </div>

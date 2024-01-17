@@ -11,7 +11,7 @@ import { Upload } from '../../model/upload';
 import { FireService } from '../../services/fire';
 import { FileUpload } from 'primeng/fileupload';
 import { error } from 'console';
-import { finalize, map, tap } from 'rxjs';
+import { finalize, map, min, tap } from 'rxjs';
 
 @Component({
   selector: 'app-travel',
@@ -41,6 +41,8 @@ export class TravelComponent implements OnInit {
   storeFile: any[] = [];
   isLoading = false;
   myTravelList: Travel[] = [];
+  maxDate = new Date('20240101')
+  minDate = new Date('20991231')
 
 
 
@@ -71,6 +73,17 @@ export class TravelComponent implements OnInit {
     })
 
     this.getTravels(this.myUser.uid);
+
+    this.myTravelForm.controls['dateRange'].valueChanges.subscribe(value => {
+      /*MinDate im Spend setzen*/
+      if(value[0] !== null) {
+        this.minDate = value[0]
+      }
+      /*MaxDate im Spend setzen*/
+      if(value[1] !== null) {
+        this.maxDate = value[1]
+      }
+    })
   }
 
   async submit() {
@@ -86,6 +99,9 @@ export class TravelComponent implements OnInit {
         .then(() => {
           this.msgService.add({ severity: 'success', summary: 'Arbeitszeit', detail: 'Arbeitszeit gespeichert'});
         })
+        .then(() => {
+          this.clearForm()
+        })
     }    
   }
 
@@ -95,7 +111,8 @@ export class TravelComponent implements OnInit {
       customer: this.myTravelForm.controls['customer'].value,
       reason: this.myTravelForm.controls['reason'].value,
       comment: this.myTravelForm.controls['comment'].value,
-      userId: this.myUser.uid
+      userId: this.myUser.uid,
+      state: 'save'
     }
 
     /*Spends add*/
@@ -126,11 +143,12 @@ export class TravelComponent implements OnInit {
   }
 
   addSpend() {
+    let spendDate = this.myTravelForm.controls['dateRange'].value[0]
     this.spendArray.push(
       this.fb.group({
-        type: '',
+        type: 'Auto',
         value: 0,
-        date: new Date(),
+        date: spendDate !== null ? spendDate : null,
       })
     )
   }
@@ -144,8 +162,6 @@ export class TravelComponent implements OnInit {
     for(let file of event.files) {
         this.uploadedFiles.push(file);
     }
-
-    console.log(this.uploadedFiles)
 
     this.msgService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
   }
@@ -193,6 +209,20 @@ export class TravelComponent implements OnInit {
           console.log(this.myTravelList,'MyTravelList')
         })
     } else {
+    }
+  }
+
+  clearForm() {
+    /*Form leeren*/
+    if(this.myTravelForm) {
+      this.myTravelForm.reset();
+    }
+    /*Spends leeren*/
+    if(this.spendArray.length > 0) {
+      this.spendArray.clear()
+    }
+    if(this.uploadedFiles.length > 0) {
+      this.uploadedFiles = [];
     }
   }
 

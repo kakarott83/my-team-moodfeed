@@ -19,29 +19,28 @@ export class TravelListComponent implements OnInit {
   constructor(private utiliesService: UtilitiesService, private filterService: FilterService) {}
 
   ngOnInit(): void {
-    const customFilterName = 'custom-equals';
-
-    this.filterService.register(customFilterName, (value: any, filter: any): boolean => {
-      if(filter === undefined || filter === null || filter.trim() === '') {
-        return true;
-      }
-
-      if(value === undefined || value === null) {
-        return false;
-      }
-
-      return this.filterService.filters['contains'](value.name.toUpperCase(), filter.toUpperCase())
-
-    })
-
-    this.cols = [
-      {field: 'customer', header: 'customer'}
-    ]
-
-    this.matchModeOptions = [
-      {label: 'Starts With', value: FilterMatchMode.STARTS_WITH}
-    ]
+    this.customerFilterDefine();
 
   }
 
+  customerFilterDefine() {
+    const customerFilterName = 'custom-equals';
+  
+    this.filterService.register(customerFilterName, (value: any, filter: any): boolean => {
+      if(filter === undefined || filter === null || filter.trim() === '') {
+        return true;
+      }
+  
+      if(value === undefined || value === null) {
+        return false;
+      }
+  
+      return this.filterService.filters['contains'](value.name.toUpperCase(), filter.toUpperCase())
+  
+    })
+  }
+
 }
+
+
+

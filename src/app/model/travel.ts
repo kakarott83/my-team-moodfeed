@@ -10,4 +10,5 @@ export interface Travel {
     reason?: string,
     spends?: Spend[],
     fileRefs?: any[],
+    state?: string /*Save,Submitted,Paid*/
 }
