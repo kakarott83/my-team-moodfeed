@@ -1,0 +1,55 @@
+
+
+:host ::ng-deep .p-paginator {
+    font-family: 'Rajdhani', sans-serif;
+    button {
+        font-family: 'Rajdhani', sans-serif;
+        color: var(--surface-900);
+    }
+    .p-element {
+        font-family: 'Rajdhani', sans-serif;
+        color: var(--surface-900);
+    }
+    .p-paginator-pages {
+        font-family: 'Rajdhani', sans-serif;
+        color: var(--surface-900);
+    }
+}
+
+:host ::ng-deep .p-datatable {
+    color: var(--surface-900);
+    
+}
+
+
+:host ::ng-deep .p-datatable-header {
+    background-color: var(--cic-white);
+    border: none;
+    .headerTableStyle {
+        color: grey !important;
+    }
+}
+
+:host ::ng-deep .dateFilterStyle {
+    background-color: var(--cic-white) !important;
+    color: grey !important;
+    .p-icon {
+        color: grey !important;
+    }
+    .p-columnfilter {
+        background-color: violet !important;
+    }
+}
+
+:host ::ng-deep .dateFilterStyle {
+    .p-inputtext {
+        border-radius: var(--border-radius) !important;
+        border-style: solid !important;
+        border-width: 1px !important;
+        padding: 0.5rem !important;
+        font-size: 1rem !important;
+        border-color: var(--surface-border) !important;
+        background-color: var(--surface-overlay) !important;
+        width: 100% !important;
+    }
+}

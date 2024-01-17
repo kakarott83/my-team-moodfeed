@@ -18,6 +18,7 @@ import { VotingComponent } from './logic/voting/voting.component';
 import { VotingDetailComponent } from './logic/voting-detail/voting-detail.component';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { MenuModule } from 'primeng/menu';
+import { FilterService } from 'primeng/api';
 import { MenubarModule } from 'primeng/menubar';
 import { MenuBarComponent } from './nav/menu-bar/menu-bar.component';
 import { TeamVotingComponent } from './logic/team-voting/team-voting.component';
@@ -64,6 +65,7 @@ import { WorktimeComponent } from './logic/worktime/worktime.component';
 import { VotingDialogComponent } from './logic/voting/voting-dialog/voting-dialog.component';
 import { TravelComponent } from './logic/travel/travel.component';
 import { WorktimeListComponent } from './logic/worktime/worktime-list/worktime-list.component';
+import { TravelListComponent } from './logic/travel/travel-list/travel-list.component';
 
 @NgModule({
   declarations: [
@@ -94,7 +96,8 @@ import { WorktimeListComponent } from './logic/worktime/worktime-list/worktime-l
     WorktimeComponent,
     VotingDialogComponent,
     TravelComponent,
-    WorktimeListComponent
+    WorktimeListComponent,
+    TravelListComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,52 @@
+<p-table
+  #votingList
+  [value]="data"
+  [style]="{'font-family': 'Rajdhani','color':'var(--surface-900)'}"
+  [paginator]="true"
+  [rows]="5"
+  [loading]="isLoading"
+  [showCurrentPageReport]="true"
+  currentPageReportTemplate="{first} bis {last} von {totalRecords} Zeiten"
+  [rowsPerPageOptions]="[5, 10, 20]"
+  [globalFilterFields]="['start','end','customer','reason']"
+  dataKey="id"
+  styleClass="p-datatable-striped"
+>    <ng-template pTemplate="caption">
+  <div class="flex align-items-center justify-content-center text-xl text-900 border-none headerTableStyle">
+      Reisen
+  </div>
+</ng-template>
+  <ng-template pTemplate="header">
+    <tr>
+      <th class="dateFilterStyle" style="width: 25%" pSortableColumn="start">Start<p-sortIcon field="start"></p-sortIcon></th>
+      <th class="dateFilterStyle" style="width: 25%" pSortableColumn="end">Ende <p-sortIcon field="end"></p-sortIcon></th>
+      <th class="dateFilterStyle" style="width: 25%" pSortableColumn="customer">Kunde<p-sortIcon field="customer"></p-sortIcon></th>
+      <th class="dateFilterStyle" style="width: 25%" pSortableColumn="reason">Grund <p-sortIcon field="reason"></p-sortIcon></th>
+    </tr>
+    <tr>
+        <th class="dateFilterStyle">
+            <p-columnFilter  type="text" field="start" class="tableFilter"></p-columnFilter>
+        </th>
+        <th class="dateFilterStyle">
+            <p-columnFilter  type="text" field="end" class="tableFilter"></p-columnFilter>
+        </th>
+        <th class="dateFilterStyle" *ngFor="let col of cols">
+            <p-columnFilter  type="text" [field]="col.field" class="tableFilter" [matchModeOptions]="matchModeOptions" [matchMode]="'custom-equals'"></p-columnFilter>
+        </th>
+        <th class="dateFilterStyle">
+            <p-columnFilter  type="text" field="reason" class="tableFilter"></p-columnFilter>
+        </th>
+    </tr>
+  </ng-template>
+  <ng-template pTemplate="body" let-travel>
+    <tr>
+      <td>{{ travel.date[0]["seconds"] * 1000 | date: 'dd.MM.yyyy HH:mm'}}</td>
+      <td>{{ travel.date[1]["seconds"] * 1000 | date: 'dd.MM.yyyy HH:mm'}}</td>
+      <td>{{ travel.customer.name }}</td>
+      <td>{{ travel.reason }}</td>
+    </tr>
+  </ng-template>
+  <!--ng-template pTemplate="summary"> Footer </ng-template-->
+</p-table>
+
+

@@ -11,7 +11,7 @@ import { Upload } from '../../model/upload';
 import { FireService } from '../../services/fire';
 import { FileUpload } from 'primeng/fileupload';
 import { error } from 'console';
-import { finalize, tap } from 'rxjs';
+import { finalize, map, tap } from 'rxjs';
 
 @Component({
   selector: 'app-travel',
@@ -38,7 +38,9 @@ export class TravelComponent implements OnInit {
   spendArray!: FormArray;
   uploadedFiles: any[] = [];
   currentFileUpload?: FileUpload;
-  storeFile: any[] = []
+  storeFile: any[] = [];
+  isLoading = false;
+  myTravelList: Travel[] = [];
 
 
 
@@ -67,6 +69,8 @@ export class TravelComponent implements OnInit {
       comment: new FormControl(),
       spends: this.spendArray
     })
+
+    this.getTravels(this.myUser.uid);
   }
 
   async submit() {
@@ -168,12 +172,28 @@ export class TravelComponent implements OnInit {
     return ['Vor Ort Betreuung', 'Livegang', 'Workshop']
   }
 
-  createSpend() {}
-
   createSpendTypes(): string[] {
     let spendType = ['Bahn/Bus','Auto'];
 
     return spendType
+  }
+
+  getTravels(userId: string) {
+    if(userId) {
+      this.isLoading = true;
+      this.fire.getTravelByUserId(userId).snapshotChanges()
+        .pipe(
+          map(changes => changes.map(x => 
+            ({id: x.payload.doc.id, ...x.payload.doc.data()})
+            )),
+        )
+        .subscribe(data => {
+          this.myTravelList = data
+          this.isLoading = false;
+          console.log(this.myTravelList,'MyTravelList')
+        })
+    } else {
+    }
   }
 
 }
