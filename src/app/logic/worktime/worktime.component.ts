@@ -7,6 +7,9 @@ import { map, tap } from 'rxjs';
 import { FireService } from '../../services/fire';
 import { UtilitiesService } from '../../services/shared/utilities.service';
 import moment from 'moment';
+import { AuthService } from '../../services/auth.service';
+import { User } from '../../model/user';
+import { UserData } from '../../model/user-data';
 
 @Component({
   selector: 'app-worktime',
@@ -14,42 +17,55 @@ import moment from 'moment';
   styleUrl: './worktime.component.scss',
   providers: [UserService, MessageService,UtilitiesService]
 })
-export class WorktimeComponent implements OnInit, OnChanges {
+export class WorktimeComponent implements OnInit {
 
   myWorkTimeForm!: FormGroup;
   myWorktime: Worktime = {};
-  myUser: any;
+  myUser!: User;
   date!: Date;
   myWorktimeList: Worktime[] = [];
+  myWorktimeList2: Worktime[] = [];
   isLoading = false;
   duration: any;
+  myUserData: UserData = {}
+  isAdmin!: boolean
+  isLead!: boolean
+  isMember!: boolean
 
   constructor(
+    public authService: AuthService,
     private fire: FireService, 
     private fb: FormBuilder, 
-    private userService: UserService, 
     private utilitiesService: UtilitiesService, 
-    private msgService: MessageService) {}
+    private messageService: MessageService) {}
 
 
 
   ngOnInit(): void {
-    this.myUser = this.userService.getUser();
-    this.myWorkTimeForm = this.fb.group({
-      start: new FormControl(),
-      end:  new FormControl(),
-      date: new FormControl(),
-      break: new FormControl(),
-      comment: new FormControl(),
-    })
-    this.getWorktimes(this.myUser.uid)
-    this.myWorkTimeForm.valueChanges.subscribe(value => {
+
+    this.authService.user$.subscribe(data => {
+      if(data) {
+        this.myUserData = data[0]
+        this.isAdmin = this.authService.isAdmin$
+        this.isLead = this.authService.isTeamLead$
+        this.isMember = this.authService.isTeamMember$
+        this.myUser = this.authService.userAuth$
+
+        if(this.myUser.uid) {
+          this.fire.getWorkTimeByUser(this.myUser.uid).subscribe(data => {
+            this.myWorktimeList = data;
+          })
+        }
+
+        
+    }})
+
+    this.createWorktimeForm()
+
+    this.myWorkTimeForm.valueChanges.subscribe(() => {
       this.changeFormValue();
     })
-  }
 
-  ngOnChanges(changes: SimpleChanges): void {
-    console.log('OnChanges')
   }
 
   submit() {
@@ -65,12 +81,22 @@ export class WorktimeComponent implements OnInit, OnChanges {
     if(this.myWorktime) {
       this.fire.createWorktime(this.myWorktime)
         .then(() => {
-          this.msgService.add({ severity: 'success', summary: 'Arbeitszeit', detail: 'Arbeitszeit gespeichert'});
+          this.messageService.add({ severity: 'success', summary: 'Arbeitszeit', detail: 'Arbeitszeit gespeichert'});
         })
     }
 
     console.log(this.myWorktime,'MyWorkTime')
     
+  }
+
+  createWorktimeForm() {
+    return this.myWorkTimeForm = this.fb.group({
+      start: new FormControl(),
+      end:  new FormControl(),
+      date: new FormControl(),
+      break: new FormControl(),
+      comment: new FormControl(),
+    })
   }
 
   changeFormValue() {
@@ -84,25 +110,6 @@ export class WorktimeComponent implements OnInit, OnChanges {
     }
   }
 
-  getWorktimes(userId: string) {
-    if(userId) {
-      this.isLoading = true;
-      this.fire.getWorkTimeByUserId(userId).snapshotChanges()
-        .pipe(
-          map(changes => changes.map(x => 
-            ({id: x.payload.doc.id, ...x.payload.doc.data()})
-            )),
-        )
-        .subscribe(data => {
-          this.myWorktimeList = data
-          console.log(this.myWorktimeList,'WorktimeList')
-          this.isLoading = false;
-        })
-    } else {
-      console.log('UserId fehlt','Error')
-    }
-  }
-
   selectedDate(e: any, input: string) {
 
     if(input == 'input') {
@@ -112,6 +119,16 @@ export class WorktimeComponent implements OnInit, OnChanges {
         date: this.date,
       })
     }
+  }
+
+  delete(e: string) {
+    this.fire.deleteWorktime(e)
+      .then(() => {
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Arbeitszeit wurde gelöscht' });
+      })
+      .catch(error => {
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Arbeitszeit konnte nicht gelöscht werden' });
+      })
   }
 
 }

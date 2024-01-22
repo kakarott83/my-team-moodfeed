@@ -89,47 +89,47 @@ export class UtilitiesService {
 
     return new Promise((resolve, reject) => {
       this.myUser = this.userService.getUser();
-      console.log(this.myUser,'MyUser')
-      console.log(new Date(Number(this.myUser.lastLoginAt)).toLocaleString('de-DE', { hour12: false}),'MyUser3')
       this.user = this.authService.getUserAuth();
-      this.getAdditionalData().then(() => {
-        this.roles = this.myUserData.role?.join(",")
+      this.authService.user$.subscribe(data => {
+        if(data) {
+          this.myUserData = data[0]
+          this.roles = this.myUserData.role?.join(",")
   
-        let cards: Card[] = [
-          {
-            header: 'Letzter Login',
-            icon: 'fa-solid fa-right-to-bracket',
-            body: new Date(Number(this.myUser.lastLoginAt)).toLocaleString('de-DE', { hour12: false}),
-            footer: 'angemeldet seit',
-            subFooter: new Date(Number(this.myUser.createdAt)).toLocaleString('de-DE', { hour12: false}),
-            btnAction: ''
-          },
-          {
-            header: 'Rolle',
-            icon: 'fa-solid fa-user-tag',
-            body: this.roles,
-            footer: 'zum Userprofile',
-            btnAction: ''
-          },
-          {
-            header: 'Arbeitszeit',
-            icon: 'fa-solid fa-clock',
-            body: '30h von 40h gearbeitet',
-            footer: 'Heute gearbeitet',
-            btnAction: ''
-          },
-          {
-            header: 'Reisekosten (draft)',
-            icon: 'fa-solid fa-plane',
-            body: 'Ausstehender Betrag 51€',
-            footer: '3 Reisen erfasst',
-            btnAction: ''
-          },
-        ]
-  
-        resolve(cards);
-
-      });
+          let cards: Card[] = [
+            {
+              header: 'Letzter Login',
+              icon: 'fa-solid fa-right-to-bracket',
+              body: new Date(Number(this.myUser.lastLoginAt)).toLocaleString('de-DE', { hour12: false}),
+              footer: 'angemeldet seit',
+              subFooter: new Date(Number(this.myUser.createdAt)).toLocaleString('de-DE', { hour12: false}),
+              btnAction: ''
+            },
+            {
+              header: 'Rolle',
+              icon: 'fa-solid fa-user-tag',
+              body: this.roles,
+              footer: 'zum Userprofile',
+              btnAction: ''
+            },
+            {
+              header: 'Arbeitszeit',
+              icon: 'fa-solid fa-clock',
+              body: '30h von 40h gearbeitet',
+              footer: 'Heute gearbeitet',
+              btnAction: ''
+            },
+            {
+              header: 'Reisekosten (draft)',
+              icon: 'fa-solid fa-plane',
+              body: 'Ausstehender Betrag 51€',
+              footer: '3 Reisen erfasst',
+              btnAction: ''
+            },
+          ]
+    
+          resolve(cards);
+        }
+      })
     })
     
   }
@@ -137,7 +137,6 @@ export class UtilitiesService {
   async getAdditionalData() {
     if(!!this.myUser) {
       await this.userService.getUserData(this.myUser.uid).then((data) => {
-        this.myUserData = data[0];
       });
     }
   }

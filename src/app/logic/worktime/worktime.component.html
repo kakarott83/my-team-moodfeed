@@ -51,7 +51,7 @@
                 <p-tabPanel header="Alle Zeiten">
                     <div class="surface-card shadow-2 p-3 border-round">
                         <div class="surface-card shadow-2 p-3 border-round">
-                            <app-worktime-list [data]="myWorktimeList"></app-worktime-list>
+                            <app-worktime-list [data]="myWorktimeList" (deleteWorkTime)="delete($event)"></app-worktime-list>
                         </div>
                     </div>
                 </p-tabPanel>

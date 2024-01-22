@@ -35,16 +35,7 @@ export class UserService {
     ))
   }
 
-  updateUserData(id: string, userData: any): Promise<any> {
-    return new Promise((resolve, reject) => {
-      this.fire.updateUserData(id, userData)
-        .then(() => {
-          resolve('ok');
-        })
-        .catch((error) => {
-          reject(error);
-        })
-
-    })
+  async updateUserData(id: string, userData: any): Promise<any> {
+    return await this.fire.updateUserData(id, userData)
   }
 }

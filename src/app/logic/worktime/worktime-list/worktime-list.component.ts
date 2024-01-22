@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { Worktime } from '../../../model/worktime';
 import moment from 'moment';
 import { UtilitiesService } from '../../../services/shared/utilities.service';
@@ -13,11 +13,11 @@ export class WorktimeListComponent implements OnInit {
 
   @Input() data!: Worktime[]
   @Input() isLoading!: boolean;
+  @Output() deleteWorkTime = new EventEmitter()
 
   constructor(private utiliesService: UtilitiesService) {}
 
   ngOnInit(): void {
-    console.log(this.data, 'Data')
   }
 
   calcTime(item: Worktime) {
@@ -25,6 +25,10 @@ export class WorktimeListComponent implements OnInit {
       return this.utiliesService.calcTime(item.start, item.end, item.break)
     }
     return null
+  }
+
+  delete(id: string) {
+    this.deleteWorkTime.emit(id);
   }
 
 }

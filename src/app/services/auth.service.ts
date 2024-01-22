@@ -4,13 +4,14 @@ import {
   AngularFirestore,
   AngularFirestoreDocument,
 } from '@angular/fire/compat/firestore';
+import { doc, getDoc } from "firebase/firestore";
 import { Router } from '@angular/router';
 import { GoogleAuthProvider, User, getAuth, updateProfile } from 'firebase/auth';
 import { UserService } from './shared/user.service';
 import { UserData } from '../model/user-data';
 import { FireService } from './fire';
-import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { Observable, Observer, Subject, of } from 'rxjs';
+import { map, switchMap, take, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -19,6 +20,12 @@ import { switchMap } from 'rxjs/operators';
 export class AuthService {
 
   userData!: any;
+  public user$!: Observable<any>;
+  public userAuth$!: any;
+  public isLoggedIn$!: false;
+  public isAdmin$ = false;
+  public isTeamLead$ = false;
+  public isTeamMember$ = false;
 
   constructor(public afAuth: AngularFireAuth,private fire: FireService, public afs: AngularFirestore, public ngZone: NgZone, public router: Router) {
     /* Saving user data in localstorage when
@@ -34,7 +41,66 @@ export class AuthService {
         JSON.parse(localStorage.getItem('user')!);
       }});
 
+    this.user$ =this.afAuth.authState
+      .pipe(
+        switchMap(result => {
+          if(result) {
+            return this.afs.collection<UserData>('userdata', ref => {
+              return ref.where('userId','==',result.uid)
+            }).snapshotChanges()
+                .pipe(
+                  map(usr => usr.map(x => ({
+                    id: x.payload.doc.id,
+                    ...x.payload.doc.data()
+                  }))),
+                  tap(x => {
+                    console.log("🚀 ~ AuthService ~ constructor ~ x: User", x)
+                    this.isAdmin(x[0])
+                    this.hasRole(x[0])
+                    this.auth()
+                  })
+                )
+          } else {
+            return of(null)
+          }
+                  
+        }
+        )
+      )
+
     // Sign in with email/password
+  }
+
+  isAdmin(usr: UserData) {
+    let a = usr.role?.find(x => (x == 'Admin'))      
+    if(a !== '') {
+      this.isAdmin$ = a !== undefined ? true : false
+    }
+  }
+
+  hasRole(usr: UserData) {
+    usr.role?.forEach(x => {
+      console.log(x,'Role')
+      switch (x.toUpperCase()) {
+        case 'ADMIN':
+          this.isAdmin$ = true;
+          break;
+        case 'TEAM-LEAD':
+          this.isTeamLead$ = true;
+          break;
+        case 'TEAM-MEMBER':
+          this.isTeamMember$ = true;
+          break;
+      
+        default:
+          break;
+      }
+    })
+  }
+
+  auth() {
+    const auth = getAuth();
+    this.userAuth$ = auth.currentUser;
   }
 
   // Sign in with email/password

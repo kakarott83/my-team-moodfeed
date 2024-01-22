@@ -20,13 +20,12 @@ export class TravelListComponent implements OnInit {
 
   ngOnInit(): void {
     this.customerFilterDefine();
-
   }
 
   customerFilterDefine() {
     const customerFilterName = 'custom-equals';
   
-    this.filterService.register(customerFilterName, (value: any, filter: any): boolean => {
+    this.filterService.register(customerFilterName, (value: { name: string; } | null | undefined, filter: string | null | undefined): boolean => {
       if(filter === undefined || filter === null || filter.trim() === '') {
         return true;
       }
@@ -34,6 +33,8 @@ export class TravelListComponent implements OnInit {
       if(value === undefined || value === null) {
         return false;
       }
+
+      
   
       return this.filterService.filters['contains'](value.name.toUpperCase(), filter.toUpperCase())
   

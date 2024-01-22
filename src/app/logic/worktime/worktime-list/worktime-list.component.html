@@ -18,12 +18,13 @@
 </ng-template>
   <ng-template pTemplate="header">
     <tr>
-      <th class="dateFilterStyle" style="width: 15%" pSortableColumn="date">Date<p-sortIcon field="date"></p-sortIcon></th>
-      <th class="dateFilterStyle" style="width: 15%" pSortableColumn="begin">Beginn <p-sortIcon field="begin"></p-sortIcon></th>
-      <th class="dateFilterStyle" style="width: 15%" pSortableColumn="end">Ende <p-sortIcon field="end"></p-sortIcon></th>
-      <th class="dateFilterStyle" style="width: 15%" pSortableColumn="break">Pause <p-sortIcon field="break"></p-sortIcon></th>
-      <th class="dateFilterStyle" style="width: 15%" pSortableColumn="total">Arbeitszeit <p-sortIcon field="total"></p-sortIcon></th>
+      <th class="dateFilterStyle" style="width: 10%" pSortableColumn="date">Date<p-sortIcon field="date"></p-sortIcon></th>
+      <th class="dateFilterStyle" style="width: 10%" pSortableColumn="begin">Beginn <p-sortIcon field="begin"></p-sortIcon></th>
+      <th class="dateFilterStyle" style="width: 10%" pSortableColumn="end">Ende <p-sortIcon field="end"></p-sortIcon></th>
+      <th class="dateFilterStyle" style="width: 10%" pSortableColumn="break">Pause <p-sortIcon field="break"></p-sortIcon></th>
+      <th class="dateFilterStyle" style="width: 10%" pSortableColumn="total">Arbeitszeit <p-sortIcon field="total"></p-sortIcon></th>
       <th class="dateFilterStyle" style="width: 35%">Kommentar</th>
+      <th class="dateFilterStyle" style="width: 15%"></th>
     </tr>
     <tr>
         <th class="dateFilterStyle">
@@ -40,6 +41,7 @@
         <th class="dateFilterStyle">
             <p-columnFilter  type="text" field="comment" class="tableFilter"></p-columnFilter>
         </th>
+        <th class="dateFilterStyle"></th>
     </tr>
   </ng-template>
   <ng-template pTemplate="body" let-worktime>
@@ -50,6 +52,10 @@
       <td>{{ worktime.break }}</td>
       <td>{{calcTime(worktime)}}</td>
       <td>{{ worktime.comment }}</td>
+      <td>
+        <button (click)="delete(worktime.id)" pButton pRipple icon="pi pi-times" class="p-button-text"
+        ></button>
+      </td>
     </tr>
   </ng-template>
   <!--ng-template pTemplate="summary"> Footer </ng-template-->
