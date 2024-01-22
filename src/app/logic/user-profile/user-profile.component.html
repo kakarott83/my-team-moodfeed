@@ -75,13 +75,13 @@
           <div *ngIf="!editRole" class="text-900 w-full md:w-8 md:flex-order-0 flex-order-1">
             <div class="flex">
               <div class="flex align-items-center mr-2">
-                <p-checkbox label="Admin" name="admin" [binary]="true" [disabled]="true" [(ngModel)]="isAdmin"></p-checkbox>
+                <p-checkbox label="Admin" name="admin" [binary]="true" [disabled]="true" [ngModel]="this.authService.isAdmin$ | async"></p-checkbox>
               </div>
               <div class="flex align-items-center mr-2">
-                <p-checkbox label="Team-Lead" name="lead" [binary]="true" [disabled]="true" [(ngModel)]="isLead"></p-checkbox>
+                <p-checkbox label="Team-Lead" name="lead" [binary]="true" [disabled]="true" [ngModel]="this.authService.isTeamLead$ | async"></p-checkbox>
               </div>
               <div class="flex align-items-center mr-2">
-                <p-checkbox label="Team-Member" name="member" [binary]="true" [disabled]="true" [(ngModel)]="isMember"></p-checkbox>
+                <p-checkbox label="Team-Member" name="member" [binary]="true" [disabled]="true" [ngModel]="this.authService.isTeamMember$ | async"></p-checkbox>
               </div>
             </div>
           </div>

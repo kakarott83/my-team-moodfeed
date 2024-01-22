@@ -10,7 +10,7 @@ import { GoogleAuthProvider, User, getAuth, updateProfile } from 'firebase/auth'
 import { UserService } from './shared/user.service';
 import { UserData } from '../model/user-data';
 import { FireService } from './fire';
-import { Observable, Observer, Subject, of } from 'rxjs';
+import { BehaviorSubject, Observable, Observer, Subject, of } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
 
 @Injectable({
@@ -20,12 +20,12 @@ import { map, switchMap, take, tap } from 'rxjs/operators';
 export class AuthService {
 
   userData!: any;
-  public user$!: Observable<any>;
+  public user$!: Observable<UserData | null>;
   public userAuth$!: any;
   public isLoggedIn$!: false;
-  public isAdmin$ = false;
-  public isTeamLead$ = false;
-  public isTeamMember$ = false;
+  public isAdmin$ = new BehaviorSubject<boolean>(false);
+  public isTeamLead$ = new BehaviorSubject<boolean>(false);
+  public isTeamMember$ = new BehaviorSubject<boolean>(false);
 
   constructor(public afAuth: AngularFireAuth,private fire: FireService, public afs: AngularFirestore, public ngZone: NgZone, public router: Router) {
     /* Saving user data in localstorage when
@@ -49,14 +49,15 @@ export class AuthService {
               return ref.where('userId','==',result.uid)
             }).snapshotChanges()
                 .pipe(
-                  map(usr => usr.map(x => ({
-                    id: x.payload.doc.id,
-                    ...x.payload.doc.data()
-                  }))),
+                  map(usr => ({
+                    id: usr[0].payload.doc.id,
+                    ...usr[0].payload.doc.data()
+                  })
+                  ),
                   tap(x => {
                     console.log("🚀 ~ AuthService ~ constructor ~ x: User", x)
-                    this.isAdmin(x[0])
-                    this.hasRole(x[0])
+                    this.isAdmin(x)
+                    this.hasRole(x)
                     this.auth()
                   })
                 )
@@ -74,7 +75,7 @@ export class AuthService {
   isAdmin(usr: UserData) {
     let a = usr.role?.find(x => (x == 'Admin'))      
     if(a !== '') {
-      this.isAdmin$ = a !== undefined ? true : false
+      this.isAdmin$.next(a !== undefined ? true : false);
     }
   }
 
@@ -83,13 +84,13 @@ export class AuthService {
       console.log(x,'Role')
       switch (x.toUpperCase()) {
         case 'ADMIN':
-          this.isAdmin$ = true;
+          this.isAdmin$.next(true)
           break;
         case 'TEAM-LEAD':
-          this.isTeamLead$ = true;
+          this.isTeamLead$.next(true)
           break;
         case 'TEAM-MEMBER':
-          this.isTeamMember$ = true;
+          this.isTeamMember$.next(true)
           break;
       
         default:

@@ -10,7 +10,7 @@ import { Role } from '../model/role';
 import { Worktime } from '../model/worktime';
 import { Travel } from '../model/travel';
 import { FileUpload } from '../model/file-upload';
-import { Observable, finalize, from, map, tap } from 'rxjs';
+import { Observable, finalize, firstValueFrom, from, map, take, tap } from 'rxjs';
 import { url } from 'inspector';
 
 
@@ -141,15 +141,18 @@ export class FireService {
   }
 
   getWorkTimeByUser(id: string) {
-    return this.db.collection<Worktime>('worktime', ref => ref.where('userId', '==', id))
-      .snapshotChanges()
-        .pipe(
-          map(actions => actions.map(x => 
-            ({id: x.payload.doc.id, ...x.payload.doc.data()})
-          )),
-          //tap(x => console.log(x,'WT'))
+      return firstValueFrom(
+
+      this.db.collection<Worktime>('worktime', ref => ref.where('userId', '==', id))
+        .snapshotChanges()
+          .pipe(
+            map(actions => actions.map(x => 
+              ({id: x.payload.doc.id, ...x.payload.doc.data()})
+            )),
+            //tap(x => console.log(x,'WT'))
+          )
         )
-  }
+    }
 
   createWorktime(wt: Worktime): any {
     return this.worktimeRef.add({ ...wt });
@@ -164,7 +167,7 @@ export class FireService {
     return this.worktimeRef.doc(id).delete();
   }
 
-  /**************Worktime Travel**************/
+  /**************Travel**************/
 
   getAllTravels(): AngularFirestoreCollection<Travel> {
     return this.travelRef;
@@ -176,6 +179,16 @@ export class FireService {
       return ref.where('userId', '==', id)
     })
     return data;
+  }
+
+  getTravelById(id: string) {
+    return this.db.collection<Travel>('travels').doc(id).snapshotChanges()
+      .pipe(
+        map(x => ({
+          id: x.payload.id,
+          ...x.payload.data()
+        })),
+      )
   }
 
   createTravel(travel: Travel): any {

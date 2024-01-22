@@ -43,7 +43,7 @@ export class HomeComponent implements OnInit {
     this.createItems();
 
     this.authService.user$.subscribe(data => {
-      if(data) this.myUserData = data[0]
+      if(data) this.myUserData = data
     })
   }
 

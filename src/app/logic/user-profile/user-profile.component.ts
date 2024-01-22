@@ -76,11 +76,12 @@ export class UserProfileComponent implements OnInit {
 
     this.authService.user$.subscribe(data => {
       if(data) {
-        this.myUserData2 = data[0]
-        this.isAdmin = this.authService.isAdmin$
-        this.isLead = this.authService.isTeamLead$
-        this.isMember = this.authService.isTeamMember$
+        this.myUserData2 = data
+        //this.isAdmin = this.authService.isAdmin$
+        //this.isLead = this.authService.isTeamLead$
+        //this.isMember = this.authService.isTeamMember$
         this.myUser2 = this.authService.userAuth$
+        /*ToDo, keine separaten Variablen für Rolen*/
         this.createUserForm();
         this.getRoles();
       }

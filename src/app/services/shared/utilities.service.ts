@@ -92,7 +92,7 @@ export class UtilitiesService {
       this.user = this.authService.getUserAuth();
       this.authService.user$.subscribe(data => {
         if(data) {
-          this.myUserData = data[0]
+          this.myUserData = data
           this.roles = this.myUserData.role?.join(",")
   
           let cards: Card[] = [
@@ -139,6 +139,35 @@ export class UtilitiesService {
       await this.userService.getUserData(this.myUser.uid).then((data) => {
       });
     }
+  }
+
+  findIcon(name: string) {
+    let base = "../../../../assets/images/"
+    let result
+
+    switch (name.toUpperCase()) {
+      case "AIL":
+        result = base + "ail.png"
+        break;
+      case "OBERBANK":
+        result = base + "oberbank.svg"
+        break;
+      case "TFSAT":
+        result = base + "tfsat.svg"
+        break;
+      case "CIC":
+        result = base + "cic.png"
+        break;
+      case "BANK-NOW":
+        result = base + "bnow.svg"
+        break;
+    
+      default:
+        result = base + "unternehmen.png"
+        break;
+    }
+
+    return result
   }
   
 

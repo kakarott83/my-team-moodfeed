@@ -23,6 +23,7 @@ const routes: Routes = [
   {path: 'voting', component: VotingComponent, canActivate: [AuthGuard]},
   {path: 'worktime', component: WorktimeComponent, canActivate: [AuthGuard]},
   {path: 'travel', component: TravelComponent, canActivate: [AuthGuard]},
+  {path: 'travel/:id', component: TravelComponent, canActivate: [AuthGuard]},
   {path: 'team-voting', component: TeamVotingComponent, canActivate: [AuthGuard]},
   {path: 'admin', component: AdminComponent, canActivate: [AuthGuard]},
   {path: 'home', component: HomeComponent, canActivate: [AuthGuard]},

@@ -41,23 +41,21 @@ export class WorktimeComponent implements OnInit {
 
 
 
-  ngOnInit(): void {
+  ngOnInit() {
 
-    this.authService.user$.subscribe(data => {
+    this.authService.user$.subscribe(async data => {
       if(data) {
-        this.myUserData = data[0]
-        this.isAdmin = this.authService.isAdmin$
-        this.isLead = this.authService.isTeamLead$
-        this.isMember = this.authService.isTeamMember$
+        this.myUserData = data
+        //this.isAdmin = this.authService.isAdmin$
+        //this.isLead = this.authService.isTeamLead$
+        //this.isMember = this.authService.isTeamMember$
         this.myUser = this.authService.userAuth$
 
         if(this.myUser.uid) {
-          this.fire.getWorkTimeByUser(this.myUser.uid).subscribe(data => {
-            this.myWorktimeList = data;
-          })
+          this.myWorktimeList = await this.fire.getWorkTimeByUser(this.myUser.uid);
         }
 
-        
+
     }})
 
     this.createWorktimeForm()

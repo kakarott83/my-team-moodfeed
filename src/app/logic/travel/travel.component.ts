@@ -11,7 +11,8 @@ import { Upload } from '../../model/upload';
 import { FireService } from '../../services/fire';
 import { FileUpload } from 'primeng/fileupload';
 import { error } from 'console';
-import { finalize, map, min, tap } from 'rxjs';
+import { Observable, finalize, map, min, switchMap, tap } from 'rxjs';
+import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 
 @Component({
   selector: 'app-travel',
@@ -23,6 +24,7 @@ export class TravelComponent implements OnInit {
 
   myTravelForm!: FormGroup;
   myTravel: Travel = {};
+  myTravel$!: Observable<Travel>
   myUser: any;
   date!: Date;
   dateRange: Date[] = []
@@ -51,12 +53,22 @@ export class TravelComponent implements OnInit {
     private fb: FormBuilder, 
     private userService: UserService, 
     private msgService: MessageService, 
-    private utilityService: UtilitiesService) {
+    private utilityService: UtilitiesService,
+    private route: ActivatedRoute) {
+
     this.spendArray = fb.array([]);
+
   }
 
   
   ngOnInit(): void {
+
+    const id = this.route.snapshot.paramMap.get('id')!;
+    console.log("🚀 ~ TravelComponent ~ ngOnInit ~ id:", id)
+
+    this.fire.getTravelById(id).subscribe(data => console.log(data))
+    
+    
 
     this.dateRange = this.utilityService.createDateArray();
     this.customers = this.createCustomer();
