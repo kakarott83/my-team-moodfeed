@@ -66,6 +66,7 @@ import { VotingDialogComponent } from './logic/voting/voting-dialog/voting-dialo
 import { TravelComponent } from './logic/travel/travel.component';
 import { WorktimeListComponent } from './logic/worktime/worktime-list/worktime-list.component';
 import { TravelListComponent } from './logic/travel/travel-list/travel-list.component';
+import { TravelFormComponent } from './logic/travel/travel-form/travel-form.component';
 
 @NgModule({
   declarations: [
@@ -97,7 +98,8 @@ import { TravelListComponent } from './logic/travel/travel-list/travel-list.comp
     VotingDialogComponent,
     TravelComponent,
     WorktimeListComponent,
-    TravelListComponent
+    TravelListComponent,
+    TravelFormComponent
   ],
   imports: [
     BrowserModule,
