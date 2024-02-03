@@ -4,7 +4,7 @@
     </div>
     <div class="bodies">
         <div class="px-4 md:px-6 lg:px-8">
-            <p-tabView>
+            <p-tabView [(activeIndex)]="tabIndex">
                 <p-tabPanel header="Reisekosten">
                     <div class="surface-card shadow-2 p-3 border-round">
                         <app-travel-form></app-travel-form>
@@ -13,7 +13,7 @@
                 <p-tabPanel header="Alle Reisen">
                     <div class="surface-card shadow-2 p-3 border-round">
                         <div class="surface-card shadow-2 p-3 border-round">
-                            <app-travel-list [data]="myTravelList"></app-travel-list>
+                            <app-travel-list [data]="myTravelList" (changeTab)="changeTab($event)"></app-travel-list>
                         </div>
                     </div>
                 </p-tabPanel>

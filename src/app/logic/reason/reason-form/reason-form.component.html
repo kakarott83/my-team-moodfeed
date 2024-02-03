@@ -1,0 +1,15 @@
+<p-card class="block ml-3 mr-3 mt-3">
+        <form [formGroup]="reasonForm">              
+                <div class="field grid">
+                    <label for="Name" class="col-12 mb-2 md:col-2 md:mb-0">Name</label>
+                    <div class="col-12 md:col-10">
+                        <input type="text" pInputText formControlName="name" id="name" class="text-base surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary">
+                    </div>
+                </div>
+                <button (click)="saveReason()" pButton pRipple label="Speichern" class="p-button-success mt-3" icon="pi pi-check" [disabled]="!reasonForm.valid"></button>
+                <button (click)="getDocById(reasonForm.controls['id'].value)" pButton pRipple label="Test" class="p-button-success mt-3" icon="pi pi-check"></button>
+        </form>
+    </p-card>
+    
+    <p-toast></p-toast>
+

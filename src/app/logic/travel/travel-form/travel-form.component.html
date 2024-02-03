@@ -32,48 +32,50 @@
             </div>
         </div>
         <div class="col-6">
-            <div formArrayName="spends">
+            <div formArrayName="spends" class="flex flex-column">
                 <div *ngFor="let item of spendArray.controls; let i=index" [formGroupName]="i">
                     <div class="grid" [style]="{'margin-bottom':'-18px'}">
-                        <div class="col-3">
+                        <div class="col">
                             <div class="field">
-                                <label>Datum</label>
+                                <label *ngIf="i == 0">Datum</label>
                                 <p-calendar formControlName="date" dateFormat="dd.mm.yy" [maxDate]="maxDate" [minDate]="minDate"
                                     class="text-base text-900 flex surface-overlay surface-border"
                                     [style]="{'width':'100%', 'height': '2.3rem', 'font-family': 'Rajdhani'}"></p-calendar>
                             </div>
                         </div>
-                        <div class="col-3">
+                        <div class="col">
                             <div class="field">
-                                <label>Typ</label>
+                                <label *ngIf="i == 0">Typ</label>
                                 <p-dropdown formControlName="type" [options]="spendTyps"
                                     class="text-base text-900 flex surface-overlay surface-border"
                                     [style]="{'width':'100%', 'height': '2.3rem', 'font-family': 'Rajdhani'}"></p-dropdown>
                             </div>
                         </div>
-                        <div class="col-2">
+                        <div class="col">
                             <div class="field">
-                                <label>Betrag</label>
+                                <label *ngIf="i == 0">Betrag</label>
                                 <input type="number" pInputText formControlName="value"
                                     class="text-base text-900 surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" />
                             </div>
                         </div>
                         <div class="col">
-                            <div class="flex field p-2 align-items-center h-full">
-                                <p-button icon="fa-solid fa-plus" (click)="addSpend()" [rounded]="true"
-                                    [text]="true" severity="success "></p-button>
-                                <p-button icon="pi pi-times" (click)="deleteSpend(i)" [rounded]="true"
+                            <div class="flex justify-content-end" [ngStyle]="{'margin-top':i==0 ? '1.75rem' : ''}">
+                                <p-button *ngIf="!isDisabled" class="delete" icon="pi pi-times" (click)="deleteSpend(i)" [rounded]="true"
                                     [text]="true" severity="danger "></p-button>
                             </div>
                         </div>
                     </div>
+                </div>
+                <div class="flex justify-content-center">
+                    <p-button *ngIf="!isDisabled" class="add" icon="fa-solid fa-plus" (click)="addSpend()" [rounded]="true"
+                    [text]="true" severity="success " label="weitere Ausgaben"></p-button>
                 </div>
             </div>
             <div *ngIf="spendArray.length == 0" class="field">
                 <label>Ausgaben</label>
                 <div
                     class="flex justify-content-center text-base text-900 surface-overlay surface-border appearance-none outline-none focus:border-primary w-full">
-                    <p-button icon="fa-solid fa-plus" label="Ausgaben erfassen" (click)="addSpend()"
+                    <p-button *ngIf="!isDisabled" icon="fa-solid fa-plus" label="Ausgaben erfassen" (click)="addSpend()"
                         [rounded]="true" [text]="true" severity="success "></p-button>
                 </div>
             </div>
@@ -94,7 +96,7 @@
                     chooseLabel="Browse"></p-fileUpload>
                 <div *ngIf="uploadedFiles.length">
                     <div *ngFor="let file of uploadedFiles; let i=index">
-                            <div class="flex justify-content-around h-2rem w-full">
+                            <div class="flex justify-content-between h-2rem w-full">
                                 <div>
                                     {{ file.name }}
                                 </div>
@@ -103,7 +105,22 @@
                                 </div>
                                 <div>
                                     <div class="flex field p-2 align-items-center h-full">
-                                        <p-button icon="pi pi-times" (click)="deleteFile(i)"
+                                        <p-button class="delete" icon="pi pi-times" (click)="deleteFile(i)"
+                                            [rounded]="true" [text]="true" severity="danger "></p-button>
+                                    </div>
+                                </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="filesFromDbList.length">
+                    <div *ngFor="let file of filesFromDbList; let i=index">
+                            <div class="flex justify-content-between h-2rem w-full">
+                                <div>
+                                    <a href= "{{file.url}}" target="_blank">{{ file.name }}</a>
+                                </div>
+                                <div>
+                                    <div class="flex field p-2 align-items-center h-full">
+                                        <p-button *ngIf="!isDisabled" class="delete" icon="pi pi-times" (click)="deleteFile(i)"
                                             [rounded]="true" [text]="true" severity="danger "></p-button>
                                     </div>
                                 </div>

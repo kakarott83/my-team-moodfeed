@@ -12,6 +12,10 @@ import { Travel } from '../model/travel';
 import { FileUpload } from '../model/file-upload';
 import { Observable, finalize, firstValueFrom, from, map, take, tap } from 'rxjs';
 import { url } from 'inspector';
+import { Reason } from '../model/reason';
+import { Spendtype } from '../model/spendtype';
+import { Spend } from '../model/spend';
+import { SpendType } from '../model/spend-type';
 
 
 @Injectable({
@@ -29,6 +33,8 @@ export class FireService {
   private worktimePath = '/worktime'
   private travelPath = '/travels'
   private filePath = '/uploads'
+  private reasonPath = '/reasons'
+  private spendTypPath = '/spendtypes'
 
   percentage!: Observable<number | undefined>;
   snapshot!: Observable<any>;
@@ -41,6 +47,8 @@ export class FireService {
   rolesRef!: AngularFirestoreCollection<Role>;
   worktimeRef!: AngularFirestoreCollection<Worktime>;
   travelRef!: AngularFirestoreCollection<Travel>;
+  reasonRef!: AngularFirestoreCollection<Reason>;
+  spendTypeRef!: AngularFirestoreCollection<Spendtype>
   //userRef!: AngularFirestoreDocument<UserData>;
 
   constructor(private db: AngularFirestore, private storage: AngularFireStorage) {
@@ -51,6 +59,8 @@ export class FireService {
     this.rolesRef = db.collection(this.rolesPath);
     this.worktimeRef = db.collection(this.worktimePath);
     this.travelRef = db.collection(this.travelPath);
+    this.reasonRef = db.collection(this.reasonPath);
+    this.spendTypeRef = db.collection(this.spendTypPath);
     //this.userRef = db.doc(this.userDataPath);
   }
 
@@ -242,6 +252,56 @@ export class FireService {
 
   getAllRoles(): AngularFirestoreCollection<Role> {
     return this.rolesRef;
+  }
+
+  /**************Reason Methods**************/
+
+  getAllReason(): Observable<any> {
+    return this.reasonRef.snapshotChanges().pipe(
+      map(changes => changes.map(c => 
+        (
+          {id: c.payload.doc.id, ...c.payload.doc.data()}
+        )
+      ))
+    );
+  }
+
+  getReasonById(id: string) {
+    return firstValueFrom(
+      this.reasonRef.doc(id).valueChanges()
+    )
+  }
+
+
+  createReason(reason: Reason): Promise<Reason> {
+    return this.reasonRef.add({ ...reason });
+  }
+
+  updateReason(id: string, data: any) {
+    return this.reasonRef.doc(id).update(data);
+  }
+
+  deleteReason(id: string) {
+    return this.reasonRef.doc(id).delete();
+  }
+
+
+  /**************SpendType Methods**************/
+
+  getAllSpendType(): AngularFirestoreCollection<Spendtype> {
+    return this.spendTypeRef;
+  }
+
+  createSpendType(spendType: SpendType): any {
+    return this.spendTypeRef.add({ ...spendType });
+  }
+
+  updateSpendType(id: string, data: any) {
+    return this.spendTypeRef.doc(id).update(data);
+  }
+
+  deleteSpendType(id: string) {
+    return this.spendTypeRef.doc(id).delete();
   }
 
 }

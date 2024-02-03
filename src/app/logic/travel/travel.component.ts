@@ -11,8 +11,9 @@ import { Upload } from '../../model/upload';
 import { FireService } from '../../services/fire';
 import { FileUpload } from 'primeng/fileupload';
 import { error } from 'console';
-import { Observable, finalize, map, min, switchMap, tap } from 'rxjs';
+import { BehaviorSubject, Observable, finalize, map, min, switchMap, tap } from 'rxjs';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
+import { BlobOptions } from 'buffer';
 
 @Component({
   selector: 'app-travel',
@@ -23,10 +24,11 @@ import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 export class TravelComponent implements OnInit {
 
   myTravel: Travel = {};
-  myTravel$!: Observable<Travel>
+  myTravel$!: BehaviorSubject<Travel>
   myUser: any;
   isLoading = false;
   myTravelList: Travel[] = [];
+  tabIndex = 0;
 
 
 
@@ -36,16 +38,17 @@ export class TravelComponent implements OnInit {
     private userService: UserService, 
     private msgService: MessageService, 
     private utilityService: UtilitiesService,
+    private router: Router,
     private route: ActivatedRoute) {
   }
 
   
   ngOnInit(): void {
 
-    const id = this.route.snapshot.paramMap.get('id')!;
-    console.log("🚀 ~ TravelComponent ~ ngOnInit ~ id:", id)
+    //const id = this.route.snapshot.paramMap.get('id')!;
+    //console.log("🚀 ~ TravelComponent ~ ngOnInit ~ id:", id)
 
-    this.fire.getTravelById(id).subscribe(data => console.log(data))
+    //this.fire.getTravelById(id).subscribe(data => console.log(data))
     
 
     this.myUser = this.userService.getUser();
@@ -65,10 +68,16 @@ export class TravelComponent implements OnInit {
         .subscribe(data => {
           this.myTravelList = data
           this.isLoading = false;
-          console.log(this.myTravelList,'MyTravelList')
+          //console.log(this.myTravelList,'MyTravelList')
         })
     } else {
     }
+  }
+
+  changeTab(change: boolean) {
+    if(change) {
+      this.tabIndex = 0;
+    }   
   }
 
 }

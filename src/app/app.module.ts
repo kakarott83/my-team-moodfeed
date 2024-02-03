@@ -67,6 +67,9 @@ import { TravelComponent } from './logic/travel/travel.component';
 import { WorktimeListComponent } from './logic/worktime/worktime-list/worktime-list.component';
 import { TravelListComponent } from './logic/travel/travel-list/travel-list.component';
 import { TravelFormComponent } from './logic/travel/travel-form/travel-form.component';
+import { ReasonComponent } from './logic/reason/reason.component';
+import { ReasonFormComponent } from './logic/reason/reason-form/reason-form.component';
+import { ReasonListComponent } from './logic/reason/reason-list/reason-list.component';
 
 @NgModule({
   declarations: [
@@ -99,7 +102,10 @@ import { TravelFormComponent } from './logic/travel/travel-form/travel-form.comp
     TravelComponent,
     WorktimeListComponent,
     TravelListComponent,
-    TravelFormComponent
+    TravelFormComponent,
+    ReasonComponent,
+    ReasonFormComponent,
+    ReasonListComponent
   ],
   imports: [
     BrowserModule,

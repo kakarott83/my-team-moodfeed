@@ -67,7 +67,7 @@ export class UtilitiesService {
     // return m.format('HH:mm')
   }
 
-  createDateArray():Date[] {
+  createDateArray(): Date[] {
     let datArr: Date[] = []
     let startDate = new Date()
     startDate.setHours(8)
