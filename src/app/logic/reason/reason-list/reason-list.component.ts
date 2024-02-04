@@ -23,7 +23,7 @@ export class ReasonListComponent implements OnInit {
   createReasonList() {
     this.fire.getAllReason().subscribe(data => {
       this.reasonList = data
-      console.log("🚀 ~ ReasonListComponent ~ this.fire.getAllReason ~ reasonList:", this.reasonList)
+    
       
     } )
   }

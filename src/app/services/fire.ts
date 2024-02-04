@@ -201,6 +201,18 @@ export class FireService {
       )
   }
 
+  getTravelByIdPromise(id: string) {
+    return firstValueFrom(
+      this.db.collection<Travel>('travels').doc(id).snapshotChanges()
+      .pipe(
+        map(x => ({
+          id: x.payload.id,
+          ...x.payload.data()
+        })),
+      )
+    )
+  }
+
   createTravel(travel: Travel): any {
     return this.travelRef.add({ ...travel });
   }
@@ -288,11 +300,17 @@ export class FireService {
 
   /**************SpendType Methods**************/
 
-  getAllSpendType(): AngularFirestoreCollection<Spendtype> {
-    return this.spendTypeRef;
+  getAllSpendType(): Observable<any> {
+    return this.spendTypeRef.snapshotChanges()
+      .pipe(
+        map(changes => 
+          changes.map(c => (
+            {id: c.payload.doc.id, ...c.payload.doc.data()}
+          )))
+      );
   }
 
-  createSpendType(spendType: SpendType): any {
+  createSpendType(spendType: SpendType): Promise<SpendType> {
     return this.spendTypeRef.add({ ...spendType });
   }
 

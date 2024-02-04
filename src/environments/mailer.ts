@@ -1,0 +1,5 @@
+export const mailer = {
+    MAILJET_API_KEY: "7144b9d98638d4fc45a7457de6815760",
+    MAILJET_API_SECRET: "2480b7e684347c2cc84649916ad996ce",
+    PORT: 5000
+}

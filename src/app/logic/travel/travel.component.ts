@@ -43,13 +43,7 @@ export class TravelComponent implements OnInit {
   }
 
   
-  ngOnInit(): void {
-
-    //const id = this.route.snapshot.paramMap.get('id')!;
-    //console.log("🚀 ~ TravelComponent ~ ngOnInit ~ id:", id)
-
-    //this.fire.getTravelById(id).subscribe(data => console.log(data))
-    
+  ngOnInit(): void {    
 
     this.myUser = this.userService.getUser();
 

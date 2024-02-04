@@ -32,6 +32,20 @@
                 </ng-template>
                 <app-reason></app-reason>
             </p-tabPanel>
+            <p-tabPanel>
+                <ng-template pTemplate="header">
+                    <i class="fa-solid fa-comments-dollar mr-3"></i>
+                    <span>Zweck</span>
+                </ng-template>
+                <app-spendtyp></app-spendtyp>
+            </p-tabPanel>
+            <p-tabPanel>
+                <ng-template pTemplate="header">
+                    <i class="fa-solid fa-envelope mr-3"></i>
+                    <span>Zweck</span>
+                </ng-template>
+                <app-mailer></app-mailer>
+            </p-tabPanel>
         </p-tabView>
     </div>
 </div>

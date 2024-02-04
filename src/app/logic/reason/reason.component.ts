@@ -8,13 +8,8 @@ import { MessageService } from 'primeng/api';
   styleUrl: './reason.component.scss',
   providers: [DataService, MessageService]
 })
-export class ReasonComponent implements OnInit {
+export class ReasonComponent {
 
   constructor(private dataService: DataService, private messageService: MessageService) {}
-  
-  ngOnInit(): void {
-  }
-
-
 
 }

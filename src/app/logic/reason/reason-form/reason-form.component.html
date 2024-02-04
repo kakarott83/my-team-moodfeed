@@ -6,10 +6,8 @@
                         <input type="text" pInputText formControlName="name" id="name" class="text-base surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary">
                     </div>
                 </div>
-                <button (click)="saveReason()" pButton pRipple label="Speichern" class="p-button-success mt-3" icon="pi pi-check" [disabled]="!reasonForm.valid"></button>
-                <button (click)="getDocById(reasonForm.controls['id'].value)" pButton pRipple label="Test" class="p-button-success mt-3" icon="pi pi-check"></button>
+                <button (click)="saveReason()" pButton pRipple label="Speichern" class="cic-btn" icon="pi pi-check" [disabled]="!reasonForm.valid"></button>
         </form>
     </p-card>
-    
     <p-toast></p-toast>
 

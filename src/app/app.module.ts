@@ -70,6 +70,10 @@ import { TravelFormComponent } from './logic/travel/travel-form/travel-form.comp
 import { ReasonComponent } from './logic/reason/reason.component';
 import { ReasonFormComponent } from './logic/reason/reason-form/reason-form.component';
 import { ReasonListComponent } from './logic/reason/reason-list/reason-list.component';
+import { SpendtypComponent } from './logic/spendtyp/spendtyp.component';
+import { SpendtypListComponent } from './logic/spendtyp/spendtyp-list/spendtyp-list.component';
+import { SpendtypFormComponent } from './logic/spendtyp/spendtyp-form/spendtyp-form.component';
+import { MailerComponent } from './logic/mailer/mailer.component';
 
 @NgModule({
   declarations: [
@@ -105,7 +109,11 @@ import { ReasonListComponent } from './logic/reason/reason-list/reason-list.comp
     TravelFormComponent,
     ReasonComponent,
     ReasonFormComponent,
-    ReasonListComponent
+    ReasonListComponent,
+    SpendtypComponent,
+    SpendtypListComponent,
+    SpendtypFormComponent,
+    MailerComponent
   ],
   imports: [
     BrowserModule,
