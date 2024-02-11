@@ -4,5 +4,5 @@ export interface Customer {
     id?: string,
     name?: string,
     city?: string,
-    country: Country
+    country?: Country
 }

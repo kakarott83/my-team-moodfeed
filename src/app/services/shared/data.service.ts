@@ -6,6 +6,8 @@ import { UserData } from '../../model/user-data';
 import { Travel } from '../../model/travel';
 import { Reason } from '../../model/reason';
 import { SpendType } from '../../model/spend-type';
+import { Customer } from '../../model/customer';
+import { Country } from '../../model/country';
 
 @Injectable()
 
@@ -19,5 +21,7 @@ export class DataService {
   public selectedTravel = new BehaviorSubject<Travel | undefined>(undefined);
   public selectedReason = new BehaviorSubject<Reason | undefined>(undefined);
   public selectedSpendtyp = new BehaviorSubject<SpendType | undefined>(undefined);
+  public selectedCustomer = new BehaviorSubject<Customer | undefined>(undefined);
+  public selectedCountry = new BehaviorSubject<Country | undefined>(undefined);
 
 }

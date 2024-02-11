@@ -74,6 +74,12 @@ import { SpendtypComponent } from './logic/spendtyp/spendtyp.component';
 import { SpendtypListComponent } from './logic/spendtyp/spendtyp-list/spendtyp-list.component';
 import { SpendtypFormComponent } from './logic/spendtyp/spendtyp-form/spendtyp-form.component';
 import { MailerComponent } from './logic/mailer/mailer.component';
+import { CustomerComponent } from './logic/customer/customer.component';
+import { CustomerFormComponent } from './logic/customer/customer-form/customer-form.component';
+import { CustomerListComponent } from './logic/customer/customer-list/customer-list.component';
+import { CountryComponent } from './logic/country/country.component';
+import { CountryListComponent } from './logic/country/country-list/country-list.component';
+import { CountryFormComponent } from './logic/country/country-form/country-form.component';
 
 @NgModule({
   declarations: [
@@ -113,7 +119,13 @@ import { MailerComponent } from './logic/mailer/mailer.component';
     SpendtypComponent,
     SpendtypListComponent,
     SpendtypFormComponent,
-    MailerComponent
+    MailerComponent,
+    CustomerComponent,
+    CustomerFormComponent,
+    CustomerListComponent,
+    CountryComponent,
+    CountryListComponent,
+    CountryFormComponent
   ],
   imports: [
     BrowserModule,

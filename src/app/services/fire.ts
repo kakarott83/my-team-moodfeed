@@ -11,11 +11,12 @@ import { Worktime } from '../model/worktime';
 import { Travel } from '../model/travel';
 import { FileUpload } from '../model/file-upload';
 import { Observable, finalize, firstValueFrom, from, map, take, tap } from 'rxjs';
-import { url } from 'inspector';
 import { Reason } from '../model/reason';
 import { Spendtype } from '../model/spendtype';
 import { Spend } from '../model/spend';
 import { SpendType } from '../model/spend-type';
+import { Customer } from '../model/customer';
+import { Country } from '../model/country';
 
 
 @Injectable({
@@ -35,6 +36,8 @@ export class FireService {
   private filePath = '/uploads'
   private reasonPath = '/reasons'
   private spendTypPath = '/spendtypes'
+  private customerPath = '/customers'
+  private countriesPath = '/countries'
 
   percentage!: Observable<number | undefined>;
   snapshot!: Observable<any>;
@@ -49,6 +52,8 @@ export class FireService {
   travelRef!: AngularFirestoreCollection<Travel>;
   reasonRef!: AngularFirestoreCollection<Reason>;
   spendTypeRef!: AngularFirestoreCollection<Spendtype>
+  customerRef!: AngularFirestoreCollection<Customer>
+  countriesRef!: AngularFirestoreCollection<Country>
   //userRef!: AngularFirestoreDocument<UserData>;
 
   constructor(private db: AngularFirestore, private storage: AngularFireStorage) {
@@ -61,6 +66,8 @@ export class FireService {
     this.travelRef = db.collection(this.travelPath);
     this.reasonRef = db.collection(this.reasonPath);
     this.spendTypeRef = db.collection(this.spendTypPath);
+    this.countriesRef = db.collection(this.countriesPath);
+    this.customerRef = db.collection(this.customerPath);
     //this.userRef = db.doc(this.userDataPath);
   }
 
@@ -321,5 +328,67 @@ export class FireService {
   deleteSpendType(id: string) {
     return this.spendTypeRef.doc(id).delete();
   }
+
+  /**************SpendType Methods**************/
+
+  getAllCustomer(): Observable<any> {
+    return this.customerRef.snapshotChanges()
+      .pipe(
+        map(changes => 
+          changes.map(c => (
+            {id: c.payload.doc.id, ...c.payload.doc.data()}
+          )))
+      );
+  }
+
+  createCustomer(customer: Customer): Promise<Customer> {
+    return this.customerRef.add({ ...customer });
+  }
+
+  updateCustomer(id: string, data: any) {
+    return this.customerRef.doc(id).update(data);
+  }
+
+  deleteCustomer(id: string) {
+    return this.customerRef.doc(id).delete();
+  }
+
+
+  /**************Country Methods**************/
+
+  getAllCountries(): Observable<any> {
+    return this.countriesRef.snapshotChanges()
+      .pipe(
+        map(changes => 
+          changes.map(c => (
+            {id: c.payload.doc.id, ...c.payload.doc.data()}
+          )))
+      );
+  }
+
+  getAllCountriesPromise() {
+    return firstValueFrom(
+      this.countriesRef.snapshotChanges()
+      .pipe(
+        map(changes => 
+          changes.map(c => (
+            {id: c.payload.doc.id, ...c.payload.doc.data()}
+          )))
+      )
+    )
+  }
+
+  createCountry(country: Country): Promise<Country> {
+    return this.countriesRef.add({ ...country });
+  }
+
+  updateCountry(id: string, data: any) {
+    return this.countriesRef.doc(id).update(data);
+  }
+
+  deleteCountry(id: string) {
+    return this.countriesRef.doc(id).delete();
+  }
+
 
 }

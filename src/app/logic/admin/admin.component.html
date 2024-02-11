@@ -46,6 +46,20 @@
                 </ng-template>
                 <app-mailer></app-mailer>
             </p-tabPanel>
+            <p-tabPanel>
+                <ng-template pTemplate="header">
+                    <i class="fa-solid fa-building mr-3"></i>
+                    <span>Kunden</span>
+                </ng-template>
+                <app-customer></app-customer>
+            </p-tabPanel>
+            <p-tabPanel>
+                <ng-template pTemplate="header">
+                    <i class="fa-solid fa-earth-europe mr-3"></i>
+                    <span>Länder</span>
+                </ng-template>
+                <app-country></app-country>
+            </p-tabPanel>
         </p-tabView>
     </div>
 </div>

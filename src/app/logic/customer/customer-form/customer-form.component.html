@@ -1,0 +1,35 @@
+<p-card class="block ml-3 mr-3 mt-3">
+    <div *ngIf="!isLoading; else loading">
+        <form [formGroup]="customerForm">              
+                <div class="field grid">
+                    <label for="Name" class="col-12 mb-2 md:col-2 md:mb-0">Name</label>
+                    <div class="col-12 md:col-10">
+                        <input type="text" pInputText formControlName="name" id="name" class="text-base surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary">
+                    </div>
+                </div>
+                <div class="field grid">
+                    <label for="city" class="col-12 mb-2 md:col-2 md:mb-0">Ort</label>
+                    <div class="col-12 md:col-10">
+                        <input type="text" pInputText formControlName="city" id="city" class="text-base surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary">
+                    </div>
+                </div>
+                <div class="field grid">
+                    <label for="country" class="col-12 mb-2 md:col-2 md:mb-0">Land</label>
+                    <div class="col-12 md:col-10">
+                        <p-dropdown formControlName="country" [options]="countryList" optionLabel="name"
+                            class="text-base text-900 flex surface-overlay surface-border"
+                            [style]="{'width':'12rem','height': '2.3rem', 'font-family': 'Rajdhani'}">
+                        </p-dropdown>
+                    </div>
+                </div>
+                <div class="flex">
+                    <button (click)="saveCustomer()" pButton pRipple label="Speichern" class="cic-btn" icon="pi pi-check" [disabled]="!customerForm.valid"></button>
+                    <button (click)="resetForm()" pButton pRipple class="cic-btn" label="Reset" icon="pi pi-check"></button>
+                </div>
+        </form>
+    </div>
+    <ng-template #loading>
+        <p-progressSpinner></p-progressSpinner>
+    </ng-template>
+</p-card>
+<p-toast></p-toast>
