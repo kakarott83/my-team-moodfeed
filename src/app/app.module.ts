@@ -19,6 +19,7 @@ import { VotingDetailComponent } from './logic/voting-detail/voting-detail.compo
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { MenuModule } from 'primeng/menu';
 import { FilterService } from 'primeng/api';
+import { FieldsetModule } from 'primeng/fieldset';
 import { MenubarModule } from 'primeng/menubar';
 import { MenuBarComponent } from './nav/menu-bar/menu-bar.component';
 import { TeamVotingComponent } from './logic/team-voting/team-voting.component';
@@ -142,6 +143,7 @@ import { CountryFormComponent } from './logic/country/country-form/country-form.
     DynamicDialogModule,
     MultiSelectModule,
     TooltipModule,
+    FieldsetModule,
     ProgressSpinnerModule,
     FileUploadModule,
     DropdownModule,

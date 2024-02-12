@@ -14,12 +14,13 @@ import { error } from 'console';
 import { BehaviorSubject, Observable, finalize, map, min, switchMap, tap } from 'rxjs';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 import { BlobOptions } from 'buffer';
+import { DataService } from '../../services/shared/data.service';
 
 @Component({
   selector: 'app-travel',
   templateUrl: './travel.component.html',
   styleUrl: './travel.component.scss',
-  providers:[UserService,MessageService, UtilitiesService]
+  providers:[UserService,MessageService, UtilitiesService, DataService]
 })
 export class TravelComponent implements OnInit {
 

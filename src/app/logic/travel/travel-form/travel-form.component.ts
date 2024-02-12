@@ -7,17 +7,17 @@ import { UtilitiesService } from '../../../services/shared/utilities.service';
 import { UserService } from '../../../services/shared/user.service';
 import { Customer } from '../../../model/customer';
 import { FireService } from '../../../services/fire';
-import { BehaviorSubject, map } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { DataService } from '../../../services/shared/data.service';
-import { parse } from 'path';
 import { STATE } from '../../../enums';
+import { Reason } from '../../../model/reason';
+import { SpendType } from '../../../model/spend-type';
 
 @Component({
   selector: 'app-travel-form',
   templateUrl: './travel-form.component.html',
   styleUrl: './travel-form.component.scss',
-  providers:[UserService,MessageService, UtilitiesService, DataService]
+  providers:[UserService,MessageService, UtilitiesService]
 })
 export class TravelFormComponent implements OnInit {
 
@@ -32,12 +32,15 @@ export class TravelFormComponent implements OnInit {
   uploadedFiles: any[] = [];
   storeFile: any[] = [];
   customers: Customer[] = [];
-  reasons: string[] = [];
-  spendTyps: string[] = [];
+  reasons: Reason[] = [];
+  spendTyps: SpendType[] = [];
   isLoading = false;
   spendComment = '';
-  isDisabled = false
-  filesFromDbList: any = []
+  isDisabled = false;
+  filesFromDbList: any = [];
+  duration = '';
+  sumRate = 0;
+  sumSpend = 0;
   
   @Input() myUser: any;
 
@@ -50,16 +53,16 @@ export class TravelFormComponent implements OnInit {
     private route: ActivatedRoute,
     private dataService: DataService
     ) {
-      this.spendArray = fb.array([]);
+      //this.spendArray = fb.array([]);
 
-      this.route.params.subscribe(params => {
-        console.log("🚀 ~ TravelFormComponent ~ params:", params['id'])
-        const id = params['id'];
+      //this.route.params.subscribe(params => {
+      //  console.log("🚀 ~ TravelFormComponent ~ params:", params['id'])
+      //  const id = params['id'];
 
-        if(id !== undefined) {
-          this.createTravelFormById(id);
-        }
-      })
+      //  if(id !== undefined) {
+      //    this.createTravelFormById(id);
+      //  }
+      //})
       
       
 
@@ -68,87 +71,94 @@ export class TravelFormComponent implements OnInit {
 
 
   ngOnInit(): void {
-    this.dateRange = this.utilityService.createDateArray();
-    this.customers = this.createCustomer();
-    this.reasons = this.createReason();
-    this.spendTyps = this.createSpendTypes();
+    //this.dateRange = this.utilityService.createDateArray();
+    //this.customers = this.createCustomer();
+    //this.reasons = this.createReason();
+    //this.spendTyps = this.createSpendTypes();
 
     this.myUser = this.userService.getUser();
 
-    /*Doesnt Work*/
-    this.dataService.selectedTravel.subscribe({
-      next: (t) => console.log(t)
+    this.dataService.selectedTravel.subscribe(data => {
+      this.createForm(data)
     })
 
 
-    this.createTravelForm();
+    //this.createTravelForm();
 
-    this.myTravelForm.controls['dateRange'].valueChanges.subscribe(value => {
-      /*MinDate und Max setzen*/
+    // this.myTravelForm.controls['dateRange'].valueChanges.subscribe(value => {
+    //   /*MinDate und Max setzen*/
 
-      if(value !== null) {
-        this.minDate = value[0]
-        this.maxDate = value[1]
-      }
-    })
+    //   if(value !== null) {
+    //     this.minDate = value[0]
+    //     this.maxDate = value[1]
+    //   }
+    // })
 
     
 
 
   }
 
-  createTravelForm() {
-    this.myTravelForm = this.fb.group({
-      dateRange: new FormControl(this.dateRange),
-      customer:  new FormControl(),
-      reason:  new FormControl(),
-      comment: new FormControl(),
-      spends: this.spendArray
-    })
-  }
+  async createForm(item?: Travel) {
+    console.log("🚀 ~ TravelFormComponent ~ createForm ~ item:", item)
 
-  createTravelFormById(id: string) {
-    this.clearForm()
-    this.spendArray.clear()
-    this.fire.getTravelById(id).subscribe(data => {
+    this.isLoading = true
 
-      const state = data.state
+    this.customers = await this.fire.getAllCustomersPromise()
+    this.reasons = await this.fire.getAllReasonsPromise()
+    this.spendTyps = await this.fire.getAllSpendTypsPromise()
+    this.dateRange = this.utilityService.createDateArray();
+    this.spendArray = this.fb.array([]);
 
-      if(data.state !== STATE[0]) {
+    if(item !== undefined) {
+
+      if(item.state !== STATE[0]) {
         this.isDisabled = true
       }
 
+      console.log("🚀 ~ TravelFormComponent ~ createForm ~ item2:", item)
+      this.clearForm()
+      this.spendArray.clear()
+
+      this.myTravel = item;
+
+
       /*SET Start End*/
       let dr: Date[] = [];
-      if(data.date !== undefined && data.date !== null) {
-        dr.push(new Date(Object(data.date[0])['seconds']*1000))
-        dr.push(new Date(Object(data.date[1])['seconds']*1000))
+      if(item.date !== undefined && item.date !== null) {
+        dr.push(new Date(Object(item.date[0])['seconds']*1000))
+        dr.push(new Date(Object(item.date[1])['seconds']*1000))
+        this.duration = this.utilityService.calcDuration(dr[0],dr[1])
       }
-      
-      /*SET other Values*/
-      this.myTravelForm.patchValue({
-        dateRange: dr,
-        customer: data.customer,
-        reason: data.reason,
-        comment: data.comment,
+
+
+      this.myTravelForm = this.fb.group({
+        dateRange: new FormControl(dr),
+        customer: new FormControl(item.customer),
+        reason: new FormControl(item.reason),
+        comment: new FormControl(item.comment),
+        breakfast: new FormControl(item.breakfast),
+        launch: new FormControl(item.launch),
+        dinner: new FormControl(item.dinner),
+        spends: this.spendArray
       })
 
-      /*SET Spends End*/
-      data.spends?.forEach(item =>  {
-        if(item.date !== undefined && item.date !== null) {
+      item.spends?.forEach(i =>  {
+        if(i.date !== undefined && i.date !== null) {
           this.spendArray.push(
             this.fb.group({
-              type: item.type,
-              value: item.value,
-              date: new Date(Object(item.date)['seconds']*1000),
+              type: i.type,
+              value: i.value,
+              date: new Date(Object(i.date)['seconds']*1000),
             })
           )
         }
       })
+
       /*SET Documents End*/
-      data.fileRefs?.forEach(item => {
-        if(item !== undefined && item !== null) {
-          this.filesFromDbList.push(item)
+      item.fileRefs?.forEach(i => {
+        if(i !== undefined && i !== null) {
+          this.filesFromDbList.push(i)
         }
       })
 
@@ -159,14 +169,111 @@ export class TravelFormComponent implements OnInit {
       }
 
 
+      
+    } else {
+
+      this.myTravelForm = this.fb.group({
+        dateRange: new FormControl(this.dateRange),
+        customer:  new FormControl(),
+        reason:  new FormControl(),
+        comment: new FormControl(),
+        breakfast: new FormControl(true),
+        launch: new FormControl(false),
+        dinner: new FormControl(false),
+        spends: this.spendArray
+      })
+    }
+
+    this.myTravelForm.valueChanges.subscribe(data => {
+      this.changeTravel(data)
     })
+
+    this.isLoading = false;
+
+
+    
   }
+
+  // createTravelForm() {
+  //   this.myTravelForm = this.fb.group({
+  //     dateRange: new FormControl(this.dateRange),
+  //     customer:  new FormControl(),
+  //     reason:  new FormControl(),
+  //     comment: new FormControl(),
+  //     breakfast: new FormControl(true),
+  //     launch: new FormControl(false),
+  //     dinner: new FormControl(false),
+
+  //     spends: this.spendArray
+  //   })
+  // }
+
+  // createTravelFormById(id: string) {
+  //   this.clearForm()
+  //   this.spendArray.clear()
+  //   this.fire.getTravelById(id).subscribe(data => {
+
+  //     const state = data.state
+
+  //     if(data.state !== STATE[0]) {
+  //       this.isDisabled = true
+  //     }
+
+  //     /*SET Start End*/
+  //     let dr: Date[] = [];
+  //     if(data.date !== undefined && data.date !== null) {
+  //       dr.push(new Date(Object(data.date[0])['seconds']*1000))
+  //       dr.push(new Date(Object(data.date[1])['seconds']*1000))
+  //     }
+      
+  //     /*SET other Values*/
+  //     this.myTravelForm.patchValue({
+  //       dateRange: dr,
+  //       customer: data.customer,
+  //       reason: data.reason,
+  //       comment: data.comment,
+  //       breakfast: data.breakfast,
+  //       launch: data.launch,
+  //       dinner: data.dinner
+  //     })
+
+  //     /*SET Spends End*/
+  //     data.spends?.forEach(item =>  {
+  //       if(item.date !== undefined && item.date !== null) {
+  //         this.spendArray.push(
+  //           this.fb.group({
+  //             type: item.type,
+  //             value: item.value,
+  //             date: new Date(Object(item.date)['seconds']*1000),
+  //           })
+  //         )
+  //       }
+  //     })
+  //     /*SET Documents End*/
+  //     data.fileRefs?.forEach(item => {
+  //       if(item !== undefined && item !== null) {
+  //         this.filesFromDbList.push(item)
+  //       }
+  //     })
+
+  //     if(this.isDisabled) {
+  //       //Submitted, Paid
+  //       this.myTravelForm.disable()
+  //       this.setSpendDisable()
+  //     }
+
+
+  //   })
+  // }
 
   createTravel(): Travel {
     this.myTravel = {
       date: this.myTravelForm.controls['dateRange'].value,
       customer: this.myTravelForm.controls['customer'].value,
       reason: this.myTravelForm.controls['reason'].value,
+      breakfast: this.myTravelForm.controls['breakfast'].value,
+      launch: this.myTravelForm.controls['launch'].value,
+      dinner: this.myTravelForm.controls['dinner'].value,
       comment: this.myTravelForm.controls['comment'].value,
       userId: this.myUser.uid,
       state: STATE[0]
@@ -186,6 +293,16 @@ export class TravelFormComponent implements OnInit {
     this.myTravel.spends = this.spends
 
     return this.myTravel
+  }
+
+  changeTravel(travel: any) {
+    
+    if(travel.dateRange[0] !== undefined && travel.dateRange[1]) {
+      console.log("🚀 ~ TravelFormComponent ~ changeTravel ~ travel:", travel)
+      this.duration = this.utilityService.calcDuration(travel.dateRange[0],travel.dateRange[1])
+      console.log("🚀 ~ TravelFormComponent ~ changeTravel ~ duration:", this.duration)
+      
+    }
   }
 
   async submit() {
@@ -258,18 +375,18 @@ export class TravelFormComponent implements OnInit {
     })
   }
 
-  createCustomer(): Customer[] {
-    let customers: Customer[] = [
-      {name: 'AIL', country: {name: 'Deutschland', code: 'DE', rate: 24, halfRate: 12}},
-      {name: 'Oberbank', country: {name: 'Österreich', code: 'AT', rate: 36, halfRate: 20}}
-    ];
+  // createCustomer(): Customer[] {
+  //   let customers: Customer[] = [
+  //     {name: 'AIL', country: {name: 'Deutschland', code: 'DE', rate: 24, halfRate: 12}},
+  //     {name: 'Oberbank', country: {name: 'Österreich', code: 'AT', rate: 36, halfRate: 20}}
+  //   ];
 
-    return customers
-  }
+  //   return customers
+  // }
 
-  createReason(): string[] {
-    return ['Vor Ort Betreuung', 'Livegang', 'Workshop']
-  }
+  // createReason(): string[] {
+  //   return ['Vor Ort Betreuung', 'Livegang', 'Workshop']
+  // }
 
   createSpendTypes(): string[] {
     let spendType = ['Bahn/Bus','Auto'];
@@ -282,6 +399,11 @@ export class TravelFormComponent implements OnInit {
     if(this.myTravelForm) {
       this.myTravelForm.reset();
     }
+
+    if(this.myTravel) {
+      this.myTravel = {}
+    }
+
     /*Spends leeren*/
     if(this.spendArray.length > 0) {
       this.spendArray.clear()

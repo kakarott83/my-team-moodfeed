@@ -22,7 +22,7 @@ export class CustomerFormComponent implements OnInit {
 
   constructor(private fire: FireService, private fb: FormBuilder, private dataService: DataService, private messageService: MessageService) {}
   
-  async ngOnInit() {
+  ngOnInit() {
     // this.fire.getAllCountries().subscribe(data => {
     //   console.log("🚀 ~ CustomerFormComponent ~ this.fire.getAllCountries ~ data:", data)
     //   this.countryList = data

@@ -285,6 +285,18 @@ export class FireService {
     );
   }
 
+  getAllReasonsPromise() {
+    return firstValueFrom(
+      this.reasonRef.snapshotChanges()
+      .pipe(
+        map(changes =>
+          changes.map(c => (
+            {id: c.payload.doc.id, ...c.payload.doc.data()}
+          )))
+      )
+    )
+  }
+
   getReasonById(id: string) {
     return firstValueFrom(
       this.reasonRef.doc(id).valueChanges()
@@ -317,6 +329,18 @@ export class FireService {
       );
   }
 
+  getAllSpendTypsPromise() {
+    return firstValueFrom(
+      this.spendTypeRef.snapshotChanges()
+      .pipe(
+        map(changes =>
+          changes.map(c => (
+            {id: c.payload.doc.id, ...c.payload.doc.data()}
+          )))
+      )
+    )
+  }
+
   createSpendType(spendType: SpendType): Promise<SpendType> {
     return this.spendTypeRef.add({ ...spendType });
   }
@@ -339,6 +363,18 @@ export class FireService {
             {id: c.payload.doc.id, ...c.payload.doc.data()}
           )))
       );
+  }
+
+  getAllCustomersPromise() {
+    return firstValueFrom(
+      this.customerRef.snapshotChanges()
+      .pipe(
+        map(changes =>
+          changes.map(c => (
+            {id: c.payload.doc.id, ...c.payload.doc.data()}
+          )))
+      )
+    )
   }
 
   createCustomer(customer: Customer): Promise<Customer> {

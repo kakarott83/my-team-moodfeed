@@ -10,7 +10,7 @@ import { DataService } from '../../../services/shared/data.service';
   selector: 'app-travel-list',
   templateUrl: './travel-list.component.html',
   styleUrl: './travel-list.component.scss',
-  providers: [UtilitiesService, FilterService, DataService]
+  providers: [UtilitiesService, FilterService]
 })
 export class TravelListComponent implements OnInit {
 
@@ -102,6 +102,13 @@ export class TravelListComponent implements OnInit {
     //this.dataService.selectedTravel.next(travel);
     this.changeTab.emit(true);
   }
+
+  selectTravel(item: any) {
+    this.dataService.selectedTravel.next(item);
+    this.changeTab.emit(true);
+  }
+
+
 
 
 

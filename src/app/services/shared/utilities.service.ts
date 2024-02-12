@@ -32,6 +32,26 @@ export class UtilitiesService {
     return weeksArr
   }
 
+  calcDuration(startDate: Date, endDate: Date) {
+    let start = moment(startDate);
+    let end = moment(endDate);
+    let duration = moment.duration(end.diff(start));
+
+    //Get Days
+    let days = Math.floor(duration.asDays()); // .asDays returns float but we are interested in full days only
+    let daysFormatted = days ? `${days}d ` : ''; // if no full days then do not display it at all
+
+    //Get Hours
+    let hours = duration.hours();
+    let hoursFormatted = `${hours}h `;
+
+    //Get Minutes
+    let minutes = duration.minutes();
+    let minutesFormatted = `${minutes}m`;
+
+    return [daysFormatted, hoursFormatted, minutesFormatted].join('');
+  }
+
   calcTime(startTime: string, endTime: string, breakTime?: string) {
     let start = moment(startTime,"HH:mm");
     let end = moment(endTime,"HH:mm");
