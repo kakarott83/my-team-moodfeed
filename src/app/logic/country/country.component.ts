@@ -6,7 +6,7 @@ import { MessageService } from 'primeng/api';
   selector: 'app-country',
   templateUrl: './country.component.html',
   styleUrl: './country.component.scss',
-  providers: [DataService, MessageService]
+  providers: [MessageService]
 })
 export class CountryComponent {
 

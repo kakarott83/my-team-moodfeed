@@ -11,11 +11,12 @@
                     </div>
                 </p-tabPanel>
                 <p-tabPanel header="Alle Reisen">
-                    <div class="surface-card shadow-2 p-3 border-round">
+                    <!--div class="surface-card shadow-2 p-3 border-round">
                         <div class="surface-card shadow-2 p-3 border-round">
                             <app-travel-list [data]="myTravelList" (changeTab)="changeTab($event)"></app-travel-list>
                         </div>
-                    </div>
+                    </div-->
+                    <app-travel-list [data]="myTravelList" (changeTab)="changeTab($event)"></app-travel-list>
                 </p-tabPanel>
             </p-tabView>
         </div>

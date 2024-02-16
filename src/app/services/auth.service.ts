@@ -10,8 +10,9 @@ import { GoogleAuthProvider, User, getAuth, updateProfile } from 'firebase/auth'
 import { UserService } from './shared/user.service';
 import { UserData } from '../model/user-data';
 import { FireService } from './fire';
-import { BehaviorSubject, Observable, Observer, Subject, of } from 'rxjs';
+import { BehaviorSubject, Observable, Observer, Subject, firstValueFrom, of } from 'rxjs';
 import { map, switchMap, take, tap } from 'rxjs/operators';
+import { DataService } from './shared/data.service';
 
 @Injectable({
   providedIn: 'root'
@@ -22,23 +23,31 @@ export class AuthService {
   userData!: any;
   public user$!: Observable<UserData | null>;
   public userAuth$!: any;
-  public isLoggedIn$!: false;
+  public isLoggedIn$ = new BehaviorSubject<boolean>(false);
   public isAdmin$ = new BehaviorSubject<boolean>(false);
   public isTeamLead$ = new BehaviorSubject<boolean>(false);
   public isTeamMember$ = new BehaviorSubject<boolean>(false);
 
-  constructor(public afAuth: AngularFireAuth,private fire: FireService, public afs: AngularFirestore, public ngZone: NgZone, public router: Router) {
+  constructor(
+    public afAuth: AngularFireAuth,
+    private fire: FireService, 
+    public afs: AngularFirestore, 
+    public ngZone: NgZone, 
+    public router: Router, 
+    private dataService: DataService) {
     /* Saving user data in localstorage when
     logged in and setting up null when logged out */
 
     this.afAuth.authState.subscribe((user) => {
       if (user) {
+        this.isLoggedIn$.next(true)
         this.userData = user;
-        localStorage.setItem('user', JSON.stringify(this.userData));
-        JSON.parse(localStorage.getItem('user')!);
+        //localStorage.setItem('user', JSON.stringify(this.userData));
+        //JSON.parse(localStorage.getItem('user')!);
       } else {
-        localStorage.setItem('user', 'null');
-        JSON.parse(localStorage.getItem('user')!);
+        this.isLoggedIn$.next(false)
+        //localStorage.setItem('user', 'null');
+        //JSON.parse(localStorage.getItem('user')!);
       }});
 
     this.user$ =this.afAuth.authState
@@ -55,7 +64,7 @@ export class AuthService {
                   })
                   ),
                   tap(x => {
-                    console.log("🚀 ~ AuthService ~ constructor ~ x: User", x)
+                    //console.log("🚀 ~ AuthService ~ constructor ~ x: User", x)
                     this.isAdmin(x)
                     this.hasRole(x)
                     this.auth()
@@ -81,7 +90,7 @@ export class AuthService {
 
   hasRole(usr: UserData) {
     usr.role?.forEach(x => {
-      console.log(x,'Role')
+      //console.log(x,'Role')
       switch (x.toUpperCase()) {
         case 'ADMIN':
           this.isAdmin$.next(true)
@@ -120,7 +129,7 @@ export class AuthService {
     .catch((error) => {
     window.alert(error.message);
     });
-  }
+}
 
   // Sign up with email/password
   signUp(email: string, password: string, displayName: string, department: string) {
@@ -164,9 +173,19 @@ export class AuthService {
 
   // Returns true when user is looged in and email is verified
   public get isLoggedIn(): boolean {
-    const user = JSON.parse(localStorage.getItem('user')!);
-    return user !== null && user.emailVerified !== false ? true : false;
+    //const user = JSON.parse(localStorage.getItem('user')!);
+    //console.log(this.isLoggedIn$.value,'Getter')
+    const user = this.getUserAuth();
+
+    if(user) {
+      return this.isLoggedIn$.value == true && user.emailVerified !== false ? true : false;
+    }
+
+    return false
   }
+
+
+
 
 
 
@@ -225,6 +244,7 @@ export class AuthService {
   // Sign out
   signOut() {
     return this.afAuth.signOut().then(() => {
+      this.dataService.myUser$.next(null)
       localStorage.removeItem('user');
       this.router.navigate(['logout']);
       });
@@ -235,7 +255,7 @@ export class AuthService {
     let user = auth.currentUser;
 
     if(user !== null) {
-      return user.providerData;
+      return user;
     }
 
     return null;
@@ -247,7 +267,7 @@ export class AuthService {
     
     return new Promise((resolve, reject) => {
       if(user) {
-        console.log(user, 'User');
+        //console.log(user, 'User');
         updateProfile(user, {displayName: userData.displayName})
         .then((result) => resolve(result))
         .catch((error) => reject(error))

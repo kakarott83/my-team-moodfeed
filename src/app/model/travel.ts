@@ -1,4 +1,5 @@
 import { Customer } from "./customer";
+import { Reason } from "./reason";
 import { Spend } from "./spend";
 
 export interface Travel {
@@ -7,7 +8,7 @@ export interface Travel {
     date?:Date[],
     comment?: string,
     customer?: Customer,
-    reason?: string,
+    reason?: Reason,
     spends?: Spend[],
     fileRefs?: any[],
     state?: string, /*Save,Submitted,Paid*/

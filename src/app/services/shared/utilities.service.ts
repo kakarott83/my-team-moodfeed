@@ -7,6 +7,8 @@ import { UserService } from './user.service';
 import { map } from 'rxjs';
 import { UserData } from '../../model/user-data';
 import { Worktime } from '../../model/worktime';
+import { Travel } from '../../model/travel';
+import { DataService } from './data.service';
 
 @Injectable()
 
@@ -18,7 +20,11 @@ export class UtilitiesService {
   myUserData: UserData = {}
   myUser: any
 
-  constructor(private authService: AuthService, private fire: FireService, private userService: UserService) {}
+  constructor(private authService: AuthService, private fire: FireService, private userService: UserService, private dataService: DataService) {
+    dataService.myUser$.subscribe(data => {
+      this.myUser = data
+    })
+  }
 
   getWeeksPerYear(year: number) {
     let weeksArr: string[] = [];
@@ -50,6 +56,63 @@ export class UtilitiesService {
     let minutesFormatted = `${minutes}m`;
 
     return [daysFormatted, hoursFormatted, minutesFormatted].join('');
+  }
+
+  calcRate(travel: Travel): number {
+    //zum testen https://www.amz-steuer.de/reisekostenrechner/
+  //console.log("🚀 ~ UtilitiesService ~ calcRate ~ travel:", travel)
+
+    let amount = 0
+    let reduce = 1
+
+    if(
+      travel.date !== undefined && 
+      travel.customer !== undefined && 
+      travel.customer.country !== undefined &&
+      travel.customer.country.rate !== undefined &&
+      travel.customer.country.halfRate !== undefined) {
+      let start = moment(travel.date[0]);
+      let end = moment(travel.date[1]);
+      let duration = moment.duration(end.diff(start));
+      let days = Math.floor(duration.asDays());
+      let hours = duration.hours();
+      let eatRate = 0
+  
+  
+  
+      //Frühstück 20%
+      //Frühstück 20%
+      //Frühstück 20%
+      if(travel.breakfast) eatRate = travel.customer.country.rate * 0.2
+      //Mittag 20%
+      if(travel.launch) eatRate += travel.customer.country.rate *0.4
+      //Abendessen 40%
+      if(travel.dinner) eatRate += travel.customer.country.rate *0.4
+  
+      if(days == 0 && hours > 8) {
+        amount = travel.customer.country.halfRate
+      }
+  
+      if(days == 1) {
+        amount = travel.customer.country.halfRate + travel.customer.country.halfRate - eatRate
+      }
+  
+      if(days > 1) {
+        //1. Tag
+        amount = travel.customer.country.halfRate
+  
+        if(days > 1) {
+          amount += (travel.customer.country.rate - eatRate) * (days - 1)
+        }
+  
+        //Letzter tag
+        amount += travel.customer.country.halfRate - eatRate
+      }
+    }
+
+
+    return amount
+
   }
 
   calcTime(startTime: string, endTime: string, breakTime?: string) {
@@ -108,8 +171,8 @@ export class UtilitiesService {
   createDashboardCards(): Promise<Card[]> {
 
     return new Promise((resolve, reject) => {
-      this.myUser = this.userService.getUser();
-      this.user = this.authService.getUserAuth();
+      //this.myUser = this.userService.getUser();
+      //this.user = this.authService.getUserAuth();
       this.authService.user$.subscribe(data => {
         if(data) {
           this.myUserData = data
@@ -119,9 +182,9 @@ export class UtilitiesService {
             {
               header: 'Letzter Login',
               icon: 'fa-solid fa-right-to-bracket',
-              body: new Date(Number(this.myUser.lastLoginAt)).toLocaleString('de-DE', { hour12: false}),
+              body: this.myUser.lastSignInTime,
               footer: 'angemeldet seit',
-              subFooter: new Date(Number(this.myUser.createdAt)).toLocaleString('de-DE', { hour12: false}),
+              subFooter: this.myUser.creationTime,
               btnAction: ''
             },
             {

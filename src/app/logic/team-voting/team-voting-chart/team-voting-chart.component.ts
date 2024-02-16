@@ -4,6 +4,7 @@ import { UserService } from '../../../services/shared/user.service';
 import { UserData } from '../../../model/user-data';
 import { AuthService } from '../../../services/auth.service';
 import { UtilitiesService } from '../../../services/shared/utilities.service';
+import { DataService } from '../../../services/shared/data.service';
 
 @Component({
   selector: 'app-team-voting-chart',
@@ -26,12 +27,16 @@ export class TeamVotingChartComponent implements OnInit {
   minDataValue = 0;
   maxDataValue = 6;
 
-  constructor(private chartService: ChartService, private userService: UserService, private authService: AuthService) {}
+  constructor(private chartService: ChartService, private userService: UserService, private authService: AuthService, private dataService: DataService) {
+    dataService.myUser$.subscribe(data => {
+      this.myUser = data
+    })
+  }
 
   ngOnInit(): void {
 
-    this.user = this.authService.getUserAuth();
-    this.myUser = this.userService.getUser();
+    //this.user = this.authService.getUserAuth();
+    //this.myUser = this.userService.getUser();
     this.isLoading = true;
     this.getAdditionalData().then(() => {
     console.log(this.myUserData)

@@ -74,13 +74,19 @@ import { ReasonListComponent } from './logic/reason/reason-list/reason-list.comp
 import { SpendtypComponent } from './logic/spendtyp/spendtyp.component';
 import { SpendtypListComponent } from './logic/spendtyp/spendtyp-list/spendtyp-list.component';
 import { SpendtypFormComponent } from './logic/spendtyp/spendtyp-form/spendtyp-form.component';
-import { MailerComponent } from './logic/mailer/mailer.component';
 import { CustomerComponent } from './logic/customer/customer.component';
 import { CustomerFormComponent } from './logic/customer/customer-form/customer-form.component';
 import { CustomerListComponent } from './logic/customer/customer-list/customer-list.component';
 import { CountryComponent } from './logic/country/country.component';
 import { CountryListComponent } from './logic/country/country-list/country-list.component';
 import { CountryFormComponent } from './logic/country/country-form/country-form.component';
+
+import {LOCALE_ID} from '@angular/core';
+import { TestComponent } from './logic/test/test.component';
+import { UserService } from './services/shared/user.service';
+import { VerifyAdminPendingComponent } from './logic/verify-admin-pending/verify-admin-pending.component';
+import { DataService } from './services/shared/data.service';
+
 
 @NgModule({
   declarations: [
@@ -120,13 +126,14 @@ import { CountryFormComponent } from './logic/country/country-form/country-form.
     SpendtypComponent,
     SpendtypListComponent,
     SpendtypFormComponent,
-    MailerComponent,
     CustomerComponent,
     CustomerFormComponent,
     CustomerListComponent,
     CountryComponent,
     CountryListComponent,
-    CountryFormComponent
+    CountryFormComponent,
+    TestComponent,
+    VerifyAdminPendingComponent
   ],
   imports: [
     BrowserModule,
@@ -163,7 +170,12 @@ import { CountryFormComponent } from './logic/country/country-form/country-form.
     AngularFirestoreModule, // for firestore
     AngularFireStorageModule
   ],
-  providers: [AuthService],
+  providers: [
+    AuthService,
+    {provide: 'LOCALE_ID', useValue: 'de'},
+    UserService,
+    DataService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

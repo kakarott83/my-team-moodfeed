@@ -6,7 +6,7 @@ import { MessageService } from 'primeng/api';
   selector: 'app-customer',
   templateUrl: './customer.component.html',
   styleUrl: './customer.component.scss',
-  providers: [DataService, MessageService]
+  providers: [MessageService]
 })
 export class CustomerComponent {
 

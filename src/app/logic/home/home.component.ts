@@ -25,7 +25,13 @@ export class HomeComponent implements OnInit {
   stopTimerSubscription: Subscription = new Subscription();
   public stopwatch!: StopWatch;
 
-  constructor(public authService: AuthService, private fire: FireService, private userService: UserService, private utilities: UtilitiesService, private timerService: TimerService) {
+  constructor(
+    public authService: AuthService, 
+    private fire: FireService, 
+    private userService: UserService,
+    private utilities: UtilitiesService, 
+    private timerService: TimerService) {
+    this.getUserData()
     this.stopTimerSubscription.add(
       this.timerService.stopWatch$.subscribe(
         (val: StopWatch) => {
@@ -37,14 +43,16 @@ export class HomeComponent implements OnInit {
 
 
 
-  ngOnInit(): void {
-    this.myUser = this.userService.getUser();
-    if(this.myUser) this.isLoggedIn = true;
+  async ngOnInit() {
     this.createItems();
 
     this.authService.user$.subscribe(data => {
       if(data) this.myUserData = data
     })
+  }
+
+  async getUserData() {
+    this.myUser = await this.userService.getAllUserData()
   }
 
   createItems() {

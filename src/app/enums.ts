@@ -1,5 +1,5 @@
 export enum STATE {
-    save,
+    saved,
     submitted,
     paid
 }

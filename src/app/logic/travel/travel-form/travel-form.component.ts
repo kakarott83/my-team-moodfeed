@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Travel } from '../../../model/travel';
 import { Spend } from '../../../model/spend';
 import { MessageService } from 'primeng/api';
@@ -41,6 +41,7 @@ export class TravelFormComponent implements OnInit {
   duration = '';
   sumRate = 0;
   sumSpend = 0;
+  sumTotal = 0;
   
   @Input() myUser: any;
 
@@ -110,6 +111,7 @@ export class TravelFormComponent implements OnInit {
     this.dateRange = this.utilityService.createDateArray();
     this.spendArray = this.fb.array([]);
 
+    //Load Or Create Travel
     if(item !== undefined) {
 
       if(item.state !== STATE[0]) {
@@ -168,13 +170,16 @@ export class TravelFormComponent implements OnInit {
         this.setSpendDisable()
       }
 
+      //this.changeTravel(item)
+
 
       
     } else {
 
+      //Create New Form
       this.myTravelForm = this.fb.group({
-        dateRange: new FormControl(this.dateRange),
-        customer:  new FormControl(),
+        dateRange: new FormControl(this.dateRange, Validators.required),
+        customer:  new FormControl('', Validators.required),
         reason:  new FormControl(),
         comment: new FormControl(),
         breakfast: new FormControl(true),
@@ -187,6 +192,7 @@ export class TravelFormComponent implements OnInit {
     this.myTravelForm.valueChanges.subscribe(data => {
       this.changeTravel(data)
     })
+    
 
     this.isLoading = false;
 
@@ -276,10 +282,10 @@ export class TravelFormComponent implements OnInit {
       dinner: this.myTravelForm.controls['dinner'].value,
       comment: this.myTravelForm.controls['comment'].value,
       userId: this.myUser.uid,
-      state: STATE[0]
     }
 
     /*Spends add*/
+    this.spends = []
     for (let index = 0; index < this.spendArray.controls.length; index++) {
       const element = this.spendArray.at(index) as FormGroup;
       let spendItem: Spend = {
@@ -296,17 +302,40 @@ export class TravelFormComponent implements OnInit {
   }
 
   changeTravel(travel: any) {
-    
-    if(travel.dateRange[0] !== undefined && travel.dateRange[1]) {
-      console.log("🚀 ~ TravelFormComponent ~ changeTravel ~ travel:", travel)
-      this.duration = this.utilityService.calcDuration(travel.dateRange[0],travel.dateRange[1])
-      console.log("🚀 ~ TravelFormComponent ~ changeTravel ~ duration:", this.duration)
-      
+    this.createTravel()
+    this.sumSpend = 0
+    this.sumTotal = 0
+    console.log("🚀 ~ TravelFormComponent ~ changeTravel ~ travel1:", this.myTravel)
+
+    if(this.myTravel.date !== undefined) {
+      this.duration = this.utilityService.calcDuration(this.myTravel.date[0],this.myTravel.date[1])
+    }
+
+    if(this.myTravel.date !== undefined !== null && travel.customer !== null) {
+
+      this.sumRate = this.utilityService.calcRate(this.myTravel);
+
+      if(this.myTravel.spends !== undefined) {
+        let arr: Spend[] = this.myTravel.spends
+  
+        arr.forEach(item => {
+          this.sumSpend += item.value !== undefined ? item.value : 0 
+        })
+      }
+
+      this.sumTotal = this.sumRate  + this.sumSpend
+
+
     }
   }
 
   async submit() {
     let travel = this.createTravel()
+
+    if(travel.state == undefined) {
+      travel.state = STATE[0]
+    }
+    
     const uploadResult = await this.uploadFiles()
 
     if(uploadResult) {

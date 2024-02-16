@@ -7,8 +7,7 @@ import { DataService } from '../../../services/shared/data.service';
 @Component({
   selector: 'app-department-list',
   templateUrl: './department-list.component.html',
-  styleUrl: './department-list.component.scss',
-  providers: [DataService]
+  styleUrl: './department-list.component.scss'
 
 })
 export class DepartmentListComponent implements OnInit{

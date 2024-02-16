@@ -6,9 +6,10 @@
   [rows]="5" 
   [loading]="isLoading" 
   [showCurrentPageReport]="true"
-  currentPageReportTemplate="{first} bis {last} von {totalRecords} Zeiten" 
+  currentPageReportTemplate="{first} bis {last} von {totalRecords} Reisen" 
   [rowsPerPageOptions]="[5, 10, 20]"
   [globalFilterFields]="['customer.name','start','end','reason']" 
+  [(selection)]="selectedTravels"
   dataKey="id" 
   styleClass="p-datatable-striped">
   <ng-template pTemplate="caption">
@@ -17,14 +18,21 @@
     </div-->
     <div class="flex justify-content-between">
       <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(votingList)"></button>
-			<span class="p-input-icon-left p-ml-auto">
+			<!--span class="p-input-icon-left p-ml-auto">
                 <i class="pi pi-search"></i>
                 <input pInputText type="text" (input)="votingList.filterGlobal($event, 'contains')" placeholder="Search keyword" />
-            </span>
+            </span-->
+      <span>{{selectedTravels.length}} Reise(n) ausgewählt</span>
+      <div class="flex">
+        <button pButton class="btn-cic-submit" [ngStyle]="{'width' : '100%'}" label="Einreichen" icon="fa-regular fa-paper-plane" (click)="submitTravels()" [disabled]="selectedTravels.length == 0"></button>
+        <button pButton class="btn-cic-submit" [ngStyle]="{'width' : '100%'}" label="Abgerechnet" icon="fa-solid fa-money-bill-wave" (click)="paidTravels()" [disabled]="selectedTravels.length == 0"></button>
+      </div>
 		</div>
   </ng-template>
   <ng-template pTemplate="header">
 		<tr>
+      <th style="width: 4rem">
+      </th>
       <th>
         <!--Icons-->
       </th>
@@ -127,25 +135,33 @@
   <ng-template pTemplate="body" let-travel>
     <tr>
       <td>
+        <p-tableCheckbox [value]="travel" [disabled]="travel.state !== 'submitted' ? false : true"></p-tableCheckbox>
+      </td>
+      <td>
         <img class="w-2rem" [src]="utiliesService.findIcon(travel.customer.name)"
           alt="../../../../assets/images/unternehmen.png">
       </td>
       <td>{{ travel.customer.name }}</td>
       <td>{{ travel.date[0]["seconds"] * 1000 | date: 'dd.MM.yyyy HH:mm'}}</td>
       <td>{{ travel.date[1]["seconds"] * 1000 | date: 'dd.MM.yyyy HH:mm'}}</td>
-      <td>{{ travel.reason }}</td>
+      <td>{{ travel.reason.name }}</td>
       <td>
         <div class="flex" [ngSwitch]="travel.state">
           <i *ngSwitchCase="'submitted'" class="fa-regular fa-paper-plane"></i>
-          <i *ngSwitchCase="'save'" class="fa-solid fa-floppy-disk"></i>
+          <i *ngSwitchCase="'saved'" class="fa-solid fa-floppy-disk"></i>
           <i *ngSwitchCase="'paid'" class="fa-solid fa-money-bill-wave"></i>
         </div>
       </td>
       <td>
-        <button (click)="selectTravel(travel)" pButton pRipple icon="fa-regular fa-pen-to-square" class="p-button-text"
-        ></button>
+        <div>
+          <button (click)="selectTravel(travel)" pButton pRipple icon="fa-regular fa-pen-to-square" class="p-button-text"
+          ></button>
+          <p-button [disabled]="travel.state == 'saved' ? false : true" class="delete" icon="pi pi-times" (click)="deleteTravel(travel)"
+                                                            [rounded]="true" [text]="true" severity="danger "></p-button>
+        </div>
       </td>
     </tr>
   </ng-template>
   <!--ng-template pTemplate="summary"> Footer </ng-template-->
 </p-table>
+<p-toast></p-toast>

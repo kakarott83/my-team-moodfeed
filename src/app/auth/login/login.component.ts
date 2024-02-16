@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
     if(this.loginForm.valid) {
       this.authService.signIn(this.loginForm.value.email, this.loginForm.value.password).then((result) => {
         this.authService.afAuth.authState.subscribe(data => {
-          console.log(data?.emailVerified,'emailVerified')
+          //console.log(data?.emailVerified,'emailVerified')
           this.emailVerify = data?.emailVerified
           if(!this.emailVerify) {
             this.msgService.add({ severity: 'error', summary: 'Error', detail: 'E-Mail nicht verifiziert'});

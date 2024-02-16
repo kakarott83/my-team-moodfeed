@@ -1,0 +1,36 @@
+::ng-deep .p-button {
+    background-color: var(--cic-light-blue);
+    span {
+        color: var(--cic-white);
+    }
+}
+
+::ng-deep .p-button-label {
+    color: var(--cic-white);
+    background-color: var(--cic-light-blue);
+}
+
+::ng-deep .p-dropdown .p-dropdown-label.p-placeholder {
+    font-family: 'Rajdhani'
+}
+
+::ng-deep .p-dropdown .p-dropdown-label {
+    font-family: 'Rajdhani'
+}
+
+::ng-deep .p-dropdown {
+    display: flex;
+    align-items: center;
+    font-family: 'Rajdhani';
+    border: 1px solid #d1d5db;
+    padding: 0.75rem 0.75rem;
+    font-size: 1rem;
+    height: 47px;
+    padding-left: 0px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+}
+
+::ng-deep .p-dropdown .p-dropdown-trigger {
+    justify-content: flex-end;
+}

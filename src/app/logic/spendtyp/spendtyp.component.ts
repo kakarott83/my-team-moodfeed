@@ -6,7 +6,7 @@ import { MessageService } from 'primeng/api';
   selector: 'app-spendtyp',
   templateUrl: './spendtyp.component.html',
   styleUrl: './spendtyp.component.scss',
-  providers: [DataService, MessageService]
+  providers: [MessageService]
 })
 export class SpendtypComponent {
 

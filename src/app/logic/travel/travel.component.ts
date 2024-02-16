@@ -15,12 +15,13 @@ import { BehaviorSubject, Observable, finalize, map, min, switchMap, tap } from 
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
 import { BlobOptions } from 'buffer';
 import { DataService } from '../../services/shared/data.service';
+import { MailService } from '../../services/shared/mail.service';
 
 @Component({
   selector: 'app-travel',
   templateUrl: './travel.component.html',
   styleUrl: './travel.component.scss',
-  providers:[UserService,MessageService, UtilitiesService, DataService]
+  providers:[UserService,MessageService, UtilitiesService, MailService]
 })
 export class TravelComponent implements OnInit {
 
@@ -39,14 +40,18 @@ export class TravelComponent implements OnInit {
     private userService: UserService, 
     private msgService: MessageService, 
     private utilityService: UtilitiesService,
+    private dataService: DataService,
     private router: Router,
     private route: ActivatedRoute) {
+      dataService.myUser$.subscribe(data => {
+        this.myUser = data
+      })
   }
 
   
   ngOnInit(): void {    
 
-    this.myUser = this.userService.getUser();
+    //this.myUser = this.userService.getUser();
 
     this.getTravels(this.myUser.uid);
   }

@@ -23,5 +23,6 @@ export class DataService {
   public selectedSpendtyp = new BehaviorSubject<SpendType | undefined>(undefined);
   public selectedCustomer = new BehaviorSubject<Customer | undefined>(undefined);
   public selectedCountry = new BehaviorSubject<Country | undefined>(undefined);
+  public myUser$ = new BehaviorSubject<any>(undefined);
 
 }

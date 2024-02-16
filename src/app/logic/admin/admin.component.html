@@ -41,13 +41,6 @@
             </p-tabPanel>
             <p-tabPanel>
                 <ng-template pTemplate="header">
-                    <i class="fa-solid fa-envelope mr-3"></i>
-                    <span>Zweck</span>
-                </ng-template>
-                <app-mailer></app-mailer>
-            </p-tabPanel>
-            <p-tabPanel>
-                <ng-template pTemplate="header">
                     <i class="fa-solid fa-building mr-3"></i>
                     <span>Kunden</span>
                 </ng-template>
@@ -59,6 +52,13 @@
                     <span>Länder</span>
                 </ng-template>
                 <app-country></app-country>
+            </p-tabPanel>
+            <p-tabPanel>
+                <ng-template pTemplate="header">
+                    <i class="fa-solid fa-cog mr-3"></i>
+                    <span>Test</span>
+                </ng-template>
+                <app-test></app-test>
             </p-tabPanel>
         </p-tabView>
     </div>

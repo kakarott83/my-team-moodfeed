@@ -2,9 +2,13 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Travel } from '../../../model/travel';
 import { UtilitiesService } from '../../../services/shared/utilities.service';
 import { Table } from 'primeng/table';
-import { FilterMatchMode, FilterService, SelectItem } from 'primeng/api';
+import { FilterMatchMode, FilterService, MessageService, SelectItem } from 'primeng/api';
 import { Router } from '@angular/router';
 import { DataService } from '../../../services/shared/data.service';
+import { MailService } from '../../../services/shared/mail.service';
+import { UserService } from '../../../services/shared/user.service';
+import { Auth, User, getAuth } from 'firebase/auth';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-travel-list',
@@ -21,19 +25,36 @@ export class TravelListComponent implements OnInit {
   matchModeOptionsCustomer!: SelectItem[];
   matchModeOptionsDate!: SelectItem[];
   travelState: any[] = [];
+  selectedTravels: Travel [] = [];
+  user!: any
+  userData!: any
+  userAuth$!: any;
+  myUser: any;
   
 
   constructor(
     public utiliesService: UtilitiesService, 
     private filterService: FilterService, 
     private router: Router,
-    private dataService: DataService) {}
+    private dataService: DataService,
+    private mailService: MailService,
+    private userService: UserService,
+    private authService: AuthService,
+    private msgService: MessageService,
+    ) {
+      dataService.myUser$.subscribe(data => {
+        this.myUser = data
+      })
+    }
 
-  ngOnInit(): void {
+  ngOnInit() {
     this.defineCustomerFilter()
     this.defineDateFilter()
 
-    
+    // this.authService.user$.subscribe(user => {
+    //   this.user = user
+    //   console.log("🚀 ~ TravelListComponent ~ ngOnInit ~ user:", user)
+    // })
 
     this.travelState = [
       {state: 'submitted', icon: 'fa-regular fa-paper-plane'},
@@ -41,6 +62,11 @@ export class TravelListComponent implements OnInit {
       {state: 'paid', icon: 'fa-solid fa-money-bill-wave'},
     ]
   }
+
+  // auth() {
+  //   const auth = getAuth();
+  //   this.userAuth$ = auth.currentUser;
+  // }
 
   defineCustomerFilter() {
     const customFilterName = 'custom-equals';
@@ -106,6 +132,38 @@ export class TravelListComponent implements OnInit {
   selectTravel(item: any) {
     this.dataService.selectedTravel.next(item);
     this.changeTab.emit(true);
+  }
+
+  async submitTravels() {
+
+    //E-Mail an Server schicken
+    if(this.myUser !== undefined) {
+      let result = await this.mailService.sendMail(this.selectedTravels, this.myUser)
+      //console.log("🚀 ~ TravelListComponent ~ submitTravels ~ result:", result)
+        // .subscribe(data => {
+        //   console.log("🚀 ~ TravelListComponent ~ this.mailService.sendMail ~ data:", data)
+          
+        //   if(data == 'OK') {
+        //     this.msgService.add({ severity: 'success', summary: 'Senden', detail: 'Reise(n) erfolgreich eingereicht' });
+        //   } else {
+        //     this.msgService.add({ severity: 'danger', summary: 'Error', detail: data.toString() });
+        //   }
+        // })
+
+      this.selectedTravels = [];
+    }
+  }
+
+  paidTravels() {
+    this.selectedTravels.forEach(item => {
+      console.log("🚀 ~ TravelListComponent ~ submitTravel ~ item:", item)
+    })
+
+    this.selectedTravels = [];
+  }
+
+  deleteTravel(travel: any) {
+    console.log("🚀 ~ TravelListComponent ~ deleteTravel ~ travel:", travel)
   }
 
 

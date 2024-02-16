@@ -42,27 +42,37 @@ const signUp = async (req, res) => {
     //res.status(201).json("SignUp sucessfully")
 }
 
+const getToken = (req, res) => {
+  res.status(201).json("Get Token")
+}
+
 const getBill = (req, res) => {
     res.status(201).json("GetBill sucessfully")
 }
 
 const sendMail = (req, res) => {
-  const receiver = req.body.receiver
 
-  console.log(req.body)
+  console.log(req)
 
-  sendEmail(req.body);
-  res.status(201).json("Send Mail");
+  return res.status(401).json('Not Authorized')
+
+  sendEmail(req.body)
+    .then((result) => {
+      res.status(result.response.status).json(result.response.statusText);
+    })
+    .catch((err) => {
+      console.log("🚀 ~ sendEmail ~ err:", err)
+    })
 }
 
 module.exports = {
     signUp,
     getBill,
-    sendMail
+    sendMail,
+    getToken
 }
 
 function sendEmail(body) {
-  console.log(body,'Body')
   return mailjet
     .post("send", { version: "v3.1" })
     .request({
@@ -78,15 +88,14 @@ function sendEmail(body) {
                   Name: body.receiverName,
                 },
               ],
+              Cc: [
+                {
+                  Email: body.copy
+                }
+              ],
               Subject: body.subject,
               HTMLPart: body.data,
             },
       ],
     })
-    .then((result) => {
-      //console.log("🚀 ~ .then ~ result:", result)
-    })
-    .catch((err) => {
-      //console.log("🚀 ~ sendEmail ~ err:", err)
-    });
 }

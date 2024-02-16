@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
 import { AuthService } from '../../services/auth.service';
 import { UserService } from '../../services/shared/user.service';
+import { DataService } from '../../services/shared/data.service';
 
 @Component({
   selector: 'app-menu-bar',
@@ -16,11 +17,16 @@ export class MenuBarComponent implements OnInit {
   isLoggedIn!: boolean;
   myUser: any;
 
-  constructor(private router: Router, public authService: AuthService, private userService: UserService) {}
+  constructor(private router: Router, public authService: AuthService, private userService: UserService, private dataService: DataService) {
+    //this.getUserData()
+    dataService.myUser$.subscribe(data => {
+      this.myUser = data
+    })
+  }
 
   ngOnInit(): void {
-    this.myUser = this.userService.getUser();
-    if(this.myUser) this.isLoggedIn = true;
+    
+
 
     this.items = [
       {
@@ -54,6 +60,12 @@ export class MenuBarComponent implements OnInit {
         routerLink: 'admin'
       },
     ]
+  }
+
+  async getUserData() {
+    this.myUser = await this.userService.getAllUserData()
+    console.log("🚀 ~ MenuBarComponent ~ getUserData ~ myUser:", this.myUser)
+    
   }
 
   logout() {

@@ -14,6 +14,7 @@ import { ResetPasswordComponent } from './auth/reset-password/reset-password.com
 import { AuthGuard } from './auth/guard.guard';
 import { WorktimeComponent } from './logic/worktime/worktime.component';
 import { TravelComponent } from './logic/travel/travel.component';
+import { VerifyAdminPendingComponent } from './logic/verify-admin-pending/verify-admin-pending.component';
 
 const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
@@ -31,6 +32,7 @@ const routes: Routes = [
   {path: 'forgot-password', component: ForgotPasswordComponent},
   {path: 'reset-password', component: ResetPasswordComponent},
   {path: 'verify-email-address', component: VerifyEmailComponent},
+  {path: 'verify-admin-pending', component: VerifyAdminPendingComponent},
 ];
 
 @NgModule({
