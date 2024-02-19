@@ -27,7 +27,7 @@ export class TravelFormComponent implements OnInit {
   dateRange: Date[] = [];
   maxDate = new Date('20240101');
   minDate = new Date('20991231');
-  myTravel: Travel = {};
+  myTravel!: Travel;
   spends: Spend[] = [];
   uploadedFiles: any[] = [];
   storeFile: any[] = [];
@@ -282,6 +282,7 @@ export class TravelFormComponent implements OnInit {
       dinner: this.myTravelForm.controls['dinner'].value,
       comment: this.myTravelForm.controls['comment'].value,
       userId: this.myUser.uid,
+      amount: this.sumTotal
     }
 
     /*Spends add*/
@@ -430,7 +431,7 @@ export class TravelFormComponent implements OnInit {
     }
 
     if(this.myTravel) {
-      this.myTravel = {}
+      this.myTravel = {date: []}
     }
 
     /*Spends leeren*/

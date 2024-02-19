@@ -1,5 +1,5 @@
 <div class="card navbar">
-    <p-menubar [model]="items" *ngIf="myUser?.verifyAdmin">
+    <p-menubar [model]="items" >
         <ng-template pTemplate="start">
             <img src="https://primefaces.org/cdn/primeng/images/primeng.svg" height="40" class="mr-2" />
         </ng-template>
@@ -14,4 +14,4 @@
     <div>{{myUser | json}}</div>
 </div>
 
-<!--div></div-->
+<!--div>*ngIf="myUser?.verifyAdmin"</div-->

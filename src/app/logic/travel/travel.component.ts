@@ -21,11 +21,11 @@ import { MailService } from '../../services/shared/mail.service';
   selector: 'app-travel',
   templateUrl: './travel.component.html',
   styleUrl: './travel.component.scss',
-  providers:[UserService,MessageService, UtilitiesService, MailService]
+  providers:[MessageService, UtilitiesService, MailService]
 })
 export class TravelComponent implements OnInit {
 
-  myTravel: Travel = {};
+  myTravel!: Travel;
   myTravel$!: BehaviorSubject<Travel>
   myUser: any;
   isLoading = false;
@@ -43,34 +43,36 @@ export class TravelComponent implements OnInit {
     private dataService: DataService,
     private router: Router,
     private route: ActivatedRoute) {
-      dataService.myUser$.subscribe(data => {
-        this.myUser = data
-      })
   }
 
   
-  ngOnInit(): void {    
+  async ngOnInit() {    
 
     //this.myUser = this.userService.getUser();
-
+    this.myUser = await this.userService.getAllUserData()
+    console.log("🚀 ~ TravelComponent ~ ngOnInit ~ myUser:", this.myUser)
     this.getTravels(this.myUser.uid);
+    
   }
 
-  getTravels(userId: string) {
+
+    
+
+  async getTravels(userId: string) {
     if(userId) {
       this.isLoading = true;
-      this.fire.getTravelByUserId(userId).snapshotChanges()
-        .pipe(
-          map(changes => changes.map(x => 
-            ({id: x.payload.doc.id, ...x.payload.doc.data()})
-            )),
-        )
-        .subscribe(data => {
-          this.myTravelList = data
-          this.isLoading = false;
-          //console.log(this.myTravelList,'MyTravelList')
-        })
-    } else {
+      this.myTravelList = await this.fire.getTravelByUser(userId)
+      // this.fire.getTravelByUserId(userId).snapshotChanges()
+      //   .pipe(
+      //     map(changes => changes.map(x => 
+      //       ({id: x.payload.doc.id, ...x.payload.doc.data()})
+      //       )),
+      //   )
+      //   .subscribe(data => {
+      //     this.myTravelList = data
+      //     this.isLoading = false;
+      //     //console.log(this.myTravelList,'MyTravelList')
+      //   })
     }
   }
 

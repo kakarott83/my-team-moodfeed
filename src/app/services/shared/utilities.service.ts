@@ -9,6 +9,7 @@ import { UserData } from '../../model/user-data';
 import { Worktime } from '../../model/worktime';
 import { Travel } from '../../model/travel';
 import { DataService } from './data.service';
+import { AggCard } from '../../model/aggCard';
 
 @Injectable()
 
@@ -168,52 +169,98 @@ export class UtilitiesService {
     return datArr
   }
 
-  createDashboardCards(): Promise<Card[]> {
+  getWeekDays (numberOfDay: number) {
+    let week = []
 
-    return new Promise((resolve, reject) => {
-      //this.myUser = this.userService.getUser();
-      //this.user = this.authService.getUserAuth();
-      this.authService.user$.subscribe(data => {
-        if(data) {
-          this.myUserData = data
-          this.roles = this.myUserData.role?.join(",")
+    for (let index = 0; index < numberOfDay; index++) {
+      week.push(moment().startOf('isoWeek').add(index,'day'))
+    }
+
+    return week
+  }
+
+  createDashboardCards(userData: any, worktime: number, aggTravel: AggCard): Card[] {
+  console.log("🚀 ~ UtilitiesService ~ createDashboardCards ~ userData:", userData)
+
+    let cards: Card[] = [
+      {
+        header: 'Letzter Login',
+        icon: 'fa-solid fa-right-to-bracket',
+        body: userData?.lastSignInTime,
+        footer: 'angemeldet seit',
+        subFooter: userData?.creationTime,
+        btnAction: ''
+      },
+      {
+        header: 'Rolle',
+        icon: 'fa-solid fa-user-tag',
+        body: userData?.roles,
+        footer: 'zum Userprofile',
+        btnAction: ''
+      },
+      {
+        header: 'Arbeitszeit',
+        icon: 'fa-solid fa-clock',
+        body: `${worktime}h von 40h gearbeitet`,
+        footer: 'Heute gearbeitet',
+        btnAction: ''
+      },
+      {
+        header: 'Reisekosten (draft)',
+        icon: 'fa-solid fa-plane',
+        body: `Ausstehender Betrag ${aggTravel.sumOpen}€`,
+        footer: `${aggTravel.countSaved} Reise(n) gespeichert`,
+        btnAction: ''
+      },
+    ]
+
+    return cards
+
+
+    // return new Promise((resolve, reject) => {
+    //   //this.myUser = this.userService.getUser();
+    //   //this.user = this.authService.getUserAuth();
+    //   this.authService.user$.subscribe(data => {
+    //     if(data) {
+    //       this.myUserData = data
+    //       this.roles = this.myUserData.role?.join(",")
   
-          let cards: Card[] = [
-            {
-              header: 'Letzter Login',
-              icon: 'fa-solid fa-right-to-bracket',
-              body: this.myUser.lastSignInTime,
-              footer: 'angemeldet seit',
-              subFooter: this.myUser.creationTime,
-              btnAction: ''
-            },
-            {
-              header: 'Rolle',
-              icon: 'fa-solid fa-user-tag',
-              body: this.roles,
-              footer: 'zum Userprofile',
-              btnAction: ''
-            },
-            {
-              header: 'Arbeitszeit',
-              icon: 'fa-solid fa-clock',
-              body: '30h von 40h gearbeitet',
-              footer: 'Heute gearbeitet',
-              btnAction: ''
-            },
-            {
-              header: 'Reisekosten (draft)',
-              icon: 'fa-solid fa-plane',
-              body: 'Ausstehender Betrag 51€',
-              footer: '3 Reisen erfasst',
-              btnAction: ''
-            },
-          ]
+    //       let cards: Card[] = [
+    //         {
+    //           header: 'Letzter Login',
+    //           icon: 'fa-solid fa-right-to-bracket',
+    //           body: this.myUser?.lastSignInTime,
+    //           footer: 'angemeldet seit',
+    //           subFooter: this.myUser?.creationTime,
+    //           btnAction: ''
+    //         },
+    //         {
+    //           header: 'Rolle',
+    //           icon: 'fa-solid fa-user-tag',
+    //           body: this.roles,
+    //           footer: 'zum Userprofile',
+    //           btnAction: ''
+    //         },
+    //         {
+    //           header: 'Arbeitszeit',
+    //           icon: 'fa-solid fa-clock',
+    //           body: '30h von 40h gearbeitet',
+    //           footer: 'Heute gearbeitet',
+    //           btnAction: ''
+    //         },
+    //         {
+    //           header: 'Reisekosten (draft)',
+    //           icon: 'fa-solid fa-plane',
+    //           body: 'Ausstehender Betrag 51€',
+    //           footer: '3 Reisen erfasst',
+    //           btnAction: ''
+    //         },
+    //       ]
     
-          resolve(cards);
-        }
-      })
-    })
+    //       resolve(cards);
+    //     }
+    //   })
+    // })
     
   }
 
@@ -224,9 +271,11 @@ export class UtilitiesService {
     }
   }
 
-  findIcon(name: string) {
+  findIcon(name: string | undefined) {
     let base = "../../../../assets/images/"
     let result
+
+    if(name == undefined) return base + "unternehmen.png"
 
     switch (name.toUpperCase()) {
       case "AIL":

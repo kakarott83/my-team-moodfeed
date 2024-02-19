@@ -6,6 +6,7 @@ import { firstValueFrom, map } from 'rxjs';
 import { AuthService } from '../auth.service';
 import { DataService } from './data.service';
 import { UserMetadata } from 'firebase/auth';
+import moment from 'moment';
 
 @Injectable()
 
@@ -21,18 +22,17 @@ export class UserService {
   }
 
   getAuthUser() {
-
-
-
     return this.authService.getUserAuth()
   }
 
   //Use the function for AllUserInfo
   async getAllUserData() {
     let googleData = this.authService.getUserAuth()
+    
 
     if(googleData !==null) {
       let result = await this.getUserData(googleData.uid);
+      
       let meta: UserMetadata = googleData?.metadata;
       let appData = result[0]
       let userData = {
@@ -42,7 +42,7 @@ export class UserService {
         creationTime: meta.creationTime,
         lastSignInTime: meta.lastSignInTime,
         name: appData.name,
-        roles: appData.roles,
+        roles: appData.role.join(","),
         department: appData.department,
         verifyAdmin: appData.verifyAdmin
       }

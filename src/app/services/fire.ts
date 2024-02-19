@@ -10,13 +10,14 @@ import { Role } from '../model/role';
 import { Worktime } from '../model/worktime';
 import { Travel } from '../model/travel';
 import { FileUpload } from '../model/file-upload';
-import { Observable, finalize, firstValueFrom, from, map, take, tap } from 'rxjs';
+import { Observable, filter, finalize, firstValueFrom, from, map, take, tap } from 'rxjs';
 import { Reason } from '../model/reason';
 import { Spendtype } from '../model/spendtype';
 import { Spend } from '../model/spend';
 import { SpendType } from '../model/spend-type';
 import { Customer } from '../model/customer';
 import { Country } from '../model/country';
+import moment from 'moment';
 
 
 @Injectable({
@@ -157,10 +158,10 @@ export class FireService {
     return this.userDataRef;
   }
 
-  getWorkTimeByUser(id: string) {
+  getWorkTimeByUser(userId: string) {
       return firstValueFrom(
 
-      this.db.collection<Worktime>('worktime', ref => ref.where('userId', '==', id))
+      this.db.collection<Worktime>('worktime', ref => ref.where('userId', '==', userId))
         .snapshotChanges()
           .pipe(
             map(actions => actions.map(x => 
@@ -169,7 +170,50 @@ export class FireService {
             //tap(x => console.log(x,'WT'))
           )
         )
-    }
+  }
+
+  getWorkTimeHours(userId: string, startDate: Date, endDate: Date) {
+
+    return firstValueFrom(
+      this.db.collection<Worktime>('worktime', ref => ref.where('userId', '==', userId))
+        .snapshotChanges()
+          .pipe(
+            map(actions => actions.map(x => 
+              ({id: x.payload.doc.id, ...x.payload.doc.data()})
+            )),
+            // tap(x => {
+
+            //   let wt = x as Worktime[]
+            //   let d = new Date(wt[0].date == undefined ? 0 : wt[0].date)
+            //   console.log(new Date(d),'WT')
+
+            // }),
+            map(wts => wts.filter(
+              wt => new Date(wt.date == undefined ? 0 : wt.date) >= startDate
+            )),
+            map(wts => wts.map(x => {
+              if(x.start !== undefined && x.end !== undefined && x.break !== undefined) {
+
+                let startSplit = x.start.split(':')
+                let s = new Date()
+                s.setHours(parseInt(startSplit[0]),parseInt(startSplit[1]))
+
+                let endSplit = x.end.split(':')
+                let e = new Date()
+                e.setHours(parseInt(endSplit[0]),parseInt(endSplit[1]))
+
+                let breakSplit = x.break == null ? '0:0' : x.break.split(':')
+                let b = parseInt(breakSplit[0]) + (parseInt(breakSplit[1]) / 60)
+
+                let duration = x.break !== null ? (e.getTime() - s.getTime()) - b : e.getTime() - s.getTime()
+
+                return  duration / (1000 * 60 * 60)
+              }
+              return null
+            }))
+          )
+        )
+  }
 
   createWorktime(wt: Worktime): any {
     return this.worktimeRef.add({ ...wt });
@@ -197,6 +241,37 @@ export class FireService {
     })
     return data;
   }
+
+  getTravelByUser(id: string) {
+    return firstValueFrom(
+      this.db.collection<Travel>('travels', ref => {
+        return ref.where('userId', '==', id)
+      }).snapshotChanges()
+      .pipe(
+        map(actions => actions.map(x =>(
+          {id: x.payload.doc.id, ...x.payload.doc.data()}
+        ))
+    )))
+  }
+
+  getTravelLastXByUser(id: string, number: number) {
+    console.log(id, 'test')
+    return firstValueFrom(
+      this.db.collection<Travel>('travels', ref => {
+        return ref.where('userId', '==', id)
+      }).snapshotChanges()
+      .pipe(
+        map(actions => actions.map(x =>(
+          {id: x.payload.doc.id, ...x.payload.doc.data()}
+        )).sort((a, b) => {
+          const aDate = a.date ?? []
+          const bDate = b.date ?? []
+          return (aDate[0] < bDate[0]) ? -1 : (aDate[0] > bDate[0]) ? 1 : 0
+        }).slice(0,number)
+    )))
+  }
+
+
 
   getTravelById(id: string) {
     return this.db.collection<Travel>('travels').doc(id).snapshotChanges()

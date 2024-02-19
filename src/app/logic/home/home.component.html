@@ -23,7 +23,7 @@
                                     <span *ngIf="item.header !== 'Arbeitszeit'" class="font-medium"> {{item.subFooter}}</span>
                                     <span *ngIf="item.header == 'Arbeitszeit'" class="font-medium"> {{stopwatch.hours}} h {{stopwatch.minutes}} m</span>
                                 </div>
-                                <span *ngIf="item.header == 'Arbeitszeit'" class="font-medium">
+                                <!--span *ngIf="item.header == 'Arbeitszeit'" class="font-medium">
                                     <div *ngIf="!startStopBtn" class="cic-btn-small" (click)="startStop()">
                                         <i class="fa-solid fa-circle-play"></i>
                                         <span>Start</span>
@@ -36,21 +36,26 @@
                                         <i class="fa-solid fa-circle-pause"></i>
                                         <span>Pause</span>
                                     </div>
-                                </span>
+                                </span-->
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="grid">
-                <div class="col-6">
+                <div class="col-4">
                     <div class="surface-card shadow-2 p-3 border-round h-full">
                             <app-home-chart-workweek></app-home-chart-workweek>
                     </div>
                 </div>
-                <div class="col-6">
+                <div class="col-4">
                     <div class="surface-card shadow-2 p-3 border-round h-full">
                         <app-home-chart-travel></app-home-chart-travel>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="surface-card shadow-2 p-3 border-round h-full">
+                        <app-last-travels></app-last-travels>
                     </div>
                 </div>
             </div>

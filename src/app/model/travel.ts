@@ -5,7 +5,7 @@ import { Spend } from "./spend";
 export interface Travel {
     id?: string,
     userId?: string,
-    date?:Date[],
+    date:Date[],
     comment?: string,
     customer?: Customer,
     reason?: Reason,
@@ -15,4 +15,5 @@ export interface Travel {
     breakfast?: boolean,
     launch?: boolean,
     dinner?: boolean,
+    amount?: number
 }

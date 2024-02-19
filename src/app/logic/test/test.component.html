@@ -1,3 +1,9 @@
 <p-button label="GetUserData" (onClick)="getUserData()"></p-button>
 <div>{{userData}}</div>
 <div>isLoggedIn {{!!authService.isLoggedIn$}}</div>
+<p-button label="Get Week" (onClick)="getWeek()"></p-button>
+<div>{{weekDays}}</div>
+<p-button label="Get Travels" (onClick)="getTravels()"></p-button>
+<div>{{travels}}</div>
+<p-button label="Get X Travels" (onClick)="getLastTravels()"></p-button>
+<div>{{travelsLast}}</div>

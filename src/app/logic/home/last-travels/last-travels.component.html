@@ -1,0 +1,15 @@
+<div *ngIf="dataService.lastXTravel$">
+    <span class="block font-medium mb-3" [style]="{'color':'var(--cic-red)'}">Letzte Kundenbesuche</span>
+    <div *ngIf="travels">
+        <p-table [value]="travels" selectionMode="single">
+            <ng-template pTemplate="body" let-travel>
+                <tr>
+                    <td><img class="w-2rem" [src]="utiliesService.findIcon(travel.customer?.name)"
+                        alt="../../../../assets/images/unternehmen.png"></td>
+                    <td>{{ convertDate(travel.date[0]) | date: 'dd.MM.yyyy HH:mm'}}</td>
+                    <td>{{ convertDate(travel.date[1]) | date: 'dd.MM.yyyy HH:mm'}}</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>

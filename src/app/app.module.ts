@@ -19,6 +19,7 @@ import { VotingDetailComponent } from './logic/voting-detail/voting-detail.compo
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { MenuModule } from 'primeng/menu';
 import { FilterService } from 'primeng/api';
+import { PanelModule } from 'primeng/panel';
 import { FieldsetModule } from 'primeng/fieldset';
 import { MenubarModule } from 'primeng/menubar';
 import { MenuBarComponent } from './nav/menu-bar/menu-bar.component';
@@ -86,6 +87,7 @@ import { TestComponent } from './logic/test/test.component';
 import { UserService } from './services/shared/user.service';
 import { VerifyAdminPendingComponent } from './logic/verify-admin-pending/verify-admin-pending.component';
 import { DataService } from './services/shared/data.service';
+import { LastTravelsComponent } from './logic/home/last-travels/last-travels.component';
 
 
 @NgModule({
@@ -133,7 +135,8 @@ import { DataService } from './services/shared/data.service';
     CountryListComponent,
     CountryFormComponent,
     TestComponent,
-    VerifyAdminPendingComponent
+    VerifyAdminPendingComponent,
+    LastTravelsComponent
   ],
   imports: [
     BrowserModule,
@@ -155,6 +158,7 @@ import { DataService } from './services/shared/data.service';
     FileUploadModule,
     DropdownModule,
     ChipsModule,
+    PanelModule,
     RatingModule,
     CalendarModule,
     MenuModule,

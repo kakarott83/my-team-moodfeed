@@ -10,7 +10,7 @@
                                 <p-calendar formControlName="dateRange" selectionMode="range" [readonlyInput]="false"
                                     dateFormat="dd.mm.yy" [stepMinute]=15 [showTime]="true" hourFormat="24"
                                     class="text-base text-900 flex surface-overlay surface-border"
-                                    [style]="{'width':'100%', 'height': '2.3rem', 'font-family': 'Rajdhani'}"></p-calendar>
+                                    [style]="{'width':'100%', 'height': '2.3rem', 'font-family': 'Rajdhani'}" appendTo="body"></p-calendar>
                             </div>
                         </div>
                         <div class="col-4">
@@ -65,11 +65,11 @@
                 <p-fieldset legend="Info">
                     <div class="grid">
                         <div class="col-6">Travel Id</div>
-                        <div class="col-6">{{myTravel.id}}</div>
+                        <div class="col-6">{{myTravel !== undefined ? myTravel.id : ''}}</div>
                     </div>
                     <div class="grid">
                         <div class="col-6">Status</div>
-                        <div class="col">{{myTravel.state !== undefined ? myTravel.state : 'nicht gespeichert'}}</div>
+                        <div class="col">{{myTravel !== undefined ? myTravel.state : 'nicht gespeichert'}}</div>
                     </div>
                     <div class="grid">
                         <div class="col-6">Dauer</div>
