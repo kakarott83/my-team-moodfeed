@@ -6,12 +6,13 @@
 
         <ng-template pTemplate="end">
             <div class="flex mr-4 ml-4">
+                <p-button class="btn-header" icon="fa-solid fa-circle-info fa-lg" [rounded]="true" [text]="true" (click)="showDialog()"></p-button>
                 <p-button class="btn-header" icon="fa-solid fa-circle-user fa-lg" [rounded]="true" [text]="true" (click)="userProfile()"></p-button>
                 <p-button class="btn-header" icon="fa-solid fa-right-from-bracket fa-lg" [rounded]="true" [text]="true" (click)="logout()"></p-button>
             </div>
         </ng-template>
     </p-menubar>
-    <div>{{myUser | json}}</div>
 </div>
+<app-basic-dialog [hidden]="!visible" [visible]="visible" [text]="myUser" (closed)="closeDialog()"></app-basic-dialog>
 
 <!--div>*ngIf="myUser?.verifyAdmin"</div-->

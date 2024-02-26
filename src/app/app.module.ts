@@ -21,6 +21,7 @@ import { MenuModule } from 'primeng/menu';
 import { FilterService } from 'primeng/api';
 import { PanelModule } from 'primeng/panel';
 import { FieldsetModule } from 'primeng/fieldset';
+import { DialogModule } from 'primeng/dialog';
 import { MenubarModule } from 'primeng/menubar';
 import { MenuBarComponent } from './nav/menu-bar/menu-bar.component';
 import { TeamVotingComponent } from './logic/team-voting/team-voting.component';
@@ -88,6 +89,7 @@ import { UserService } from './services/shared/user.service';
 import { VerifyAdminPendingComponent } from './logic/verify-admin-pending/verify-admin-pending.component';
 import { DataService } from './services/shared/data.service';
 import { LastTravelsComponent } from './logic/home/last-travels/last-travels.component';
+import { BasicDialogComponent } from './logic/basic-dialog/basic-dialog.component';
 
 
 @NgModule({
@@ -136,7 +138,8 @@ import { LastTravelsComponent } from './logic/home/last-travels/last-travels.com
     CountryFormComponent,
     TestComponent,
     VerifyAdminPendingComponent,
-    LastTravelsComponent
+    LastTravelsComponent,
+    BasicDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -151,6 +154,7 @@ import { LastTravelsComponent } from './logic/home/last-travels/last-travels.com
     DividerModule,
     InputTextareaModule,
     DynamicDialogModule,
+    DialogModule,
     MultiSelectModule,
     TooltipModule,
     FieldsetModule,

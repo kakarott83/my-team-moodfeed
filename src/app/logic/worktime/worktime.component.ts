@@ -10,6 +10,7 @@ import moment from 'moment';
 import { AuthService } from '../../services/auth.service';
 import { User } from '../../model/user';
 import { UserData } from '../../model/user-data';
+import { DataService } from '../../services/shared/data.service';
 
 @Component({
   selector: 'app-worktime',
@@ -35,7 +36,8 @@ export class WorktimeComponent implements OnInit {
   constructor(
     public authService: AuthService,
     private fire: FireService, 
-    private fb: FormBuilder, 
+    private fb: FormBuilder,
+    private dataService: DataService,
     private utilitiesService: UtilitiesService, 
     private messageService: MessageService) {}
 
@@ -53,6 +55,7 @@ export class WorktimeComponent implements OnInit {
 
         if(this.myUser.uid) {
           this.myWorktimeList = await this.fire.getWorkTimeByUser(this.myUser.uid);
+          this.dataService.wtData$.next(this.myWorktimeList);
         }
 
 

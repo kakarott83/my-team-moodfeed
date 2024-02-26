@@ -29,7 +29,7 @@ export class UtilitiesService {
 
   getWeeksPerYear(year: number) {
     let weeksArr: string[] = [];
-    let currWeek = 4 // moment().year(year).isoWeek()
+    let currWeek = moment().year(year).isoWeek()
 
     for (let index = 0; index < currWeek; index++) {
       let week = index + 1

@@ -1,4 +1,4 @@
-<div class="container" *ngIf="myUser?.verifyAdmin; else verfifyAdmin">
+<div class="container" *ngIf="!isLoading; else loading">
     <div class="headers">
         Dashboard
     </div>
@@ -69,6 +69,11 @@
 </div>
 <ng-template #verfifyAdmin>
     <app-verify-admin-pending></app-verify-admin-pending>
+</ng-template>
+<ng-template #loading>
+    <div class="bodies flex justify-content-center mt-10">
+        <p-progressSpinner></p-progressSpinner>
+    </div>
 </ng-template>
 
 

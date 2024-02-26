@@ -171,18 +171,18 @@ export class AuthService {
     })
   }
 
-  // Returns true when user is looged in and email is verified
-  public get isLoggedIn(): boolean {
-    //const user = JSON.parse(localStorage.getItem('user')!);
-    //console.log(this.isLoggedIn$.value,'Getter')
-    const user = this.getUserAuth();
+  // // Returns true when user is looged in and email is verified
+  //   public get isLoggedIn(): boolean {
+  //   //const user = JSON.parse(localStorage.getItem('user')!);
+  //   //console.log(this.isLoggedIn$.value,'Getter')
+  //   const user = await this.getUserAuth();
 
-    if(user) {
-      return this.isLoggedIn$.value == true && user.emailVerified !== false ? true : false;
-    }
+  //   if(user) {
+  //     return this.isLoggedIn$.value
+  //   }
 
-    return false
-  }
+  //   return false
+  // }
 
 
 
@@ -250,8 +250,8 @@ export class AuthService {
       });
   }
 
-  getUserAuth() {
-    let auth = getAuth();
+  async getUserAuth() {
+    let auth = await getAuth();
     let user = auth.currentUser;
 
     if(user !== null) {

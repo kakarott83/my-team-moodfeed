@@ -12,6 +12,7 @@ import { DataService } from '../../../services/shared/data.service';
 import { STATE } from '../../../enums';
 import { Reason } from '../../../model/reason';
 import { SpendType } from '../../../model/spend-type';
+import { MailService } from '../../../services/shared/mail.service';
 
 @Component({
   selector: 'app-travel-form',
@@ -42,8 +43,9 @@ export class TravelFormComponent implements OnInit {
   sumRate = 0;
   sumSpend = 0;
   sumTotal = 0;
+  myUser: any
   
-  @Input() myUser: any;
+  //@Input() myUser: any;
 
   constructor(
     private fire: FireService, 
@@ -52,7 +54,8 @@ export class TravelFormComponent implements OnInit {
     private utilityService: UtilitiesService,
     private userService: UserService,
     private route: ActivatedRoute,
-    private dataService: DataService
+    private dataService: DataService,
+    private mailService: MailService
     ) {
       //this.spendArray = fb.array([]);
 
@@ -77,11 +80,13 @@ export class TravelFormComponent implements OnInit {
     //this.reasons = this.createReason();
     //this.spendTyps = this.createSpendTypes();
 
-    this.myUser = this.userService.getUser();
+    //this.myUser = this.userService.getUser();
 
     this.dataService.selectedTravel.subscribe(data => {
+      console.log("🚀 ~ TravelFormComponent ~ ngOnInit ~ data:", data)
       this.createForm(data)
     })
+    
 
 
     //this.createTravelForm();
@@ -105,10 +110,11 @@ export class TravelFormComponent implements OnInit {
 
     this.isLoading = true
 
-    this.customers = await this.fire.getAllCustomersPromise()
-    this.reasons = await this.fire.getAllReasonsPromise()
-    this.spendTyps = await this.fire.getAllSpendTypsPromise()
+    this.customers = await this.fire.getAllCustomersPromise();
+    this.reasons = await this.fire.getAllReasonsPromise();
+    this.spendTyps = await this.fire.getAllSpendTypsPromise();
     this.dateRange = this.utilityService.createDateArray();
+    this.myUser = await this.userService.getAllUserData()
     this.spendArray = this.fb.array([]);
 
     //Load Or Create Travel
@@ -178,7 +184,7 @@ export class TravelFormComponent implements OnInit {
 
       //Create New Form
       this.myTravelForm = this.fb.group({
-        dateRange: new FormControl(this.dateRange, Validators.required),
+        dateRange: new FormControl('', Validators.required),
         customer:  new FormControl('', Validators.required),
         reason:  new FormControl(),
         comment: new FormControl(),
@@ -195,9 +201,6 @@ export class TravelFormComponent implements OnInit {
     
 
     this.isLoading = false;
-
-
-    
   }
 
   // createTravelForm() {
@@ -273,6 +276,7 @@ export class TravelFormComponent implements OnInit {
   // }
 
   createTravel(): Travel {
+    console.log(this.myUser)
     this.myTravel = {
       date: this.myTravelForm.controls['dateRange'].value,
       customer: this.myTravelForm.controls['customer'].value,
@@ -281,7 +285,7 @@ export class TravelFormComponent implements OnInit {
       launch: this.myTravelForm.controls['launch'].value,
       dinner: this.myTravelForm.controls['dinner'].value,
       comment: this.myTravelForm.controls['comment'].value,
-      userId: this.myUser.uid,
+      userId: this.myUser == null ? '' :  this.myUser.uid,
       amount: this.sumTotal
     }
 
@@ -330,11 +334,18 @@ export class TravelFormComponent implements OnInit {
     }
   }
 
-  async submit() {
+  async submit(action: string) {
     let travel = this.createTravel()
 
     if(travel.state == undefined) {
-      travel.state = STATE[0]
+      switch (action) {
+        case 'save':
+          travel.state = STATE[0];
+          break;
+        case 'send':
+          travel.state = STATE[1];
+          break;
+      }
     }
     
     const uploadResult = await this.uploadFiles()
@@ -344,14 +355,22 @@ export class TravelFormComponent implements OnInit {
     }
 
     if(travel) {
+      console.log("🚀 ~ TravelFormComponent ~ submit ~ travel:", travel)
+      
       this.fire.createTravel(travel)
         .then(() => {
-          this.msgService.add({ severity: 'success', summary: 'Arbeitszeit', detail: 'Arbeitszeit gespeichert'});
+          this.msgService.add({ severity: 'success', summary: 'Reisekosten', detail: 'Reisekosten gespeichert'});
         })
         .then(() => {
           this.clearForm()
         })
-    }    
+    }
+    
+    if(action == 'send') {
+      let travels: Travel[] = [];
+      travels.push(this.myTravel)
+      this.mailService.sendMail(travels, this.myUser)
+    }
   }
 
   async uploadFiles() {
@@ -428,6 +447,10 @@ export class TravelFormComponent implements OnInit {
     /*Form leeren*/
     if(this.myTravelForm) {
       this.myTravelForm.reset();
+      this.duration = ''
+      this.sumRate = 0
+      this.sumSpend = 0
+      this.sumTotal = 0
     }
 
     if(this.myTravel) {
@@ -438,8 +461,11 @@ export class TravelFormComponent implements OnInit {
     if(this.spendArray.length > 0) {
       this.spendArray.clear()
     }
+
+    console.log("🚀 ~ TravelFormComponent ~ clearForm ~ uploadedFiles:", this.uploadedFiles)
     if(this.uploadedFiles.length > 0) {
       this.uploadedFiles = [];
+      
     }
   }
 

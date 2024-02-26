@@ -21,13 +21,13 @@
             </ng-template>
             <ng-template pTemplate="footer">
                 <div>
-                    <p-button type="submit" label = "Login" icon="fa-solid fa-right-to-bracket" [style]="{ 'width': '100%' }"></p-button>
+                    <button pButton type="submit" class="btn-cic-submit" label="Login" icon="fa-solid fa-right-to-bracket" [disabled]="!loginForm.valid" [style]="{ 'width': '100%' }"></button>
                     <!--p-divider align="center">OR</p-divider>
                     <p-button type="submit" label="Login with Google" icon="fa-brands fa-google" [style]="{ 'width': '100%' }"></p-button-->
                 </div>
                     <p-divider align="center">OR</p-divider>
                 <div>
-                    <p-button type="button" (click)="toRegister()" label = "Neuen Account anlegen" icon="fa-solid fa-user-plus" [style]="{ 'width': '100%' }"></p-button>
+                    <button pButton type="button" class="btn-cic-submit" (click)="toRegister()" label = "Neuen Account anlegen" icon="fa-solid fa-user-plus" [style]="{ 'width': '100%' }"></button>
                 </div>
             </ng-template>
         </p-card>

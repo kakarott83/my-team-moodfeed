@@ -18,7 +18,7 @@ import { AuthService } from '../../../services/auth.service';
 })
 export class TravelListComponent implements OnInit {
 
-  @Input() data!: Travel[]
+  //@Input() data!: Travel[]
   @Input() isLoading!: boolean;
   @Output() changeTab = new EventEmitter<boolean>();
   cols!: any[];
@@ -30,6 +30,7 @@ export class TravelListComponent implements OnInit {
   userData!: any
   userAuth$!: any;
   myUser: any;
+  data!: Travel[]
   
 
   constructor(
@@ -45,9 +46,16 @@ export class TravelListComponent implements OnInit {
       dataService.myUser$.subscribe(data => {
         this.myUser = data
       })
+
+      this.dataService.travels$.subscribe(items => {
+        console.log("🚀 ~ TravelListComponent ~ ngOnInit ~ data:", items)
+        this.data = items
+      })
     }
 
   ngOnInit() {
+
+    
     this.defineCustomerFilter()
     this.defineDateFilter()
 

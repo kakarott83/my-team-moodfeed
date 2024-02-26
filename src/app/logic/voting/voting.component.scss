@@ -11,6 +11,14 @@ margin-bottom: 1.5rem !important;
 }
 
 :host ::ng-deep.p-dropdown {
-    min-width: 200px !important;
     height: 49px !important;
+    border: none;
+}
+
+::ng-deep.p-dropdown .p-dropdown-label {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 2rem !important;
 }

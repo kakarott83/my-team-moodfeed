@@ -26,41 +26,10 @@ export class HomeChartTravelComponent {
                 this.loading = false
             }
         })
-
-
-        const documentStyle = getComputedStyle(document.documentElement);
-        const textColor = documentStyle.getPropertyValue('--surface-900');
-
-        this.data = {
-            labels: ['Abgerechnete Reisen', 'Offene Reisen', 'Eingereichte Reise'],
-            datasets: [
-                {
-                    data: [4, 1, 3],
-                    backgroundColor: [documentStyle.getPropertyValue('--cic-dark-blue'), documentStyle.getPropertyValue('--cic-main-blue-500'), documentStyle.getPropertyValue('--cic-main-blue-200')],
-                    hoverBackgroundColor: [documentStyle.getPropertyValue('--cic-main-blue-800'), documentStyle.getPropertyValue('--cic-main-blue-400'), documentStyle.getPropertyValue('--cic-main-blue-100')]
-                }
-            ]
-        };
-
-
-        this.options = {
-            cutout: '80%',
-            plugins: {
-                legend: {
-                    labels: {
-                        color: textColor,
-                        font: {
-                            family: "'Rajdhani'",
-                            size: 14
-                          }
-                    },
-                    position: 'top'
-                }
-            }
-        };
     }
 
     createChart(travelData: AggCard) {
+    console.log("🚀 ~ HomeChartTravelComponent ~ createChart ~ travelData:", travelData)
 
 
 
@@ -71,7 +40,7 @@ export class HomeChartTravelComponent {
             labels: ['Abgerechnete Reisen', 'Offene Reisen', 'Eingereichte Reise'],
             datasets: [
                 {
-                    data: [travelData.countPaid, travelData.countSubmit, travelData.countSubmit],
+                    data: [travelData.countPaid, travelData.countSaved, travelData.countSubmit],
                     backgroundColor: [documentStyle.getPropertyValue('--cic-dark-blue'), documentStyle.getPropertyValue('--cic-main-blue-500'), documentStyle.getPropertyValue('--cic-main-blue-200')],
                     hoverBackgroundColor: [documentStyle.getPropertyValue('--cic-main-blue-800'), documentStyle.getPropertyValue('--cic-main-blue-400'), documentStyle.getPropertyValue('--cic-main-blue-100')]
                 }

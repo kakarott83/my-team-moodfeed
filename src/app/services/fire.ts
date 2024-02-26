@@ -166,7 +166,12 @@ export class FireService {
           .pipe(
             map(actions => actions.map(x => 
               ({id: x.payload.doc.id, ...x.payload.doc.data()})
-            )),
+            ).sort((a, b) => {
+              const aDate = a.date ?? new Date()
+              const bDate = b.date ?? new Date()
+              return (aDate < bDate) ? -1 : (aDate > bDate) ? 1 : 0
+            })
+            ),
             //tap(x => console.log(x,'WT'))
           )
         )
@@ -243,6 +248,7 @@ export class FireService {
   }
 
   getTravelByUser(id: string) {
+
     return firstValueFrom(
       this.db.collection<Travel>('travels', ref => {
         return ref.where('userId', '==', id)
@@ -250,12 +256,11 @@ export class FireService {
       .pipe(
         map(actions => actions.map(x =>(
           {id: x.payload.doc.id, ...x.payload.doc.data()}
-        ))
+        )),
     )))
   }
 
   getTravelLastXByUser(id: string, number: number) {
-    console.log(id, 'test')
     return firstValueFrom(
       this.db.collection<Travel>('travels', ref => {
         return ref.where('userId', '==', id)

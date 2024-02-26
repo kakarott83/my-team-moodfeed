@@ -16,6 +16,7 @@ export class MenuBarComponent implements OnInit {
   items: MenuItem[] | undefined;
   isLoggedIn!: boolean;
   myUser: any;
+  visible = false
 
   constructor(private router: Router, public authService: AuthService, private userService: UserService, private dataService: DataService) {
     //this.getUserData()
@@ -74,6 +75,13 @@ export class MenuBarComponent implements OnInit {
 
   userProfile() {
     this.router.navigate(['user-profile']);
-    
+  }
+
+  showDialog() {
+    this.visible = true
+  }
+
+  closeDialog() {
+    this.visible = false
   }
 }

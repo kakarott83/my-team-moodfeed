@@ -7,8 +7,8 @@
                         <div class="col-4">
                             <div class="field">
                                 <label>Datum</label>
-                                <p-calendar formControlName="dateRange" selectionMode="range" [readonlyInput]="false"
-                                    dateFormat="dd.mm.yy" [stepMinute]=15 [showTime]="true" hourFormat="24"
+                                <p-calendar formControlName="dateRange" selectionMode="range" [readonlyInput]="false" [firstDayOfWeek]=1
+                                    dateFormat="dd.mm.yy" [stepMinute]=1 [showTime]="true" hourFormat="24"
                                     class="text-base text-900 flex surface-overlay surface-border"
                                     [style]="{'width':'100%', 'height': '2.3rem', 'font-family': 'Rajdhani'}" appendTo="body"></p-calendar>
                             </div>
@@ -195,7 +195,8 @@
             </div>
         </div>
         <div class="flex">
-            <button pButton class="btn-cic-submit" label="Speichern" icon="pi pi-check" (click)="submit()" [disabled]="!myTravelForm.valid"></button>
+            <button pButton class="btn-cic-submit" label="Einreichen" icon="fa-regular fa-paper-plane" (click)="submit('send')" [disabled]="!myTravelForm.valid"></button>
+            <button pButton class="btn-cic-submit" label="Speichern" icon="pi pi-check" (click)="submit('save')" [disabled]="!myTravelForm.valid"></button>
             <button pButton class="btn-cic-clear" label="Clear" icon="fa-solid fa-text-slash" (click)="clearForm()"></button>
         </div>
     </form>
