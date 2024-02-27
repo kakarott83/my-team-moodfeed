@@ -22,6 +22,7 @@ import { FilterService } from 'primeng/api';
 import { PanelModule } from 'primeng/panel';
 import { FieldsetModule } from 'primeng/fieldset';
 import { DialogModule } from 'primeng/dialog';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 import { MenubarModule } from 'primeng/menubar';
 import { MenuBarComponent } from './nav/menu-bar/menu-bar.component';
 import { TeamVotingComponent } from './logic/team-voting/team-voting.component';
@@ -33,6 +34,8 @@ import { DropdownModule } from 'primeng/dropdown';
 import { TableModule } from 'primeng/table';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ToastModule } from 'primeng/toast';
+import { InputGroupModule } from 'primeng/inputgroup';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { ChipsModule } from 'primeng/chips';
@@ -90,10 +93,14 @@ import { VerifyAdminPendingComponent } from './logic/verify-admin-pending/verify
 import { DataService } from './services/shared/data.service';
 import { LastTravelsComponent } from './logic/home/last-travels/last-travels.component';
 import { BasicDialogComponent } from './logic/basic-dialog/basic-dialog.component';
+import { CurrencySuffixDirective } from './logic/helpers/appCurrencySuffix';
+import { CurrencyDialogComponent } from './logic/dialogs/currency-dialog/currency-dialog.component'
+import { DatePipe } from '@angular/common';
 
 
 @NgModule({
   declarations: [
+    CurrencySuffixDirective,
     AppComponent,
     LoginComponent,
     VotingComponent,
@@ -139,7 +146,8 @@ import { BasicDialogComponent } from './logic/basic-dialog/basic-dialog.componen
     TestComponent,
     VerifyAdminPendingComponent,
     LastTravelsComponent,
-    BasicDialogComponent
+    BasicDialogComponent,
+    CurrencyDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -161,6 +169,9 @@ import { BasicDialogComponent } from './logic/basic-dialog/basic-dialog.componen
     ProgressSpinnerModule,
     FileUploadModule,
     DropdownModule,
+    InputGroupAddonModule,
+    InputGroupModule,
+    AutoCompleteModule,
     ChipsModule,
     PanelModule,
     RatingModule,
@@ -182,7 +193,8 @@ import { BasicDialogComponent } from './logic/basic-dialog/basic-dialog.componen
     AuthService,
     {provide: 'LOCALE_ID', useValue: 'de'},
     UserService,
-    DataService
+    DataService,
+    DatePipe
   ],
   bootstrap: [AppComponent]
 })

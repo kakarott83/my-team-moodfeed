@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ComponentFactoryResolver, ElementRef, HostListener, Input, OnInit, ViewContainerRef } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Travel } from '../../../model/travel';
 import { Spend } from '../../../model/spend';
@@ -13,12 +13,14 @@ import { STATE } from '../../../enums';
 import { Reason } from '../../../model/reason';
 import { SpendType } from '../../../model/spend-type';
 import { MailService } from '../../../services/shared/mail.service';
+import { CurrencyDialogComponent } from '../../dialogs/currency-dialog/currency-dialog.component';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
 
 @Component({
   selector: 'app-travel-form',
   templateUrl: './travel-form.component.html',
   styleUrl: './travel-form.component.scss',
-  providers:[UserService,MessageService, UtilitiesService]
+  providers:[UserService,MessageService, UtilitiesService, DialogService],
 })
 export class TravelFormComponent implements OnInit {
 
@@ -43,7 +45,8 @@ export class TravelFormComponent implements OnInit {
   sumRate = 0;
   sumSpend = 0;
   sumTotal = 0;
-  myUser: any
+  myUser: any;
+  dialogRef: DynamicDialogRef | undefined
   
   //@Input() myUser: any;
 
@@ -55,7 +58,9 @@ export class TravelFormComponent implements OnInit {
     private userService: UserService,
     private route: ActivatedRoute,
     private dataService: DataService,
-    private mailService: MailService
+    private mailService: MailService,
+    private el: ElementRef,
+    public dialogService: DialogService
     ) {
       //this.spendArray = fb.array([]);
 
@@ -391,6 +396,7 @@ export class TravelFormComponent implements OnInit {
         type: 'Auto',
         value: 0,
         date: spendDate !== null ? spendDate : null,
+        comment: ''
       })
     )
     console.log(this.spendArray,'SpendArray')
@@ -421,6 +427,22 @@ export class TravelFormComponent implements OnInit {
     (this.myTravelForm.controls['spends'] as FormArray).controls.forEach(control => {
       console.log(control,'Control')
       control.disable()
+    })
+  }
+
+  showDialog() {
+    this.dialogRef = this.dialogService.open(CurrencyDialogComponent, {
+      data: {
+        id: 123456
+      },
+      modal: true,
+      header: 'Währungsrechner',
+      width: '30vw',
+      height: '75vh'
+    })
+
+    this.dialogRef.onClose.subscribe(data => {
+      console.log(data,'DialogData')
     })
   }
 
@@ -465,9 +487,9 @@ export class TravelFormComponent implements OnInit {
     console.log("🚀 ~ TravelFormComponent ~ clearForm ~ uploadedFiles:", this.uploadedFiles)
     if(this.uploadedFiles.length > 0) {
       this.uploadedFiles = [];
-      
     }
   }
+
 
 
 

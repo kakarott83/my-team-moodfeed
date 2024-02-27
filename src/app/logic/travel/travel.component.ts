@@ -10,10 +10,8 @@ import { Spendtype } from '../../model/spendtype';
 import { Upload } from '../../model/upload';
 import { FireService } from '../../services/fire';
 import { FileUpload } from 'primeng/fileupload';
-import { error } from 'console';
 import { BehaviorSubject, Observable, finalize, map, min, switchMap, tap } from 'rxjs';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
-import { BlobOptions } from 'buffer';
 import { DataService } from '../../services/shared/data.service';
 import { MailService } from '../../services/shared/mail.service';
 

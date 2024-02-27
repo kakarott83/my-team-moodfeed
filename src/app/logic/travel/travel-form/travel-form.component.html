@@ -100,7 +100,7 @@
                             <div formArrayName="spends" class="flex flex-column">
                                 <div *ngFor="let item of spendArray.controls; let i=index" [formGroupName]="i">
                                     <div class="grid">
-                                        <div class="col-3">
+                                        <div class="col-2">
                                             <div class="field">
                                                 <label *ngIf="i == 0">Datum</label>
                                                 <p-calendar formControlName="date" dateFormat="dd.mm.yy" [maxDate]="maxDate" [minDate]="minDate"
@@ -119,11 +119,22 @@
                                         <div class="col-3">
                                             <div class="field">
                                                 <label *ngIf="i == 0">Betrag</label>
-                                                <input type="number" pInputText formControlName="value"
-                                                    class="text-base text-900 surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" />
+                                                <p-inputGroup [style]="{'height':'37px'}">
+                                                    <input pInputText type="number" formControlName="value"
+                                                    class="border-noround-right text-base text-900 surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"/>
+                                                    <p-inputGroupAddon class="currency-code">€</p-inputGroupAddon>
+                                                    <button type="button" (click)="showDialog()" pButton icon="fa-solid fa-arrow-right-arrow-left"></button>
+                                                </p-inputGroup>
                                             </div>
                                         </div>
                                         <div class="col-3">
+                                            <div class="field">
+                                                <label *ngIf="i == 0">Kommentar</label>
+                                                <input pInputText formControlName="comment" placeholder="z.B. Kennzeichen"
+                                                    class="text-base text-900 surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" />
+                                            </div>
+                                        </div>
+                                        <div class="col-1">
                                             <div class="flex justify-content-end" [ngStyle]="{'margin-top':i==0 ? '1.75rem' : ''}">
                                                 <p-button *ngIf="!isDisabled" class="delete" icon="pi pi-times" (click)="deleteSpend(i)" [rounded]="true"
                                                     [text]="true" severity="danger "></p-button>
