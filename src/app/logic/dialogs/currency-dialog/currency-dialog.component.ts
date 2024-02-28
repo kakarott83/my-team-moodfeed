@@ -104,7 +104,7 @@ export class CurrencyDialogComponent {
   }
 
   close() {
-      this.ref.close();
+    this.ref.close(this.euroValue)
   }
 
   ngOnDestroy() {
