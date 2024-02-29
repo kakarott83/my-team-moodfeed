@@ -56,12 +56,14 @@ export class CurrencyDialogComponent {
   filteredCurrencies!: any[];
   selectedCurrency: any;
   euroValue: any;
+  resultObject = {};
 
 
 
   constructor(public ref: DynamicDialogRef, private dialogService: DialogService, private fb: FormBuilder, private currService: CurrencyService) {
     
     this.instance = this.dialogService.getInstance(this.ref);
+    console.log(this.instance.data)
   }
 
   async ngOnInit() {

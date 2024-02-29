@@ -430,10 +430,10 @@ export class TravelFormComponent implements OnInit {
     })
   }
 
-  showDialog() {
+  showDialog(item: any) {
     this.dialogRef = this.dialogService.open(CurrencyDialogComponent, {
       data: {
-        id: 123456
+        item: item
       },
       modal: true,
       header: 'Währungsrechner',
