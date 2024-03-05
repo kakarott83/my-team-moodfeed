@@ -31,7 +31,7 @@
                         </div>
                     </div>
                     <div class="grid">
-                        <div class="col-6">
+                        <!--div class="col-6">
                             <div class="field">
                                 <label>Verpflegung</label>
                                 <div class="card flex gap-3">
@@ -49,7 +49,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div-->
                         <div class="col-6">
                             <div class="field">
                                 <label>Kommentar</label>
@@ -58,7 +58,23 @@
                             </div>
                         </div>
                     </div>
+                        
+                        <!--div *ngFor="let item of daysArray.controls; let i=index" [formGroupName]="i">
+                            <div class="grid">
+                                <div class="col-2">
+                                    <div class="field">
+                                        <p-calendar formControlName="date" dateFormat="dd.mm.yy" [disabled]="true"
+                                                        class="text-base text-900 flex surface-overlay surface-border"
+                                                        [style]="{'width':'100%', 'height': '2.3rem', 'font-family': 'Rajdhani'}"></p-calendar>
+                                    </div>
+                                </div>
+                            </div>
+                        </div-->
+
+
+                        <app-days-list [days]="days$ | async" (travelsDays)="changeTravelDay($event)"></app-days-list>
                 </p-fieldset>
+                
 
             </div>
             <div class="col-3">
@@ -93,10 +109,7 @@
                 <div class="grid">
                     <div class="col-6">
                         <p-fieldset legend="Ausgaben">
-                            <div *ngIf="spendArray.length > 0" class="flex justify-content-center">
-                                <p-button *ngIf="!isDisabled" class="add" icon="fa-solid fa-plus" (click)="addSpend()" [rounded]="true"
-                                [text]="true" severity="success " label="weitere Ausgaben"></p-button>
-                            </div>
+
                             <div formArrayName="spends" class="flex flex-column">
                                 <div *ngFor="let item of spendArray.controls; let i=index" [formGroupName]="i">
                                     <div class="grid">
@@ -149,6 +162,10 @@
                                     <p-button *ngIf="!isDisabled" icon="fa-solid fa-plus" label="Ausgaben erfassen" (click)="addSpend()"
                                         [rounded]="true" [text]="true" severity="success "></p-button>
                                 </div>
+                            </div>
+                            <div *ngIf="spendArray.length > 0" class="flex justify-content-center">
+                                <p-button *ngIf="!isDisabled" class="add" icon="fa-solid fa-plus" (click)="addSpend()" [rounded]="true"
+                                [text]="true" label="weitere Ausgaben"></p-button>
                             </div>
                         </p-fieldset>
                     </div>
@@ -210,6 +227,9 @@
             <button pButton class="btn-cic-submit" label="Speichern" icon="pi pi-check" (click)="submit('save')" [disabled]="!myTravelForm.valid"></button>
             <button pButton class="btn-cic-clear" label="Clear" icon="fa-solid fa-text-slash" (click)="clearForm()"></button>
         </div>
+
+        
+
     </form>
 </div>
 <ng-template #loading>

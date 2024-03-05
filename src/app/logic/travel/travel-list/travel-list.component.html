@@ -18,7 +18,7 @@
         Reisen
       </div-->
       <div class="flex justify-content-between">
-        <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clear(votingList)"></button>
+        <button pButton label="Clear" class="cic-btn-white p-button-outlined" icon="pi pi-filter-slash" (click)="clear(votingList)"></button>
         <!--span class="p-input-icon-left p-ml-auto">
                   <i class="pi pi-search"></i>
                   <input pInputText type="text" (input)="votingList.filterGlobal($event, 'contains')" placeholder="Search keyword" />
@@ -86,53 +86,6 @@
         </th>
       </tr>
     </ng-template>
-    <!--ng-template pTemplate="header">
-      <tr>
-        <th class="dateFilterStyle" style="width: 5%"></th>
-        <th class="dateFilterStyle" style="width: 15%" pSortableColumn="start" display="menu">Start<p-sortIcon
-            field="start"></p-sortIcon></th>
-        <th class="dateFilterStyle" style="width: 15%" pSortableColumn="end" display="menu">Ende <p-sortIcon field="end"></p-sortIcon>
-        </th>
-        <th class="dateFilterStyle" style="width: 15%" pSortableColumn="customer" display="menu">Kunde<p-sortIcon
-            field="customer"></p-sortIcon></th>
-        <th class="dateFilterStyle" style="width: 15%" pSortableColumn="reason" display="menu">Grund <p-sortIcon
-            field="reason"></p-sortIcon></th>
-        <th class="dateFilterStyle" style="width: 10%" pSortableColumn="state" display="menu">Status <p-sortIcon
-            field="state"></p-sortIcon></th>
-      </tr-->
-      <!--tr>
-        <th class="dateFilterStyle"></th>
-        <th class="dateFilterStyle">
-          <p-columnFilter type="date" field="start" class="tableFilter"></p-columnFilter>
-        </th>
-        <th class="dateFilterStyle">
-          <p-columnFilter type="text" field="end" class="tableFilter"></p-columnFilter>
-        </th>
-        <th class="dateFilterStyle">
-          <p-columnFilter type="text" field="customer" class="tableFilter" [matchMode]="'custom-equals'"></p-columnFilter>
-        </th>
-        <th class="dateFilterStyle">
-          <p-columnFilter type="text" field="reason" class="tableFilter"></p-columnFilter>
-        </th>
-        <th class="dateFilterStyle">
-          <p-columnFilter field="state" class="tableFilter" display="menu" [showMatchModes]="false" [showOperator]="false"
-            [showAddButton]="false">>
-  
-            <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-              <p-multiSelect [ngModel]="value" [options]="travelState" placeholder="Any" (onChange)="filter($event.value)"
-                optionLabel="state">
-                <ng-template let-option pTemplate="item">
-                  <div class="p-multiselect-representative-option">
-                    <i [ngClass]="option.icon"></i>
-                    <span class="ml-1">{{option.name}}</span>
-                  </div>
-                </ng-template>
-              </p-multiSelect>
-            </ng-template>
-          </p-columnFilter>
-        </th>
-      </tr>
-    </ng-template-->
     <ng-template pTemplate="body" let-travel>
       <tr>
         <td>
@@ -145,7 +98,7 @@
         <td>{{ travel.customer.name }}</td>
         <td>{{ travel.date[0]["seconds"] * 1000 | date: 'dd.MM.yyyy HH:mm'}}</td>
         <td>{{ travel.date[1]["seconds"] * 1000 | date: 'dd.MM.yyyy HH:mm'}}</td>
-        <td>{{ travel.reason.name }}</td>
+        <td>{{ travel.reason?.name }}</td>
         <td>
           <div class="flex" [ngSwitch]="travel.state">
             <i *ngSwitchCase="'submitted'" class="fa-regular fa-paper-plane"></i>
@@ -157,8 +110,14 @@
           <div>
             <button (click)="selectTravel(travel)" pButton pRipple icon="fa-regular fa-pen-to-square" class="p-button-text"
             ></button>
-            <p-button [disabled]="travel.state == 'saved' ? false : true" class="delete" icon="pi pi-times" (click)="deleteTravel(travel)"
-                                                              [rounded]="true" [text]="true" severity="danger "></p-button>
+            <p-button 
+              [disabled]="travel.state == 'saved' ? false : true" 
+              class="delete" 
+              icon="pi pi-times" (click)="deleteTravel(travel)"
+              [rounded]="true" 
+              [text]="true" 
+              severity="danger ">
+            </p-button>
           </div>
         </td>
       </tr>

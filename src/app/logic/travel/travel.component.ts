@@ -19,7 +19,7 @@ import { MailService } from '../../services/shared/mail.service';
   selector: 'app-travel',
   templateUrl: './travel.component.html',
   styleUrl: './travel.component.scss',
-  providers:[MessageService, UtilitiesService, MailService]
+  providers:[MessageService, MailService]
 })
 export class TravelComponent implements OnInit {
 

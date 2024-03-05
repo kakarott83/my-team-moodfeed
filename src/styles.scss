@@ -150,6 +150,11 @@ body .p-component
     }
 }
 
+.cic-btn-white {
+    background-color: var(--cic-white);
+    color: var(--surface-900);
+}
+
 .btn-cic-submit {
     background: var(--cic-light-blue) !important;
     border: var(--cic-light-blue) !important;
@@ -402,5 +407,14 @@ body .p-component
 .voting-default {
     font-weight: lighter;
     color: rgb(128, 124, 124);
+}
+
+.p-checkbox .p-checkbox-box {
+    background: var(--cic-white);
+    border-color: #EEEEEE;
+    svg {
+       color: var(--cic-light-blue);
+       font-weight: bolder;
+    }
 }
 

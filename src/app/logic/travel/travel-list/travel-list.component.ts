@@ -9,12 +9,14 @@ import { MailService } from '../../../services/shared/mail.service';
 import { UserService } from '../../../services/shared/user.service';
 import { Auth, User, getAuth } from 'firebase/auth';
 import { AuthService } from '../../../services/auth.service';
+import { Firestore } from 'firebase/firestore';
+import { FireService } from '../../../services/fire';
 
 @Component({
   selector: 'app-travel-list',
   templateUrl: './travel-list.component.html',
   styleUrl: './travel-list.component.scss',
-  providers: [UtilitiesService, FilterService]
+  providers: [FilterService]
 })
 export class TravelListComponent implements OnInit {
 
@@ -42,6 +44,7 @@ export class TravelListComponent implements OnInit {
     private userService: UserService,
     private authService: AuthService,
     private msgService: MessageService,
+    private fire: FireService
     ) {
       dataService.myUser$.subscribe(data => {
         this.myUser = data
@@ -51,6 +54,7 @@ export class TravelListComponent implements OnInit {
         console.log("🚀 ~ TravelListComponent ~ ngOnInit ~ data:", items)
         this.data = items
       })
+      
     }
 
   ngOnInit() {

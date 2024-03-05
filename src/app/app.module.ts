@@ -96,6 +96,9 @@ import { BasicDialogComponent } from './logic/basic-dialog/basic-dialog.componen
 import { CurrencySuffixDirective } from './logic/helpers/appCurrencySuffix';
 import { CurrencyDialogComponent } from './logic/dialogs/currency-dialog/currency-dialog.component'
 import { DatePipe } from '@angular/common';
+import { DaysListComponent } from './logic/travel/days-list/days-list.component';
+import { CicCheckboxComponent } from './components/cic-checkbox/cic-checkbox.component';
+import { UtilitiesService } from './services/shared/utilities.service';
 
 
 @NgModule({
@@ -147,7 +150,9 @@ import { DatePipe } from '@angular/common';
     VerifyAdminPendingComponent,
     LastTravelsComponent,
     BasicDialogComponent,
-    CurrencyDialogComponent
+    CurrencyDialogComponent,
+    DaysListComponent,
+    CicCheckboxComponent
   ],
   imports: [
     BrowserModule,
@@ -194,7 +199,8 @@ import { DatePipe } from '@angular/common';
     {provide: 'LOCALE_ID', useValue: 'de'},
     UserService,
     DataService,
-    DatePipe
+    DatePipe,
+    UtilitiesService
   ],
   bootstrap: [AppComponent]
 })
