@@ -1,6 +1,7 @@
 <div *ngIf="data">
   <p-table 
-    #votingList 
+    #travelList
+    [columns]="cols"
     [value]="data" 
     [style]="{'font-family': 'Rajdhani','color':'var(--surface-900)'}"
     [paginator]="true" 
@@ -9,33 +10,37 @@
     [showCurrentPageReport]="true"
     currentPageReportTemplate="{first} bis {last} von {totalRecords} Reisen" 
     [rowsPerPageOptions]="[5, 10, 20]"
-    [globalFilterFields]="['customer.name','start','end','reason']" 
     [(selection)]="selectedTravels"
+    [globalFilterFields]="['customer.name','reason.name', 'state']"
     dataKey="id" 
     styleClass="p-datatable-striped">
     <ng-template pTemplate="caption">
-      <!--div class="flex align-items-center justify-content-center text-xl text-900 border-none headerTableStyle">
-        Reisen
-      </div-->
+      <div class="flex justify-content-end mb-2">
+        <span class="p-input-icon-left ml-auto">
+          <i class="pi pi-search"></i>
+          <input pInputText type="text" (input)="travelList.filterGlobal($any($event.target).value, 'contains')" placeholder="Search keyword">
+        </span>
+      </div>
       <div class="flex justify-content-between">
-        <button pButton label="Clear" class="cic-btn-white p-button-outlined" icon="pi pi-filter-slash" (click)="clear(votingList)"></button>
-        <!--span class="p-input-icon-left p-ml-auto">
-                  <i class="pi pi-search"></i>
-                  <input pInputText type="text" (input)="votingList.filterGlobal($event, 'contains')" placeholder="Search keyword" />
-              </span-->
-        <span>{{selectedTravels.length}} Reise(n) ausgewählt</span>
         <div class="flex">
-          <button pButton class="btn-cic-submit" [ngStyle]="{'width' : '100%'}" label="Einreichen" icon="fa-regular fa-paper-plane" (click)="submitTravels()" [disabled]="selectedTravels.length == 0"></button>
-          <button pButton class="btn-cic-submit" [ngStyle]="{'width' : '100%'}" label="Abgerechnet" icon="fa-solid fa-money-bill-wave" (click)="paidTravels()" [disabled]="selectedTravels.length == 0"></button>
+          <button pButton label="Clear" class="cic-btn-white p-button-outlined" icon="pi pi-filter-slash" (click)="clear(travelList)"></button> 
+        </div>
+        <div>
+          <span>{{selectedTravels.length}} Reise(n) ausgewählt</span>
+        </div>
+        <div class="flex">
+          <div class="flex">
+            <button pButton class="btn-cic-submit" [ngStyle]="{'width' : '100%'}" label="Einreichen" icon="fa-regular fa-paper-plane" (click)="submitTravels()" [disabled]="selectedTravels.length == 0"></button>
+            <button pButton class="btn-cic-submit" [ngStyle]="{'width' : '100%', 'margin-right' : '0px'}" label="Abgerechnet" icon="fa-solid fa-money-bill-wave" (click)="paidTravels()" [disabled]="selectedTravels.length == 0"></button>
+          </div>
         </div>
       </div>
     </ng-template>
-    <ng-template pTemplate="header">
+    <!--ng-template pTemplate="header">
       <tr>
         <th style="width: 4rem">
         </th>
         <th>
-          <!--Icons-->
         </th>
         <th>
           <div class="p-d-flex p-jc-between p-ai-center">
@@ -85,8 +90,14 @@
           </div>
         </th>
       </tr>
+    </ng-template-->
+    <ng-template pTemplate="header" let-columns>
+      <tr>
+          <th style="width: 10%">Auswahl</th>
+          <th *ngFor="let col of columns" pSortableColumn={{col.field}}>{{col.header}} <p-sortIcon field={{col.field}}></p-sortIcon></th>
+      </tr>
     </ng-template>
-    <ng-template pTemplate="body" let-travel>
+    <!--ng-template pTemplate="body" let-travel>
       <tr>
         <td>
           <p-tableCheckbox [value]="travel" [disabled]="travel.state !== 'submitted' ? false : true"></p-tableCheckbox>
@@ -121,8 +132,44 @@
           </div>
         </td>
       </tr>
-    </ng-template>
+    </ng-template-->
     <!--ng-template pTemplate="summary"> Footer </ng-template-->
+    <ng-template pTemplate="body" let-rowData let-columns="columns">
+      <tr [pSelectableRow]="rowData">
+        <td>
+          <p-tableCheckbox [value]="rowData" [disabled]="rowData.state !== 'submitted' ? false : true"></p-tableCheckbox>
+        </td>
+          <td *ngFor="let col of columns">
+            <ng-container [ngSwitch]="col.header">
+             <div *ngSwitchCase="'Kunde'">
+                <ng-container>
+                  <div class="grid">
+                    <div class="col-3">
+                      <img class="w-2rem" [src]="utiliesService.findIcon(rowData.customer.name)" alt="../../../../assets/images/unternehmen.png">
+                    </div>
+                    <div class="col">
+                      {{rowData[col.field].name}}
+                    </div>
+                  </div>
+                </ng-container>
+                
+             </div>
+             <div *ngSwitchCase="'Start'">
+                {{ rowData[col.field][0]["seconds"] * 1000 | date: 'dd.MM.yyyy HH:mm'}}
+             </div>
+             <div *ngSwitchCase="'Ende'">
+              {{ rowData[col.field][1]["seconds"] * 1000 | date: 'dd.MM.yyyy HH:mm'}}
+             </div>
+             <div *ngSwitchCase="'Grund'">
+                {{rowData[col.field]?.name}}
+             </div>
+             <div *ngSwitchCase="'Status'">
+                {{rowData[col.field]}}
+             </div>
+            </ng-container>
+          </td>
+      </tr>
+  </ng-template>
   </p-table>
 </div>
 <p-toast></p-toast>

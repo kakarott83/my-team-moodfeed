@@ -26,6 +26,7 @@ export class TravelListComponent implements OnInit {
   cols!: any[];
   matchModeOptionsCustomer!: SelectItem[];
   matchModeOptionsDate!: SelectItem[];
+  matchModeOptions!: SelectItem[];
   travelState: any[] = [];
   selectedTravels: Travel [] = [];
   user!: any
@@ -37,7 +38,7 @@ export class TravelListComponent implements OnInit {
 
   constructor(
     public utiliesService: UtilitiesService, 
-    private filterService: FilterService, 
+    private filterService: FilterService,
     private router: Router,
     private dataService: DataService,
     private mailService: MailService,
@@ -46,89 +47,66 @@ export class TravelListComponent implements OnInit {
     private msgService: MessageService,
     private fire: FireService
     ) {
+
+
       dataService.myUser$.subscribe(data => {
         this.myUser = data
+        console.log("🚀 ~ TravelListComponent ~ myUser:", this.myUser)
+        
       })
 
       this.dataService.travels$.subscribe(items => {
-        console.log("🚀 ~ TravelListComponent ~ ngOnInit ~ data:", items)
-        this.data = items
+         console.log("🚀 ~ TravelListComponent ~ ngOnInit ~ data:", items)
+         this.data = items
       })
       
     }
 
   ngOnInit() {
 
-    
-    this.defineCustomerFilter()
-    this.defineDateFilter()
+    const customerFilterName = 'custom-equals'
 
-    // this.authService.user$.subscribe(user => {
-    //   this.user = user
-    //   console.log("🚀 ~ TravelListComponent ~ ngOnInit ~ user:", user)
-    // })
+    this.filterService.register(customerFilterName, (value: any, filter: any): boolean => {
+      console.log("🚀 ~ TravelListComponent ~ this.filterService.register ~ filter:", filter)
+      console.log("🚀 ~ TravelListComponent ~ this.filterService.register ~ value:", value)
+      
+      if(filter === undefined || filter === null || filter.trim() === '') {
+        return true;
+      }
+
+      if(value === undefined || value === null) {
+        return false
+      }
+
+      return value.toString() === filter.toString()
+    })
+
+    this.cols = [
+      { field: 'customer', header: 'Kunde' },
+      { field: 'date', header: 'Start' },
+      { field: 'date', header: 'Ende' },
+      { field: 'reason', header: 'Grund' },
+      { field: 'state', header: 'Status' },
+    ]
+
+    this.matchModeOptions = [
+      { label: 'Custom Equals', value: customerFilterName },
+      { label: 'Starts With', value: FilterMatchMode.STARTS_WITH },
+      { label: 'Contains', value: FilterMatchMode.CONTAINS }
+  ];
+
+
 
     this.travelState = [
       {state: 'submitted', icon: 'fa-regular fa-paper-plane'},
       {state: 'save', icon: 'fa-solid fa-floppy-disk'},
       {state: 'paid', icon: 'fa-solid fa-money-bill-wave'},
     ]
+
+
   }
 
-  // auth() {
-  //   const auth = getAuth();
-  //   this.userAuth$ = auth.currentUser;
-  // }
 
-  defineCustomerFilter() {
-    const customFilterName = 'custom-equals';
-
-    this.filterService.register(customFilterName, (value: { name: string; } | null | undefined, filter: string | null | undefined): boolean => {
-      //console.log("🚀 ~ TravelListComponent ~ this.filterService.register ~ value:", value)
-      
-      if(filter === undefined || filter === null || filter.trim() === '') {
-        return true;
-      }
-  
-      if(value === undefined || value === null) {
-        return false;
-      }
-
-      return this.filterService.filters['contains'](value.name.toUpperCase(), filter.toUpperCase())
-  
-    })
-
-    this.matchModeOptionsCustomer = [
-      { label: "Custom Equals", value: customFilterName },
-      //{ label: "Starts With", value: FilterMatchMode.STARTS_WITH },
-      //{ label: "Contains", value: FilterMatchMode.CONTAINS }
-    ];
-  }
-
-  defineDateFilter() {
-    const customFilterName = 'date-equals';
-
-    this.filterService.register(customFilterName, (value: { name: string; } | null | undefined, filter: string | null | undefined): boolean => {
-      //console.log("🚀 ~ TravelListComponent ~ this.filterService.register ~ value:", value)
-      
-      if(filter === undefined || filter === null || filter.trim() === '') {
-        return true;
-      }
-  
-      if(value === undefined || value === null) {
-        return false;
-      }
-
-      return this.filterService.filters['contains'](value.name.toUpperCase(), filter.toUpperCase())
-  
-    })
-
-    this.matchModeOptionsDate = [
-      { label: "Custom Equals", value: customFilterName },
-      { label: "Starts With", value: FilterMatchMode.STARTS_WITH },
-      //{ label: "Contains", value: FilterMatchMode.CONTAINS }
-    ];
-  }
 
   clear(table: Table) {
     table.clear();
@@ -151,16 +129,6 @@ export class TravelListComponent implements OnInit {
     //E-Mail an Server schicken
     if(this.myUser !== undefined) {
       let result = await this.mailService.sendMail(this.selectedTravels, this.myUser)
-      //console.log("🚀 ~ TravelListComponent ~ submitTravels ~ result:", result)
-        // .subscribe(data => {
-        //   console.log("🚀 ~ TravelListComponent ~ this.mailService.sendMail ~ data:", data)
-          
-        //   if(data == 'OK') {
-        //     this.msgService.add({ severity: 'success', summary: 'Senden', detail: 'Reise(n) erfolgreich eingereicht' });
-        //   } else {
-        //     this.msgService.add({ severity: 'danger', summary: 'Error', detail: data.toString() });
-        //   }
-        // })
 
       this.selectedTravels = [];
     }
@@ -168,7 +136,6 @@ export class TravelListComponent implements OnInit {
 
   paidTravels() {
     this.selectedTravels.forEach(item => {
-      console.log("🚀 ~ TravelListComponent ~ submitTravel ~ item:", item)
     })
 
     this.selectedTravels = [];
@@ -177,6 +144,8 @@ export class TravelListComponent implements OnInit {
   deleteTravel(travel: any) {
     console.log("🚀 ~ TravelListComponent ~ deleteTravel ~ travel:", travel)
   }
+
+
 
 
 

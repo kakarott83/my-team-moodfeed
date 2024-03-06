@@ -45,10 +45,8 @@ export class TravelComponent implements OnInit {
 
   
   async ngOnInit() {    
-
     //this.myUser = this.userService.getUser();
     this.getTravels();
-    
   }
 
 
@@ -57,21 +55,11 @@ export class TravelComponent implements OnInit {
   async getTravels(userId?: string) {
       this.isLoading = true;
       this.myUser = await this.userService.getAllUserData()
-      console.log("🚀 ~ TravelComponent ~ getTravels ~ myUser:", this.myUser)
-      this.myTravelList = await this.fire.getTravelByUser(this.myUser.uid)
-      console.log("🚀 ~ TravelComponent ~ getTravels ~ myTravelList:", this.myTravelList)
-      this.dataService.travels$.next(this.myTravelList);
-      // this.fire.getTravelByUserId(userId).snapshotChanges()
-      //   .pipe(
-      //     map(changes => changes.map(x => 
-      //       ({id: x.payload.doc.id, ...x.payload.doc.data()})
-      //       )),
-      //   )
-      //   .subscribe(data => {
-      //     this.myTravelList = data
-      //     this.isLoading = false;
-      //     //console.log(this.myTravelList,'MyTravelList')
-      //   })
+      this.fire.getTravelByUser2(this.myUser.uid).subscribe(data => {
+        this.myTravelList = data
+        this.dataService.travels$.next(this.myTravelList);
+        console.log("🚀 ~ TravelComponent ~ myTravelList: ~ data:", data)
+      })
   }
 
   changeTab(change: boolean) {

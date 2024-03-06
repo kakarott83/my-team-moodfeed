@@ -260,6 +260,18 @@ export class FireService {
     )))
   }
 
+  getTravelByUser2(id: string) {
+      return this.db.collection<Travel>('travels', ref => {
+        return ref.where('userId', '==', id)
+        })
+      .snapshotChanges()
+      .pipe(
+        map(actions => actions.map(x =>(
+          {id: x.payload.doc.id, ...x.payload.doc.data()}
+        )),
+        ))
+  }
+
   getTravelLastXByUser(id: string, number: number) {
     return firstValueFrom(
       this.db.collection<Travel>('travels', ref => {

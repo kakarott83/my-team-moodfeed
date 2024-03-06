@@ -237,7 +237,8 @@ export class UtilitiesService {
 
   createDays(travel: FormGroup) {
     //https://www.amz-steuer.de/reisekostenrechner/
-    if(travel) {
+    if(travel.controls['dateRange'].value !== null) {
+      console.log("🚀 ~ UtilitiesService ~ createDays ~ travel:", travel.controls['dateRange'].value)
       //console.log("🚀 ~ UtilitiesService ~ createDays ~ travel:", travel.controls['customer'].value)
       let start = moment(travel.controls['dateRange'].value[0])
       let startHours = start.hours()

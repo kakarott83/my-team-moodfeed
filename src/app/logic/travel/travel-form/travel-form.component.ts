@@ -280,29 +280,32 @@ export class TravelFormComponent implements OnInit {
     this.sumTotal = 0
     console.log("🚀 ~ TravelFormComponent ~ changeTravel ~ travel1:", this.days)
 
-    if(this.myTravel.date !== undefined) {
-      this.duration = this.utilityService.calcDuration(this.myTravel.date[0],this.myTravel.date[1])
-    }
+    if(this.myTravel.date !== null) {
 
-    if(this.myTravel.date !== undefined && travel.customer !== null && travel.customer !== '') {
-      console.log(travel.customer,'Days')
-
-      //this.sumRate = this.utilityService.calcRate(this.myTravel);
-      this.days.forEach(x => {
-        console.log(x,'X')
-      })
-
-      if(this.myTravel.spends !== undefined) {
-        let arr: Spend[] = this.myTravel.spends
-  
-        arr.forEach(item => {
-          this.sumSpend += item.value !== undefined ? item.value : 0 
-        })
+      if(this.myTravel.date !== undefined) {
+        this.duration = this.utilityService.calcDuration(this.myTravel.date[0],this.myTravel.date[1])
       }
-
-      this.sumTotal = this.sumRate  + this.sumSpend
-
-
+  
+      if(this.myTravel.date !== undefined && travel.customer !== null && travel.customer !== '') {
+        console.log(travel.customer,'Days')
+  
+        //this.sumRate = this.utilityService.calcRate(this.myTravel);
+        this.days.forEach(x => {
+          console.log(x,'X')
+        })
+  
+        if(this.myTravel.spends !== undefined) {
+          let arr: Spend[] = this.myTravel.spends
+    
+          arr.forEach(item => {
+            this.sumSpend += item.value !== undefined ? item.value : 0 
+          })
+        }
+  
+        this.sumTotal = this.sumRate  + this.sumSpend
+  
+  
+      }
     }
   }
 
