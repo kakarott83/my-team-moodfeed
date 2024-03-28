@@ -18,7 +18,7 @@ import { VotingComponent } from './logic/voting/voting.component';
 import { VotingDetailComponent } from './logic/voting-detail/voting-detail.component';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { MenuModule } from 'primeng/menu';
-import { FilterService } from 'primeng/api';
+import { ConfirmationService, FilterService, MessageService } from 'primeng/api';
 import { PanelModule } from 'primeng/panel';
 import { FieldsetModule } from 'primeng/fieldset';
 import { DialogModule } from 'primeng/dialog';
@@ -99,6 +99,7 @@ import { DatePipe } from '@angular/common';
 import { DaysListComponent } from './logic/travel/days-list/days-list.component';
 import { CicCheckboxComponent } from './components/cic-checkbox/cic-checkbox.component';
 import { UtilitiesService } from './services/shared/utilities.service';
+import { ConfirmDialogComponent } from './logic/dialogs/confirm-dialog/confirm-dialog.component';
 
 
 @NgModule({
@@ -152,7 +153,8 @@ import { UtilitiesService } from './services/shared/utilities.service';
     BasicDialogComponent,
     CurrencyDialogComponent,
     DaysListComponent,
-    CicCheckboxComponent
+    CicCheckboxComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -200,7 +202,9 @@ import { UtilitiesService } from './services/shared/utilities.service';
     UserService,
     DataService,
     DatePipe,
-    UtilitiesService
+    UtilitiesService,
+    ConfirmationService,
+    MessageService
   ],
   bootstrap: [AppComponent]
 })

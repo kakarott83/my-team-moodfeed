@@ -2,7 +2,7 @@ import { Component, ComponentFactoryResolver, ElementRef, HostListener, Input, O
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Travel } from '../../../model/travel';
 import { Spend } from '../../../model/spend';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { UtilitiesService } from '../../../services/shared/utilities.service';
 import { UserService } from '../../../services/shared/user.service';
 import { Customer } from '../../../model/customer';
@@ -283,7 +283,7 @@ export class TravelFormComponent implements OnInit {
     if(this.myTravel.date !== null) {
 
       if(this.myTravel.date !== undefined) {
-        this.duration = this.utilityService.calcDuration(this.myTravel.date[0],this.myTravel.date[1])
+        this.duration = this.utilityService.calcDuration(this.myTravel.date[0].toDate(),this.myTravel.date[1].toDate())
       }
   
       if(this.myTravel.date !== undefined && travel.customer !== null && travel.customer !== '') {
@@ -490,12 +490,4 @@ export class TravelFormComponent implements OnInit {
       this.dataService.travelsDay$.next([]);
     }
   }
-
-
-
-
-
-
-
-
 }

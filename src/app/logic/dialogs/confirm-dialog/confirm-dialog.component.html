@@ -1,0 +1,16 @@
+<p-toast></p-toast>
+<p-confirmDialog 
+    header="{{header}}" 
+    icon="pi pi-exclamation-triangle" 
+    [visible]="display"
+    [acceptLabel]="'Ja'"
+    [rejectLabel]="'Nein'"
+    acceptButtonStyleClass = "btn-confirm-accept"
+    rejectButtonStyleClass="btn-confirm-reject"
+    (onConfirm)="onConfirm()" 
+    (onReject)="onReject()">
+    <ng-template pTemplate="message">
+        <p>{{message}}</p>
+    </ng-template>
+
+</p-confirmDialog>

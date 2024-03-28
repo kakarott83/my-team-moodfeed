@@ -1,8 +1,8 @@
-<div *ngIf="data">
+<div *ngIf="flatData">
   <p-table 
     #travelList
     [columns]="cols"
-    [value]="data" 
+    [value]="flatData" 
     [style]="{'font-family': 'Rajdhani','color':'var(--surface-900)'}"
     [paginator]="true" 
     [rows]="5" 
@@ -11,18 +11,16 @@
     currentPageReportTemplate="{first} bis {last} von {totalRecords} Reisen" 
     [rowsPerPageOptions]="[5, 10, 20]"
     [(selection)]="selectedTravels"
-    [globalFilterFields]="['customer.name','reason.name', 'state']"
+    [globalFilterFields]="['customer','reason', 'state','start','end','id']"
     dataKey="id" 
     styleClass="p-datatable-striped">
     <ng-template pTemplate="caption">
-      <div class="flex justify-content-end mb-2">
-        <span class="p-input-icon-left ml-auto">
-          <i class="pi pi-search"></i>
-          <input pInputText type="text" (input)="travelList.filterGlobal($any($event.target).value, 'contains')" placeholder="Search keyword">
-        </span>
-      </div>
       <div class="flex justify-content-between">
         <div class="flex">
+          <span class="p-input-icon-left ml-auto mr-1">
+            <i class="pi pi-search"></i>
+            <input pInputText type="text" (input)="travelList.filterGlobal($any($event.target).value, 'contains')" placeholder="Search keyword">
+          </span>
           <button pButton label="Clear" class="cic-btn-white p-button-outlined" icon="pi pi-filter-slash" (click)="clear(travelList)"></button> 
         </div>
         <div>
@@ -31,109 +29,19 @@
         <div class="flex">
           <div class="flex">
             <button pButton class="btn-cic-submit" [ngStyle]="{'width' : '100%'}" label="Einreichen" icon="fa-regular fa-paper-plane" (click)="submitTravels()" [disabled]="selectedTravels.length == 0"></button>
+            <button pButton class="btn-cic-submit" [ngStyle]="{'width' : '100%'}" label="Export" icon="fa-regular fa-paper-plane" label="Export"></button>
             <button pButton class="btn-cic-submit" [ngStyle]="{'width' : '100%', 'margin-right' : '0px'}" label="Abgerechnet" icon="fa-solid fa-money-bill-wave" (click)="paidTravels()" [disabled]="selectedTravels.length == 0"></button>
           </div>
         </div>
       </div>
     </ng-template>
-    <!--ng-template pTemplate="header">
-      <tr>
-        <th style="width: 4rem">
-        </th>
-        <th>
-        </th>
-        <th>
-          <div class="p-d-flex p-jc-between p-ai-center">
-            Kunde
-            <p-columnFilter type="text" field="customer" display="menu" [matchModeOptions]="matchModeOptionsCustomer" [matchMode]="'custom-equals'"></p-columnFilter>
-          </div>
-        </th>
-        <th>
-          <div class="p-d-flex p-jc-between p-ai-center">
-            Start
-            <p-columnFilter type="text" field="start" display="menu" [matchModeOptions]="matchModeOptionsCustomer" [matchMode]="'date-equals'"></p-columnFilter>
-          </div>
-        </th>
-        <th>
-          <div class="p-d-flex p-jc-between p-ai-center">
-            End
-            <p-columnFilter type="date" field="country.name" display="menu"></p-columnFilter>
-          </div>
-        </th>
-        <th>
-          <div class="p-d-flex p-jc-between p-ai-center">
-            Grund
-            <p-columnFilter type="text" field="reason" display="menu"></p-columnFilter>
-          </div>
-        </th>
-        <th>
-          <div class="p-d-flex p-jc-between p-ai-center">
-            Status
-            <p-columnFilter field="state" matchMode="in" display="menu" [showMatchModes]="false"
-            [showOperator]="false" [showAddButton]="false">
-            <ng-template pTemplate="filter" let-value let-filter="filterCallback">
-              <p-multiSelect [ngModel]="value" [options]="travelState" placeholder="Auswahl"
-                (onChange)="filter($event.value)" optionLabel="state">
-                <ng-template let-option pTemplate="item">
-                  <div class="inline-block justify-content-between">
-                    <i [ngClass]="option.icon"></i>
-                    <span class="p-ml-1">{{option.state}}</span>
-                  </div>
-                </ng-template>
-              </p-multiSelect>
-            </ng-template>
-          </p-columnFilter>
-          </div>
-        </th>
-        <th>
-          <div class="p-d-flex p-jc-between p-ai-center">
-          </div>
-        </th>
-      </tr>
-    </ng-template-->
     <ng-template pTemplate="header" let-columns>
       <tr>
           <th style="width: 10%">Auswahl</th>
-          <th *ngFor="let col of columns" pSortableColumn={{col.field}}>{{col.header}} <p-sortIcon field={{col.field}}></p-sortIcon></th>
+          <th *ngFor="let col of columns" pSortableColumn={{col.field}} [ngStyle]="{'width':'15%'}">{{col.header}} <p-sortIcon field={{col.field}}></p-sortIcon></th>
+          <th></th>
       </tr>
     </ng-template>
-    <!--ng-template pTemplate="body" let-travel>
-      <tr>
-        <td>
-          <p-tableCheckbox [value]="travel" [disabled]="travel.state !== 'submitted' ? false : true"></p-tableCheckbox>
-        </td>
-        <td>
-          <img class="w-2rem" [src]="utiliesService.findIcon(travel.customer.name)"
-            alt="../../../../assets/images/unternehmen.png">
-        </td>
-        <td>{{ travel.customer.name }}</td>
-        <td>{{ travel.date[0]["seconds"] * 1000 | date: 'dd.MM.yyyy HH:mm'}}</td>
-        <td>{{ travel.date[1]["seconds"] * 1000 | date: 'dd.MM.yyyy HH:mm'}}</td>
-        <td>{{ travel.reason?.name }}</td>
-        <td>
-          <div class="flex" [ngSwitch]="travel.state">
-            <i *ngSwitchCase="'submitted'" class="fa-regular fa-paper-plane"></i>
-            <i *ngSwitchCase="'saved'" class="fa-solid fa-floppy-disk"></i>
-            <i *ngSwitchCase="'paid'" class="fa-solid fa-money-bill-wave"></i>
-          </div>
-        </td>
-        <td>
-          <div>
-            <button (click)="selectTravel(travel)" pButton pRipple icon="fa-regular fa-pen-to-square" class="p-button-text"
-            ></button>
-            <p-button 
-              [disabled]="travel.state == 'saved' ? false : true" 
-              class="delete" 
-              icon="pi pi-times" (click)="deleteTravel(travel)"
-              [rounded]="true" 
-              [text]="true" 
-              severity="danger ">
-            </p-button>
-          </div>
-        </td>
-      </tr>
-    </ng-template-->
-    <!--ng-template pTemplate="summary"> Footer </ng-template-->
     <ng-template pTemplate="body" let-rowData let-columns="columns">
       <tr [pSelectableRow]="rowData">
         <td>
@@ -145,31 +53,41 @@
                 <ng-container>
                   <div class="grid">
                     <div class="col-3">
-                      <img class="w-2rem" [src]="utiliesService.findIcon(rowData.customer.name)" alt="../../../../assets/images/unternehmen.png">
+                      <img class="w-2rem" [src]="utiliesService.findIcon(rowData.customer)" alt="../../../../assets/images/unternehmen.png">
                     </div>
                     <div class="col">
-                      {{rowData[col.field].name}}
+                      {{rowData[col.field]}}
                     </div>
                   </div>
                 </ng-container>
                 
              </div>
              <div *ngSwitchCase="'Start'">
-                {{ rowData[col.field][0]["seconds"] * 1000 | date: 'dd.MM.yyyy HH:mm'}}
+                {{ rowData[col.field] }}
              </div>
              <div *ngSwitchCase="'Ende'">
-              {{ rowData[col.field][1]["seconds"] * 1000 | date: 'dd.MM.yyyy HH:mm'}}
+              {{ rowData[col.field] }}
              </div>
              <div *ngSwitchCase="'Grund'">
-                {{rowData[col.field]?.name}}
+                {{rowData[col.field]}}
              </div>
              <div *ngSwitchCase="'Status'">
                 {{rowData[col.field]}}
              </div>
+             <div *ngSwitchCase="'Id'">
+                {{rowData[col.field]}}
+             </div>
             </ng-container>
+          </td>
+          <td>
+            <div class="flex">
+              <p-button icon="fa-regular fa-pen-to-square" [rounded]="true" [text]="true" severity="secondary"></p-button>
+              <p-button (click)="deleteTravel(rowData)" icon="pi pi-times" [rounded]="true" [text]="true" severity="danger"></p-button>
+            </div>
           </td>
       </tr>
   </ng-template>
   </p-table>
 </div>
 <p-toast></p-toast>
+<app-confirm-dialog [header]="'Reise löschen'" [message]="'Möchtest du diese Reise wirklich löschen?'" (confirm)="onConfirmed()" (reject)="onRejected()"></app-confirm-dialog>

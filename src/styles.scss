@@ -418,3 +418,16 @@ body .p-component
     }
 }
 
+.btn-confirm-accept {
+    border-radius: none;
+    background: var(--cic-red);
+    box-shadow: none;
+    color: var(--cic-white);
+}
+
+.btn-confirm-reject {
+    color: var(--surface-900);
+    background: none;
+    border-color: var(--surface-900);
+}
+
