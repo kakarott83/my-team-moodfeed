@@ -10,10 +10,8 @@ import { Spendtype } from '../../model/spendtype';
 import { Upload } from '../../model/upload';
 import { FireService } from '../../services/fire';
 import { FileUpload } from 'primeng/fileupload';
-import { error } from 'console';
 import { BehaviorSubject, Observable, finalize, map, min, switchMap, tap } from 'rxjs';
 import { ActivatedRoute, Router, ParamMap } from '@angular/router';
-import { BlobOptions } from 'buffer';
 import { DataService } from '../../services/shared/data.service';
 import { MailService } from '../../services/shared/mail.service';
 
@@ -21,7 +19,7 @@ import { MailService } from '../../services/shared/mail.service';
   selector: 'app-travel',
   templateUrl: './travel.component.html',
   styleUrl: './travel.component.scss',
-  providers:[MessageService, UtilitiesService, MailService]
+  providers:[MessageService, MailService]
 })
 export class TravelComponent implements OnInit {
 
@@ -47,33 +45,21 @@ export class TravelComponent implements OnInit {
 
   
   async ngOnInit() {    
-
     //this.myUser = this.userService.getUser();
-    this.myUser = await this.userService.getAllUserData()
-    console.log("🚀 ~ TravelComponent ~ ngOnInit ~ myUser:", this.myUser)
-    this.getTravels(this.myUser.uid);
-    
+    this.getTravels();
   }
 
 
     
 
-  async getTravels(userId: string) {
-    if(userId) {
+  async getTravels(userId?: string) {
       this.isLoading = true;
-      this.myTravelList = await this.fire.getTravelByUser(userId)
-      // this.fire.getTravelByUserId(userId).snapshotChanges()
-      //   .pipe(
-      //     map(changes => changes.map(x => 
-      //       ({id: x.payload.doc.id, ...x.payload.doc.data()})
-      //       )),
-      //   )
-      //   .subscribe(data => {
-      //     this.myTravelList = data
-      //     this.isLoading = false;
-      //     //console.log(this.myTravelList,'MyTravelList')
-      //   })
-    }
+      this.myUser = await this.userService.getAllUserData()
+      this.fire.getTravelByUser2(this.myUser.uid).subscribe(data => {
+        this.myTravelList = data
+        this.dataService.travels$.next(this.myTravelList);
+        console.log("🚀 ~ TravelComponent ~ myTravelList: ~ data:", data)
+      })
   }
 
   changeTab(change: boolean) {

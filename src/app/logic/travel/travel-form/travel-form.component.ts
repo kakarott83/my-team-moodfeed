@@ -1,8 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, ComponentFactoryResolver, ElementRef, HostListener, Input, OnInit, ViewContainerRef } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { Travel } from '../../../model/travel';
 import { Spend } from '../../../model/spend';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { UtilitiesService } from '../../../services/shared/utilities.service';
 import { UserService } from '../../../services/shared/user.service';
 import { Customer } from '../../../model/customer';
@@ -12,23 +12,32 @@ import { DataService } from '../../../services/shared/data.service';
 import { STATE } from '../../../enums';
 import { Reason } from '../../../model/reason';
 import { SpendType } from '../../../model/spend-type';
+import { MailService } from '../../../services/shared/mail.service';
+import { CurrencyDialogComponent } from '../../dialogs/currency-dialog/currency-dialog.component';
+import { DialogService, DynamicDialogRef } from 'primeng/dynamicdialog';
+import moment from 'moment';
+import { TravelDays } from '../../../model/travelDays';
+import { Observable, tap } from 'rxjs';
 
 @Component({
   selector: 'app-travel-form',
   templateUrl: './travel-form.component.html',
   styleUrl: './travel-form.component.scss',
-  providers:[UserService,MessageService, UtilitiesService]
+  providers:[UserService,MessageService, UtilitiesService, DialogService],
 })
 export class TravelFormComponent implements OnInit {
 
 
   myTravelForm!: FormGroup;
   spendArray!: FormArray;
+  //daysArray!: FormArray;
   dateRange: Date[] = [];
   maxDate = new Date('20240101');
   minDate = new Date('20991231');
   myTravel!: Travel;
   spends: Spend[] = [];
+  days!: any[];
+  days$: Observable<TravelDays[]>;
   uploadedFiles: any[] = [];
   storeFile: any[] = [];
   customers: Customer[] = [];
@@ -42,8 +51,11 @@ export class TravelFormComponent implements OnInit {
   sumRate = 0;
   sumSpend = 0;
   sumTotal = 0;
+  myUser: any;
+  dialogRef: DynamicDialogRef | undefined
   
-  @Input() myUser: any;
+  //@Input() myUser: any;
+  //https://www.amz-steuer.de/reisekostenrechner/
 
   constructor(
     private fire: FireService, 
@@ -52,52 +64,32 @@ export class TravelFormComponent implements OnInit {
     private utilityService: UtilitiesService,
     private userService: UserService,
     private route: ActivatedRoute,
-    private dataService: DataService
+    public dataService: DataService,
+    private mailService: MailService,
+    private el: ElementRef,
+    public dialogService: DialogService
     ) {
-      //this.spendArray = fb.array([]);
 
-      //this.route.params.subscribe(params => {
-      //  console.log("🚀 ~ TravelFormComponent ~ params:", params['id'])
-      //  const id = params['id'];
+      this.days$ = this.dataService.travelsDay$.pipe(
+        tap(x => this.days = x)
+      )
 
-      //  if(id !== undefined) {
-      //    this.createTravelFormById(id);
-      //  }
-      //})
+      this.days$.subscribe(data => {
+        this.setAmountRate(data)
+      })
       
-      
-
-    //this.fire.getTravelById(id).subscribe(data => console.log(data))
     }
 
 
   ngOnInit(): void {
-    //this.dateRange = this.utilityService.createDateArray();
-    //this.customers = this.createCustomer();
-    //this.reasons = this.createReason();
-    //this.spendTyps = this.createSpendTypes();
 
-    this.myUser = this.userService.getUser();
+   
+    console.log(this.days, 'Init')
 
     this.dataService.selectedTravel.subscribe(data => {
       this.createForm(data)
     })
-
-
-    //this.createTravelForm();
-
-    // this.myTravelForm.controls['dateRange'].valueChanges.subscribe(value => {
-    //   /*MinDate und Max setzen*/
-
-    //   if(value !== null) {
-    //     this.minDate = value[0]
-    //     this.maxDate = value[1]
-    //   }
-    // })
-
-    
-
-
+      
   }
 
   async createForm(item?: Travel) {
@@ -105,11 +97,13 @@ export class TravelFormComponent implements OnInit {
 
     this.isLoading = true
 
-    this.customers = await this.fire.getAllCustomersPromise()
-    this.reasons = await this.fire.getAllReasonsPromise()
-    this.spendTyps = await this.fire.getAllSpendTypsPromise()
+    this.customers = await this.fire.getAllCustomersPromise();
+    this.reasons = await this.fire.getAllReasonsPromise();
+    this.spendTyps = await this.fire.getAllSpendTypsPromise();
     this.dateRange = this.utilityService.createDateArray();
+    this.myUser = await this.userService.getAllUserData()
     this.spendArray = this.fb.array([]);
+    //this.daysArray = this.fb.array([]);
 
     //Load Or Create Travel
     if(item !== undefined) {
@@ -121,6 +115,7 @@ export class TravelFormComponent implements OnInit {
       console.log("🚀 ~ TravelFormComponent ~ createForm ~ item2:", item)
       this.clearForm()
       this.spendArray.clear()
+      //this.daysArray.clear()
 
       this.myTravel = item;
 
@@ -142,7 +137,8 @@ export class TravelFormComponent implements OnInit {
         breakfast: new FormControl(item.breakfast),
         launch: new FormControl(item.launch),
         dinner: new FormControl(item.dinner),
-        spends: this.spendArray
+        spends: this.spendArray,
+        //days: this.daysArray
       })
 
       item.spends?.forEach(i =>  {
@@ -152,10 +148,38 @@ export class TravelFormComponent implements OnInit {
               type: i.type,
               value: i.value,
               date: new Date(Object(i.date)['seconds']*1000),
+              comment: i.comment
             })
           )
         }
       })
+
+      if(item.days !== undefined) {
+        let dArr:TravelDays[] = []
+        item.days.map(x => {
+          let timeStamp = Object(x.date)       
+
+          dArr.push({
+            amount: x.amount,
+            fullAmount: x.fullAmount,
+            totalAmount: x.totalAmount,
+            breakfast: x.breakfast,
+            launch: x.launch,
+            dinner: x.dinner,
+            date: x.date !== undefined ? new Date(timeStamp.seconds*1000)  : new Date()
+          })
+
+          console.log(dArr,'dArr')
+          console.log(this.days,'this.days')
+        })
+        
+        this.dataService.travelsDay$.next(dArr);
+
+
+
+        //this.days$ = this.days as Observable<TravelDays>
+      }
+      
 
       /*SET Documents End*/
       item.fileRefs?.forEach(i => {
@@ -178,101 +202,43 @@ export class TravelFormComponent implements OnInit {
 
       //Create New Form
       this.myTravelForm = this.fb.group({
-        dateRange: new FormControl(this.dateRange, Validators.required),
+        dateRange: new FormControl('', Validators.required),
         customer:  new FormControl('', Validators.required),
         reason:  new FormControl(),
         comment: new FormControl(),
         breakfast: new FormControl(true),
         launch: new FormControl(false),
         dinner: new FormControl(false),
-        spends: this.spendArray
+        spends: this.spendArray,
+        //days: this.daysArray
       })
     }
 
     this.myTravelForm.valueChanges.subscribe(data => {
       this.changeTravel(data)
     })
+
+    this.myTravelForm.get('dateRange')?.valueChanges.subscribe(() => {
+      console.log('dateRange')
+      if(!this.isLoading) {
+        this.utilityService.createDays(this.myTravelForm)
+      }
+      
+    })
+
+    this.myTravelForm.get('customer')?.valueChanges.subscribe(() => {
+      console.log('customer')
+      if(!this.isLoading) {
+        this.utilityService.createDays(this.myTravelForm)
+      }
+    })
     
 
     this.isLoading = false;
-
-
-    
   }
 
-  // createTravelForm() {
-  //   this.myTravelForm = this.fb.group({
-  //     dateRange: new FormControl(this.dateRange),
-  //     customer:  new FormControl(),
-  //     reason:  new FormControl(),
-  //     comment: new FormControl(),
-  //     breakfast: new FormControl(true),
-  //     launch: new FormControl(false),
-  //     dinner: new FormControl(false),
-
-  //     spends: this.spendArray
-  //   })
-  // }
-
-  // createTravelFormById(id: string) {
-  //   this.clearForm()
-  //   this.spendArray.clear()
-  //   this.fire.getTravelById(id).subscribe(data => {
-
-  //     const state = data.state
-
-  //     if(data.state !== STATE[0]) {
-  //       this.isDisabled = true
-  //     }
-
-  //     /*SET Start End*/
-  //     let dr: Date[] = [];
-  //     if(data.date !== undefined && data.date !== null) {
-  //       dr.push(new Date(Object(data.date[0])['seconds']*1000))
-  //       dr.push(new Date(Object(data.date[1])['seconds']*1000))
-  //     }
-      
-  //     /*SET other Values*/
-  //     this.myTravelForm.patchValue({
-  //       dateRange: dr,
-  //       customer: data.customer,
-  //       reason: data.reason,
-  //       comment: data.comment,
-  //       breakfast: data.breakfast,
-  //       launch: data.launch,
-  //       dinner: data.dinner
-  //     })
-
-  //     /*SET Spends End*/
-  //     data.spends?.forEach(item =>  {
-  //       if(item.date !== undefined && item.date !== null) {
-  //         this.spendArray.push(
-  //           this.fb.group({
-  //             type: item.type,
-  //             value: item.value,
-  //             date: new Date(Object(item.date)['seconds']*1000),
-  //           })
-  //         )
-  //       }
-  //     })
-  //     /*SET Documents End*/
-  //     data.fileRefs?.forEach(item => {
-  //       if(item !== undefined && item !== null) {
-  //         this.filesFromDbList.push(item)
-  //       }
-  //     })
-
-  //     if(this.isDisabled) {
-  //       //Submitted, Paid
-  //       this.myTravelForm.disable()
-  //       this.setSpendDisable()
-  //     }
-
-
-  //   })
-  // }
-
   createTravel(): Travel {
+    console.log(this.myUser)
     this.myTravel = {
       date: this.myTravelForm.controls['dateRange'].value,
       customer: this.myTravelForm.controls['customer'].value,
@@ -281,8 +247,9 @@ export class TravelFormComponent implements OnInit {
       launch: this.myTravelForm.controls['launch'].value,
       dinner: this.myTravelForm.controls['dinner'].value,
       comment: this.myTravelForm.controls['comment'].value,
-      userId: this.myUser.uid,
-      amount: this.sumTotal
+      userId: this.myUser == null ? '' :  this.myUser.uid,
+      amount: this.sumTotal,
+      days: this.dataService.travelsDay$.value
     }
 
     /*Spends add*/
@@ -292,7 +259,8 @@ export class TravelFormComponent implements OnInit {
       let spendItem: Spend = {
         date: element.controls['date'].value,
         value: element.controls['value'].value,
-        type: element.controls['type'].value
+        type: element.controls['type'].value,
+        comment: element.controls['comment'].value
       }
       this.spends.push(spendItem);
     }
@@ -302,39 +270,57 @@ export class TravelFormComponent implements OnInit {
     return this.myTravel
   }
 
+  changeTravelDay(list: any) {
+    this.setAmountRate(list)
+  }
+
   changeTravel(travel: any) {
     this.createTravel()
     this.sumSpend = 0
     this.sumTotal = 0
-    console.log("🚀 ~ TravelFormComponent ~ changeTravel ~ travel1:", this.myTravel)
+    console.log("🚀 ~ TravelFormComponent ~ changeTravel ~ travel1:", this.days)
 
-    if(this.myTravel.date !== undefined) {
-      this.duration = this.utilityService.calcDuration(this.myTravel.date[0],this.myTravel.date[1])
-    }
+    if(this.myTravel.date !== null) {
 
-    if(this.myTravel.date !== undefined !== null && travel.customer !== null) {
-
-      this.sumRate = this.utilityService.calcRate(this.myTravel);
-
-      if(this.myTravel.spends !== undefined) {
-        let arr: Spend[] = this.myTravel.spends
-  
-        arr.forEach(item => {
-          this.sumSpend += item.value !== undefined ? item.value : 0 
-        })
+      if(this.myTravel.date !== undefined) {
+        this.duration = this.utilityService.calcDuration(this.myTravel.date[0].toDate(),this.myTravel.date[1].toDate())
       }
-
-      this.sumTotal = this.sumRate  + this.sumSpend
-
-
+  
+      if(this.myTravel.date !== undefined && travel.customer !== null && travel.customer !== '') {
+        console.log(travel.customer,'Days')
+  
+        //this.sumRate = this.utilityService.calcRate(this.myTravel);
+        this.days.forEach(x => {
+          console.log(x,'X')
+        })
+  
+        if(this.myTravel.spends !== undefined) {
+          let arr: Spend[] = this.myTravel.spends
+    
+          arr.forEach(item => {
+            this.sumSpend += item.value !== undefined ? item.value : 0 
+          })
+        }
+  
+        this.sumTotal = this.sumRate  + this.sumSpend
+  
+  
+      }
     }
   }
 
-  async submit() {
+  async submit(action: string) {
     let travel = this.createTravel()
 
     if(travel.state == undefined) {
-      travel.state = STATE[0]
+      switch (action) {
+        case 'save':
+          travel.state = STATE[0];
+          break;
+        case 'send':
+          travel.state = STATE[1];
+          break;
+      }
     }
     
     const uploadResult = await this.uploadFiles()
@@ -344,14 +330,22 @@ export class TravelFormComponent implements OnInit {
     }
 
     if(travel) {
+      console.log("🚀 ~ TravelFormComponent ~ submit ~ travel:", travel)
+      
       this.fire.createTravel(travel)
         .then(() => {
-          this.msgService.add({ severity: 'success', summary: 'Arbeitszeit', detail: 'Arbeitszeit gespeichert'});
+          this.msgService.add({ severity: 'success', summary: 'Reisekosten', detail: 'Reisekosten gespeichert'});
         })
         .then(() => {
           this.clearForm()
         })
-    }    
+    }
+    
+    if(action == 'send') {
+      let travels: Travel[] = [];
+      travels.push(this.myTravel)
+      this.mailService.sendMail(travels, this.myUser)
+    }
   }
 
   async uploadFiles() {
@@ -372,9 +366,14 @@ export class TravelFormComponent implements OnInit {
         type: 'Auto',
         value: 0,
         date: spendDate !== null ? spendDate : null,
+        comment: ''
       })
     )
     console.log(this.spendArray,'SpendArray')
+  }
+
+  getSpendById(id: number) {
+    return this.spendArray.at(id);
   }
 
   deleteSpend(i: any) {
@@ -398,6 +397,10 @@ export class TravelFormComponent implements OnInit {
     return (this.myTravelForm.controls['spends'] as FormArray).controls
   }
 
+  getDay() {
+    return (this.myTravelForm.controls['days'] as FormArray).controls
+  }
+
   setSpendDisable() {
     (this.myTravelForm.controls['spends'] as FormArray).controls.forEach(control => {
       console.log(control,'Control')
@@ -405,18 +408,40 @@ export class TravelFormComponent implements OnInit {
     })
   }
 
-  // createCustomer(): Customer[] {
-  //   let customers: Customer[] = [
-  //     {name: 'AIL', country: {name: 'Deutschland', code: 'DE', rate: 24, halfRate: 12}},
-  //     {name: 'Oberbank', country: {name: 'Österreich', code: 'AT', rate: 36, halfRate: 20}}
-  //   ];
+  showDialog(item: any) {
+    console.log(this.getSpendById(item),'Item');
+    let sArra = this.getSpendById(item).value
 
-  //   return customers
-  // }
+    console.log(sArra.value)
+    console.log(sArra.date)
 
-  // createReason(): string[] {
-  //   return ['Vor Ort Betreuung', 'Livegang', 'Workshop']
-  // }
+    this.dialogRef = this.dialogService.open(CurrencyDialogComponent, {
+      data: {
+        index: item,
+        value: sArra.value == 0 ? 1 : sArra.value,
+        date: sArra.date
+      },
+      modal: true,
+      header: 'Währungsrechner',
+      width: '30vw',
+      height: '60vh'
+    })
+
+    this.dialogRef.onClose.subscribe(data => {
+      if(data) {
+        console.log(data,'DialogData2')
+        let mySpendItem = this.getSpendById(data.itemId);
+        console.log("🚀 ~ TravelFormComponent ~ showDialog ~ mySpendItem:", mySpendItem)
+        mySpendItem.patchValue({
+          date: data.date,
+          value: data.value
+        })
+        
+      }
+      
+
+    })
+  }
 
   createSpendTypes(): string[] {
     let spendType = ['Bahn/Bus','Auto'];
@@ -424,10 +449,23 @@ export class TravelFormComponent implements OnInit {
     return spendType
   }
 
+  setAmountRate(days: any) {
+    let arr = []
+    arr = days
+    this.sumRate = 0
+    arr.forEach((day: TravelDays) => {
+      this.sumRate += day.totalAmount !== undefined ? day.totalAmount : 0
+    })
+  }
+
   clearForm() {
     /*Form leeren*/
     if(this.myTravelForm) {
       this.myTravelForm.reset();
+      this.duration = ''
+      this.sumRate = 0
+      this.sumSpend = 0
+      this.sumTotal = 0
     }
 
     if(this.myTravel) {
@@ -438,15 +476,18 @@ export class TravelFormComponent implements OnInit {
     if(this.spendArray.length > 0) {
       this.spendArray.clear()
     }
+
+    console.log("🚀 ~ TravelFormComponent ~ clearForm ~ uploadedFiles:", this.uploadedFiles)
     if(this.uploadedFiles.length > 0) {
       this.uploadedFiles = [];
     }
+
+    if(this.myTravel.days) {
+      this.dataService.travelsDay$.next([]);
+    }
+
+    if(this.days$) {
+      this.dataService.travelsDay$.next([]);
+    }
   }
-
-
-
-
-
-
-
 }

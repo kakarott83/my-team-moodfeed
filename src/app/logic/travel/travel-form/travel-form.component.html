@@ -7,8 +7,8 @@
                         <div class="col-4">
                             <div class="field">
                                 <label>Datum</label>
-                                <p-calendar formControlName="dateRange" selectionMode="range" [readonlyInput]="false"
-                                    dateFormat="dd.mm.yy" [stepMinute]=15 [showTime]="true" hourFormat="24"
+                                <p-calendar formControlName="dateRange" selectionMode="range" [readonlyInput]="false" [firstDayOfWeek]=1
+                                    dateFormat="dd.mm.yy" [stepMinute]=1 [showTime]="true" hourFormat="24"
                                     class="text-base text-900 flex surface-overlay surface-border"
                                     [style]="{'width':'100%', 'height': '2.3rem', 'font-family': 'Rajdhani'}" appendTo="body"></p-calendar>
                             </div>
@@ -31,7 +31,7 @@
                         </div>
                     </div>
                     <div class="grid">
-                        <div class="col-6">
+                        <!--div class="col-6">
                             <div class="field">
                                 <label>Verpflegung</label>
                                 <div class="card flex gap-3">
@@ -49,7 +49,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div-->
                         <div class="col-6">
                             <div class="field">
                                 <label>Kommentar</label>
@@ -58,7 +58,23 @@
                             </div>
                         </div>
                     </div>
+                        
+                        <!--div *ngFor="let item of daysArray.controls; let i=index" [formGroupName]="i">
+                            <div class="grid">
+                                <div class="col-2">
+                                    <div class="field">
+                                        <p-calendar formControlName="date" dateFormat="dd.mm.yy" [disabled]="true"
+                                                        class="text-base text-900 flex surface-overlay surface-border"
+                                                        [style]="{'width':'100%', 'height': '2.3rem', 'font-family': 'Rajdhani'}"></p-calendar>
+                                    </div>
+                                </div>
+                            </div>
+                        </div-->
+
+
+                        <app-days-list [days]="days$ | async" (travelsDays)="changeTravelDay($event)"></app-days-list>
                 </p-fieldset>
+                
 
             </div>
             <div class="col-3">
@@ -93,14 +109,11 @@
                 <div class="grid">
                     <div class="col-6">
                         <p-fieldset legend="Ausgaben">
-                            <div *ngIf="spendArray.length > 0" class="flex justify-content-center">
-                                <p-button *ngIf="!isDisabled" class="add" icon="fa-solid fa-plus" (click)="addSpend()" [rounded]="true"
-                                [text]="true" severity="success " label="weitere Ausgaben"></p-button>
-                            </div>
+
                             <div formArrayName="spends" class="flex flex-column">
                                 <div *ngFor="let item of spendArray.controls; let i=index" [formGroupName]="i">
                                     <div class="grid">
-                                        <div class="col-3">
+                                        <div class="col-2">
                                             <div class="field">
                                                 <label *ngIf="i == 0">Datum</label>
                                                 <p-calendar formControlName="date" dateFormat="dd.mm.yy" [maxDate]="maxDate" [minDate]="minDate"
@@ -119,11 +132,22 @@
                                         <div class="col-3">
                                             <div class="field">
                                                 <label *ngIf="i == 0">Betrag</label>
-                                                <input type="number" pInputText formControlName="value"
-                                                    class="text-base text-900 surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" />
+                                                <p-inputGroup [style]="{'height':'37px'}">
+                                                    <input pInputText type="number" formControlName="value"
+                                                    class="border-noround-right text-base text-900 surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"/>
+                                                    <p-inputGroupAddon class="currency-code">€</p-inputGroupAddon>
+                                                    <button type="button" (click)="showDialog(i)" pButton icon="fa-solid fa-arrow-right-arrow-left"></button>
+                                                </p-inputGroup>
                                             </div>
                                         </div>
                                         <div class="col-3">
+                                            <div class="field">
+                                                <label *ngIf="i == 0">Kommentar</label>
+                                                <input pInputText formControlName="comment" placeholder="z.B. Kennzeichen"
+                                                    class="text-base text-900 surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" />
+                                            </div>
+                                        </div>
+                                        <div class="col-1">
                                             <div class="flex justify-content-end" [ngStyle]="{'margin-top':i==0 ? '1.75rem' : ''}">
                                                 <p-button *ngIf="!isDisabled" class="delete" icon="pi pi-times" (click)="deleteSpend(i)" [rounded]="true"
                                                     [text]="true" severity="danger "></p-button>
@@ -138,6 +162,10 @@
                                     <p-button *ngIf="!isDisabled" icon="fa-solid fa-plus" label="Ausgaben erfassen" (click)="addSpend()"
                                         [rounded]="true" [text]="true" severity="success "></p-button>
                                 </div>
+                            </div>
+                            <div *ngIf="spendArray.length > 0" class="flex justify-content-center">
+                                <p-button *ngIf="!isDisabled" class="add" icon="fa-solid fa-plus" (click)="addSpend()" [rounded]="true"
+                                [text]="true" label="weitere Ausgaben"></p-button>
                             </div>
                         </p-fieldset>
                     </div>
@@ -195,9 +223,13 @@
             </div>
         </div>
         <div class="flex">
-            <button pButton class="btn-cic-submit" label="Speichern" icon="pi pi-check" (click)="submit()" [disabled]="!myTravelForm.valid"></button>
+            <button pButton class="btn-cic-submit" label="Einreichen" icon="fa-regular fa-paper-plane" (click)="submit('send')" [disabled]="!myTravelForm.valid"></button>
+            <button pButton class="btn-cic-submit" label="Speichern" icon="pi pi-check" (click)="submit('save')" [disabled]="!myTravelForm.valid"></button>
             <button pButton class="btn-cic-clear" label="Clear" icon="fa-solid fa-text-slash" (click)="clearForm()"></button>
         </div>
+
+        
+
     </form>
 </div>
 <ng-template #loading>

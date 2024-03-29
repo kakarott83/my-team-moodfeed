@@ -104,6 +104,7 @@ body .p-component
     span {
         color: white;
     }
+    background-color: var(--cic-dark-blue);
 }
 
 .btn-header :hover {
@@ -149,9 +150,14 @@ body .p-component
     }
 }
 
+.cic-btn-white {
+    background-color: var(--cic-white);
+    color: var(--surface-900);
+}
+
 .btn-cic-submit {
-    background: var(--cic-light-blue);
-    border: var(--cic-light-blue);
+    background: var(--cic-light-blue) !important;
+    border: var(--cic-light-blue) !important;
     color: var(--cic-white) !important;
     width: 8rem;
     margin-right: 1rem;
@@ -401,5 +407,27 @@ body .p-component
 .voting-default {
     font-weight: lighter;
     color: rgb(128, 124, 124);
+}
+
+.p-checkbox .p-checkbox-box {
+    background: var(--cic-white);
+    border-color: #EEEEEE;
+    svg {
+       color: var(--cic-light-blue);
+       font-weight: bolder;
+    }
+}
+
+.btn-confirm-accept {
+    border-radius: none;
+    background: var(--cic-red);
+    box-shadow: none;
+    color: var(--cic-white);
+}
+
+.btn-confirm-reject {
+    color: var(--surface-900);
+    background: none;
+    border-color: var(--surface-900);
 }
 

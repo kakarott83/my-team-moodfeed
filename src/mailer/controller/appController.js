@@ -54,7 +54,7 @@ const sendMail = (req, res) => {
 
   console.log(req)
 
-  return res.status(401).json('Not Authorized')
+  //return res.status(401).json('Not Authorized')
 
   sendEmail(req.body)
     .then((result) => {

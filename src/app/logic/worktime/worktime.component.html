@@ -10,7 +10,7 @@
                         <div class="grid">
                             <div class="col-6">
                                 <div class="flex flex-column justify-content-center">
-                                    <p-calendar id="inlinedate" #inlineDate class="flex justify-content-center"  [(ngModel)]="date" dateFormat="dd.mm.yyyy" (onSelect)="selectedDate($event, 'inline')" [inline]="true" [showWeek]="true"></p-calendar>
+                                    <p-calendar id="inlinedate" #inlineDate class="flex justify-content-center"  [(ngModel)]="date" dateFormat="dd.mm.yyyy" (onSelect)="selectedDate($event, 'inline')" [inline]="true" [showWeek]="true" [firstDayOfWeek]="1"></p-calendar>
                                 </div>
                                 <div>
                                     <h2>Dauer: {{duration}}</h2>
@@ -49,11 +49,7 @@
                     </div>
                 </p-tabPanel>
                 <p-tabPanel header="Alle Zeiten">
-                    <div class="surface-card shadow-2 p-3 border-round">
-                        <div class="surface-card shadow-2 p-3 border-round">
-                            <app-worktime-list [data]="myWorktimeList" (deleteWorkTime)="delete($event)"></app-worktime-list>
-                        </div>
-                    </div>
+                    <app-worktime-list (deleteWorkTime)="delete($event)"></app-worktime-list>
                 </p-tabPanel>
             </p-tabView>
         </div>

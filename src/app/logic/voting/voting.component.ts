@@ -20,7 +20,7 @@ import { VotingDialogComponent } from './voting-dialog/voting-dialog.component';
   selector: 'app-voting',
   templateUrl: './voting.component.html',
   styleUrl: './voting.component.scss',
-  providers: [DialogService, UserService, CalculateRatingService, MessageService, UtilitiesService]
+  providers: [DialogService, CalculateRatingService, MessageService, UtilitiesService]
 })
 export class VotingComponent implements OnInit {
 
@@ -36,7 +36,7 @@ export class VotingComponent implements OnInit {
   myUserData: UserData = {};
   weeks: number[] = [];
   years: number[] = [];
-  selectedWeek = moment().isoWeek();
+  selectedWeek!: number;
   selectedYear = new Date().getFullYear();
 
   ref: DynamicDialogRef | undefined;
@@ -44,19 +44,24 @@ export class VotingComponent implements OnInit {
   start = moment(Date.now()).startOf('week').isoWeekday(1).format("DD.MM.yyyy")
   end = moment(Date.now()).endOf('week').isoWeekday(0).format("DD.MM.yyyy")
 
-  constructor(private fire: FireService, private utilities: UtilitiesService, private msgService: MessageService,private calcService: CalculateRatingService, public dialogService: DialogService, private router: Router, private userService: UserService, private authService: AuthService) {
+  constructor(
+    private fire: FireService, 
+    private utilities: UtilitiesService, 
+    private msgService: MessageService,
+    private calcService: CalculateRatingService, 
+    public dialogService: DialogService, 
+    private router: Router, 
+    private userService: UserService, 
+    private authService: AuthService) {
   }
 
-  ngOnInit(): void {
+  async ngOnInit() {
     this.getItemsFromAf();
-    this.myUser = this.userService.getUser();
+    this.myUser = await this.userService.getAllUserData()
     this.getAdditionalData();
     this.createWeeks(this.selectedYear);
     this.createYear();
-
-
-
-
+    this.selectedWeek = moment().isoWeek()
   }
 
   getItemsFromAf() {
@@ -87,9 +92,6 @@ export class VotingComponent implements OnInit {
 
   getVotingResult(result: any) {
     const index = this.votingResults.findIndex(x => x == result)
-
-    console.log(index, 'Index')
-    console.log(result, 'result')
 
     //Find and Replace Or Add Or Remove
     if(index >= 0) {
@@ -163,8 +165,11 @@ export class VotingComponent implements OnInit {
   createWeeks(year: number) {
     let w = this.utilities.getWeeksPerYear(year);
     w.forEach(x => {
-      this.weeks.push(Number(x))
+      this.weeks.push(parseInt(x))
     });
+    console.log("🚀 ~ VotingComponent ~ createWeeks ~ weeks:", this.weeks)
+    
+    
   }
 
   createYear() {

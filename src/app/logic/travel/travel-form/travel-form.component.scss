@@ -3,9 +3,14 @@
 }
 
 ::ng-deep .add button .p-button-icon { 
-    color: green; 
+    color: red; 
 }
 
 ::ng-deep .p-fieldset {
     height: 100%;
+}
+
+::ng-deep .p-inputgroup-addon {
+    padding: 0;
+    min-width: 15px;
 }

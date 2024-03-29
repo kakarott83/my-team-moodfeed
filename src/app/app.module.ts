@@ -18,9 +18,11 @@ import { VotingComponent } from './logic/voting/voting.component';
 import { VotingDetailComponent } from './logic/voting-detail/voting-detail.component';
 import { InputTextareaModule } from 'primeng/inputtextarea';
 import { MenuModule } from 'primeng/menu';
-import { FilterService } from 'primeng/api';
+import { ConfirmationService, FilterService, MessageService } from 'primeng/api';
 import { PanelModule } from 'primeng/panel';
 import { FieldsetModule } from 'primeng/fieldset';
+import { DialogModule } from 'primeng/dialog';
+import { AutoCompleteModule } from 'primeng/autocomplete';
 import { MenubarModule } from 'primeng/menubar';
 import { MenuBarComponent } from './nav/menu-bar/menu-bar.component';
 import { TeamVotingComponent } from './logic/team-voting/team-voting.component';
@@ -32,6 +34,8 @@ import { DropdownModule } from 'primeng/dropdown';
 import { TableModule } from 'primeng/table';
 import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { ToastModule } from 'primeng/toast';
+import { InputGroupModule } from 'primeng/inputgroup';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { DynamicDialogModule } from 'primeng/dynamicdialog';
 import { ChipsModule } from 'primeng/chips';
@@ -88,10 +92,19 @@ import { UserService } from './services/shared/user.service';
 import { VerifyAdminPendingComponent } from './logic/verify-admin-pending/verify-admin-pending.component';
 import { DataService } from './services/shared/data.service';
 import { LastTravelsComponent } from './logic/home/last-travels/last-travels.component';
+import { BasicDialogComponent } from './logic/basic-dialog/basic-dialog.component';
+import { CurrencySuffixDirective } from './logic/helpers/appCurrencySuffix';
+import { CurrencyDialogComponent } from './logic/dialogs/currency-dialog/currency-dialog.component'
+import { DatePipe } from '@angular/common';
+import { DaysListComponent } from './logic/travel/days-list/days-list.component';
+import { CicCheckboxComponent } from './components/cic-checkbox/cic-checkbox.component';
+import { UtilitiesService } from './services/shared/utilities.service';
+import { ConfirmDialogComponent } from './logic/dialogs/confirm-dialog/confirm-dialog.component';
 
 
 @NgModule({
   declarations: [
+    CurrencySuffixDirective,
     AppComponent,
     LoginComponent,
     VotingComponent,
@@ -136,7 +149,12 @@ import { LastTravelsComponent } from './logic/home/last-travels/last-travels.com
     CountryFormComponent,
     TestComponent,
     VerifyAdminPendingComponent,
-    LastTravelsComponent
+    LastTravelsComponent,
+    BasicDialogComponent,
+    CurrencyDialogComponent,
+    DaysListComponent,
+    CicCheckboxComponent,
+    ConfirmDialogComponent
   ],
   imports: [
     BrowserModule,
@@ -151,12 +169,16 @@ import { LastTravelsComponent } from './logic/home/last-travels/last-travels.com
     DividerModule,
     InputTextareaModule,
     DynamicDialogModule,
+    DialogModule,
     MultiSelectModule,
     TooltipModule,
     FieldsetModule,
     ProgressSpinnerModule,
     FileUploadModule,
     DropdownModule,
+    InputGroupAddonModule,
+    InputGroupModule,
+    AutoCompleteModule,
     ChipsModule,
     PanelModule,
     RatingModule,
@@ -178,7 +200,11 @@ import { LastTravelsComponent } from './logic/home/last-travels/last-travels.com
     AuthService,
     {provide: 'LOCALE_ID', useValue: 'de'},
     UserService,
-    DataService
+    DataService,
+    DatePipe,
+    UtilitiesService,
+    ConfirmationService,
+    MessageService
   ],
   bootstrap: [AppComponent]
 })

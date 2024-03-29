@@ -1,0 +1,49 @@
+<div class="flex flex-column h-full">
+    <div>
+        <a href="https://bankenverband.de/service/waehrungsrechner/" target="_blank">Prüfung bei bankenverband.de</a>
+    </div>
+    <form [formGroup]="currencyForm" *ngIf="!isLoading">
+        <div class="field mt-3">
+            <div class="flex-auto">
+                <label for="buttondisplay" class="block mb-2">Datum</label>
+                <p-calendar formControlName="date" [style]="{'height':'38px', 'width':'100%'}"
+                    dateFormat="dd.mm.yy"></p-calendar>
+            </div>
+        </div>
+        <div class="field mt-3">
+            <label>Fremdwährungsbetrag</label>
+            <input pInputText type="number" formControlName="exchangeValue"
+                class="border-noround-right text-base text-900 surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" />
+        </div>
+        <div class="field mt-3">
+            <label>Bezahlt in</label>
+            <div class="card flex justify-content-center">
+                <p-autoComplete [style]="{'height':'38px','width':'100%'}"
+                    class="dropdownBtn text-900 flex surface-overlay w-full border-round" formControlName="currency"
+                    [dropdown]="true" [suggestions]="filteredCurrencies" (completeMethod)="filterCurrency($event)"
+                    field="value">
+                    <ng-template let-currency pTemplate="item">
+                        <div class="flex align-items-center gap-2">
+                            <div>{{ currency.value }} - {{ currency.label }}</div>
+                        </div>
+                    </ng-template>
+                </p-autoComplete>
+            </div>
+        </div>
+    </form>
+    <div class="field mt-3">
+        <label>Betrag in Euro</label>
+        <input [(ngModel)]="euroValue" pInputText type="number" [disabled]="true"
+            class="font-bold border-noround-right text-base text-900 surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full" />
+    </div>
+
+    <div class="flex align-items-end flex-wrap h-full">
+        <button pButton class="btn-cic-submit justify-content-center" label="Übernehmen" icon="pi pi-check"
+            [disabled]="!currencyForm.valid || !isCalculated" (click)="close()" tooltipPosition="bottom" pTooltip="vor der Übernahmen Berechnen" [showDelay]="1000"></button>
+        <button pButton class="btn-cic-submit justify-content-center" label="Berechnen" icon="fa-solid fa-calculator"
+            (click)="calcExchange()"></button>
+    </div>
+    <ng-template #loading>
+        <p-progressSpinner ariaLabel="loading"></p-progressSpinner>
+    </ng-template>
+</div>

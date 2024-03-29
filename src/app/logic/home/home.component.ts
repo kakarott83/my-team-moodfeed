@@ -35,7 +35,8 @@ export class HomeComponent implements OnInit {
   wtHours: number = 0;
   travels!: Travel[];
   travelsLast!: Travel[];
-  agg: AggCard = {}
+  agg: AggCard = {};
+  isLoading = false
 
   constructor(
     public authService: AuthService, 
@@ -59,7 +60,9 @@ export class HomeComponent implements OnInit {
 
 
   async ngOnInit() {
+    this.isLoading = true
     this.myUser = await this.userService.getAllUserData()
+    
     //Worktime generieren
     this.weekDays = this.utilities.getWeekDays(7)
     let start = this.weekDays[0]
@@ -72,6 +75,7 @@ export class HomeComponent implements OnInit {
     this.travels = await this.fire.getTravelByUser(this.myUser.uid);
     this.travelsLast = this.sortLast(this.travels, 5)
     this.agg = this.calcTravel(this.travels)
+    
     this.dataService.travelData$.next(this.agg)
     this.dataService.lastXTravel$.next(this.travelsLast)
 
@@ -80,6 +84,8 @@ export class HomeComponent implements OnInit {
 
     //Cards generieren
     this.items = await this.utilities.createDashboardCards(this.myUser, this.wtHours, this.agg)
+
+    this.isLoading = false
 
     
   }
@@ -143,6 +149,8 @@ export class HomeComponent implements OnInit {
     this.travels.filter(x => x.state == STATE[1]).forEach(x => {
       sum += x.amount == undefined ? 0 : x.amount
     })
+
+    console.log(travels.filter(x => x.state == STATE[0]).length)
 
 
    return {

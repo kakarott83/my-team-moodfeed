@@ -10,6 +10,9 @@ import { Worktime } from '../../model/worktime';
 import { Travel } from '../../model/travel';
 import { DataService } from './data.service';
 import { AggCard } from '../../model/aggCard';
+import { FormGroup } from '@angular/forms';
+import { TravelDays } from '../../model/travelDays';
+import { Customer } from '../../model/customer';
 
 @Injectable()
 
@@ -29,7 +32,7 @@ export class UtilitiesService {
 
   getWeeksPerYear(year: number) {
     let weeksArr: string[] = [];
-    let currWeek = 4 // moment().year(year).isoWeek()
+    let currWeek = moment().year(year).isoWeek()
 
     for (let index = 0; index < currWeek; index++) {
       let week = index + 1
@@ -71,7 +74,8 @@ export class UtilitiesService {
       travel.customer !== undefined && 
       travel.customer.country !== undefined &&
       travel.customer.country.rate !== undefined &&
-      travel.customer.country.halfRate !== undefined) {
+      travel.customer.country.halfRate !== undefined)
+      {
       let start = moment(travel.date[0]);
       let end = moment(travel.date[1]);
       let duration = moment.duration(end.diff(start));
@@ -124,31 +128,6 @@ export class UtilitiesService {
     let interval = moment().hour(0).minute(minutes);
     interval.subtract(breakTime,'minutes');
     return interval.format("HH:mm");
-
-    // let breakDuration = breakTime !== undefined ?  moment(breakTime,"HH:mm") : moment('00:00',"HH:mm");
-
-    // let breakDiffHours = end.diff(breakDuration,'hours');
-    // let breakDiffMinutes = end.diff(breakDuration,'minutes');
-    // let breakClearMinutes = (breakDiffMinutes % 60);
-
-
-
-    // let totalHours = moment(breakDiffHours,"HH:mm")
-    // let totalMinutes = end.diff(start, 'minutes')
-    // let clearMinutes = (totalMinutes % 60)
-
-
-    
-    // // let totalHours = end.diff(start, 'hours')
-    // // let totalMinutes = end.diff(start, 'minutes')
-    // // let clearMinutes = (totalMinutes % 60)
-
-
-
-    // let m = moment().minute(clearMinutes)
-    // m.hour(totalHours)
-
-    // return m.format('HH:mm')
   }
 
   createDateArray(): Date[] {
@@ -215,52 +194,6 @@ export class UtilitiesService {
     ]
 
     return cards
-
-
-    // return new Promise((resolve, reject) => {
-    //   //this.myUser = this.userService.getUser();
-    //   //this.user = this.authService.getUserAuth();
-    //   this.authService.user$.subscribe(data => {
-    //     if(data) {
-    //       this.myUserData = data
-    //       this.roles = this.myUserData.role?.join(",")
-  
-    //       let cards: Card[] = [
-    //         {
-    //           header: 'Letzter Login',
-    //           icon: 'fa-solid fa-right-to-bracket',
-    //           body: this.myUser?.lastSignInTime,
-    //           footer: 'angemeldet seit',
-    //           subFooter: this.myUser?.creationTime,
-    //           btnAction: ''
-    //         },
-    //         {
-    //           header: 'Rolle',
-    //           icon: 'fa-solid fa-user-tag',
-    //           body: this.roles,
-    //           footer: 'zum Userprofile',
-    //           btnAction: ''
-    //         },
-    //         {
-    //           header: 'Arbeitszeit',
-    //           icon: 'fa-solid fa-clock',
-    //           body: '30h von 40h gearbeitet',
-    //           footer: 'Heute gearbeitet',
-    //           btnAction: ''
-    //         },
-    //         {
-    //           header: 'Reisekosten (draft)',
-    //           icon: 'fa-solid fa-plane',
-    //           body: 'Ausstehender Betrag 51€',
-    //           footer: '3 Reisen erfasst',
-    //           btnAction: ''
-    //         },
-    //       ]
-    
-    //       resolve(cards);
-    //     }
-    //   })
-    // })
     
   }
 
@@ -298,6 +231,92 @@ export class UtilitiesService {
         result = base + "unternehmen.png"
         break;
     }
+
+    return result
+  }
+
+  createDays(travel: FormGroup) {
+    //https://www.amz-steuer.de/reisekostenrechner/
+    if(travel.controls['dateRange'].value !== null) {
+      console.log("🚀 ~ UtilitiesService ~ createDays ~ travel:", travel.controls['dateRange'].value)
+      //console.log("🚀 ~ UtilitiesService ~ createDays ~ travel:", travel.controls['customer'].value)
+      let start = moment(travel.controls['dateRange'].value[0])
+      let startHours = start.hours()
+      let end = moment(travel.controls['dateRange'].value[1])
+      let endHours = end.hours()
+      let daysDiff = end.diff(start,'days');
+      let days = []
+      let customer: Customer = {...travel.controls['customer'].value}
+  
+      /*First Element*/
+      let day = start
+        days.push({
+          date: day.toDate(),
+          amount: daysDiff == 0 && (endHours - startHours) < 8 ? 0 : customer.country?.halfRate,
+          totalAmount: daysDiff == 0 && (endHours - startHours) < 8 ? 0 : customer.country?.halfRate,
+          fullAmount: daysDiff == 0 && (endHours - startHours) < 8 ? 0 : customer.country?.rate,
+          breakfast: false,
+          launch: false,
+          dinner: false
+        })
+
+  
+      /*next Element*/
+      for (let index = 0; index < daysDiff; index++) {
+        let rate = 0
+        let halfRate = 0
+        let breakfastCost = 0
+        /*Abzug Frühstück*/
+        if(customer.country?.rate !== undefined && customer.country?.halfRate !== undefined) {
+          breakfastCost = parseFloat((customer.country?.rate * 0.2).toFixed(2))
+          rate = parseFloat((customer.country?.rate).toFixed(2)) - breakfastCost
+          halfRate = parseFloat((customer.country?.halfRate).toFixed(2)) - breakfastCost
+        }
+
+
+        days.push({
+          date: day.add(1,'days').toDate(),
+          amount: index + 1 == daysDiff ? customer.country?.halfRate : customer.country?.rate,
+          totalAmount: index + 1 == daysDiff ? halfRate : rate,
+          fullAmount: customer.country?.rate,
+          breakfast: true,
+          launch: false,
+          dinner: false
+        })
+      }
+      
+  
+      this.dataService.travelsDay$.next(days);
+
+    }
+  }
+
+  calcDayRate(fullAmount: number | undefined, breakfast: boolean | undefined, launch: boolean | undefined, dinner: boolean | undefined) {
+    let breakfastCosts = 0
+    let dinnerCosts = 0
+    let launchCosts = 0
+    let result = 0
+    if(fullAmount) {
+      breakfastCosts = fullAmount * (breakfast ? 0.2 : 0)
+      launchCosts = fullAmount * (launch ? 0.4 : 0)
+      dinnerCosts = fullAmount * (dinner ? 0.4 : 0)
+
+      if(breakfast) {
+        result = breakfastCosts
+      }
+
+      if(launch) {
+        result = result + launchCosts
+      }
+
+      if(dinner) {
+        result = result + dinnerCosts
+      }
+
+      return result < 0 ? 0 : result
+    }
+
+
 
     return result
   }

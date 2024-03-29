@@ -7,12 +7,12 @@
             <div class="grid">
                 <div class="col">
                     <div class="surface-card shadow-2 p-3 border-round">
-                        <div class="flex justify-content-center mb-5 text-4xl align-items-center">
+                        <div class="flex justify-content-center mb-5 text-4xl align-items-center text-900">
                             <div>
                                 Hallo {{myUserData.name}}, bewerte jetzt deine Woche
                             </div>
                             <div class="flex ml-5">
-                                <p-dropdown class="h-full justify-content-center" [options]="weeks" [(ngModel)]="selectedWeek" (onChange)="changeWeek($event)"></p-dropdown>
+                                <p-dropdown class="h-full justify-content-center text-900" [options]="weeks" [(ngModel)]="selectedWeek" (onChange)="changeWeek($event)"></p-dropdown>
                             </div>
                         </div>
                         <div *ngIf="itemList; else loading">

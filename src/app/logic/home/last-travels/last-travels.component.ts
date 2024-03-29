@@ -24,7 +24,6 @@ export class LastTravelsComponent implements OnInit {
   }
 
   convertDate(date: any) {
-    console.log("🚀 ~ LastTravelsComponent ~ convertDate ~ date:", date)
     date as Object
     return date.seconds * 1000
   }

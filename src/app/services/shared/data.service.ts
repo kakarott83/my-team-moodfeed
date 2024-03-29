@@ -9,6 +9,7 @@ import { SpendType } from '../../model/spend-type';
 import { Customer } from '../../model/customer';
 import { Country } from '../../model/country';
 import { AggCard } from '../../model/aggCard';
+import { TravelDays } from '../../model/travelDays';
 
 @Injectable()
 
@@ -25,9 +26,11 @@ export class DataService {
   public selectedCustomer = new BehaviorSubject<Customer | undefined>(undefined);
   public selectedCountry = new BehaviorSubject<Country | undefined>(undefined);
   public myUser$ = new BehaviorSubject<any>(undefined);
-  public wtData$ = new BehaviorSubject<any[] | undefined>(undefined)
+  public wtData$ = new BehaviorSubject<any[]>([])
   public travelData$ = new BehaviorSubject<AggCard | undefined>(undefined)
   public lastXTravel$ = new BehaviorSubject<any>(undefined)
+  public travels$ = new BehaviorSubject<Travel[]>([])
+  public travelsDay$ = new BehaviorSubject<TravelDays[]>([])
 
 
 }

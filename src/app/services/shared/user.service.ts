@@ -27,7 +27,8 @@ export class UserService {
 
   //Use the function for AllUserInfo
   async getAllUserData() {
-    let googleData = this.authService.getUserAuth()
+    let googleData = await this.authService.getUserAuth()
+    console.log("🚀 ~ UserService ~ getAllUserData ~ googleData:", googleData)
     
 
     if(googleData !==null) {
