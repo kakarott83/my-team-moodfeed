@@ -68,16 +68,16 @@ export class HomeComponent implements OnInit {
     let start = this.weekDays[0]
     let end = this.weekDays[this.weekDays.length -1]
     this.weekData = await this.fire.getWorkTimeHours(this.myUser.uid, start, end);
-    this.wtHours = this.calcWt(this.weekData)
+    this.wtHours = this.calcWt(this.weekData);
     this.dataService.wtData$.next(this.weekData);
 
     //Travel generieren
     this.travels = await this.fire.getTravelByUser(this.myUser.uid);
-    this.travelsLast = this.sortLast(this.travels, 5)
-    this.agg = this.calcTravel(this.travels)
+    this.travelsLast = this.sortLast(this.travels, 5);
+    this.agg = this.calcTravel(this.travels);
     
-    this.dataService.travelData$.next(this.agg)
-    this.dataService.lastXTravel$.next(this.travelsLast)
+    this.dataService.travelData$.next(this.agg);
+    this.dataService.lastXTravel$.next(this.travelsLast);
 
 
 
@@ -139,7 +139,7 @@ export class HomeComponent implements OnInit {
     for (let index = 0; index < weekData.length; index++) {
       sum += weekData[index]
     }
-    return Number(sum.toFixed(2))
+    return this.utilities.roundToDecimal(sum,2)
 
   }
 

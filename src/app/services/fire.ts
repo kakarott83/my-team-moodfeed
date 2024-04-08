@@ -178,7 +178,7 @@ export class FireService {
   }
 
   getWorkTimeHours(userId: string, startDate: Date, endDate: Date) {
-
+    let workTimeDuration: any[] = [0,0,0,0,0];
     return firstValueFrom(
       this.db.collection<Worktime>('worktime', ref => ref.where('userId', '==', userId))
         .snapshotChanges()
@@ -186,38 +186,43 @@ export class FireService {
             map(actions => actions.map(x => 
               ({id: x.payload.doc.id, ...x.payload.doc.data()})
             )),
-            // tap(x => {
+            map(wts => {
+              let filteredWts = wts.filter(
+                wt => new Date(wt.date == undefined ? 0 : new Date(wt.date)) >= startDate
+              )
 
-            //   let wt = x as Worktime[]
-            //   let d = new Date(wt[0].date == undefined ? 0 : wt[0].date)
-            //   console.log(new Date(d),'WT')
+              filteredWts.forEach(x => {
+                let index = new Date(x.date!).getDay()-1
+                workTimeDuration[index] = this.calcDuration(x.start!, x.end!, x.break!)
+              })
 
-            // }),
-            map(wts => wts.filter(
-              wt => new Date(wt.date == undefined ? 0 : wt.date) >= startDate
-            )),
-            map(wts => wts.map(x => {
-              if(x.start !== undefined && x.end !== undefined && x.break !== undefined) {
-
-                let startSplit = x.start.split(':')
-                let s = new Date()
-                s.setHours(parseInt(startSplit[0]),parseInt(startSplit[1]))
-
-                let endSplit = x.end.split(':')
-                let e = new Date()
-                e.setHours(parseInt(endSplit[0]),parseInt(endSplit[1]))
-
-                let breakSplit = x.break == null ? '0:0' : x.break.split(':')
-                let b = parseInt(breakSplit[0]) + (parseInt(breakSplit[1]) / 60)
-
-                let duration = x.break !== null ? (e.getTime() - s.getTime()) - b : e.getTime() - s.getTime()
-
-                return  duration / (1000 * 60 * 60)
-              }
-              return null
-            }))
+              return workTimeDuration
+            })
           )
         )
+  }
+
+  private calcDuration(start: string, end: string, breakTime: string) {
+    let startDate = new Date()
+    let startSplit = start.split(':')
+    startDate.setHours(+startSplit[0])
+    startDate.setMinutes(+startSplit[1])
+    startDate.setSeconds(0)
+
+    let endDate = new Date()
+    let endSplit = end.split(':')
+    endDate.setHours(+endSplit[0])
+    endDate.setMinutes(+endSplit[1])
+    endDate.setSeconds(0)
+
+    let result = endDate.getTime() - startDate.getTime()
+
+    if(breakTime) {
+      let breakSplit = breakTime.split(':')
+      result = result - parseInt(breakSplit[0]) + (parseInt(breakSplit[1]) / 60)
+    }
+
+    return result / (1000 * 60 * 60)
   }
 
   createWorktime(wt: Worktime): any {

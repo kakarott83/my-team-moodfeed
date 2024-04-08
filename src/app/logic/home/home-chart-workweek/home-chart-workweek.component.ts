@@ -34,7 +34,7 @@ export class HomeChartWorkweekComponent {
     this.loading = true
     this.dataService.wtData$.subscribe(data => {
       if(data) {
-        //console.log("🚀 ~ HomeChartWorkweekComponent ~ ngOnInit ~ data:", data)
+        console.log("🚀 ~ HomeChartWorkweekComponent ~ ngOnInit ~ data:", data)
         this.createChart(data)
         this.loading = false
       }
@@ -44,11 +44,14 @@ export class HomeChartWorkweekComponent {
   }
 
   createChart(weekData: any) {
+    console.log("🚀 ~ HomeChartWorkweekComponent ~ createChart ~ weekData:", weekData)
 
     const documentStyle = getComputedStyle(document.documentElement);
     const textColor = documentStyle.getPropertyValue('--surface-900');
     const textColorSecondary = documentStyle.getPropertyValue('--surface-900');
     const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+
+    
 
     this.data = {
         labels: ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag'],
@@ -57,6 +60,7 @@ export class HomeChartWorkweekComponent {
                 label: 'Stunden/Tag (Ist)',
                 backgroundColor: documentStyle.getPropertyValue('--cic-dark-blue'),
                 borderColor: documentStyle.getPropertyValue('--cic-dark-blue'),
+                //data: [8,8,8,8,8] 
                 data: weekData
             },
             {
