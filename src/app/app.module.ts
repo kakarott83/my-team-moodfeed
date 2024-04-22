@@ -100,6 +100,8 @@ import { DaysListComponent } from './logic/travel/days-list/days-list.component'
 import { CicCheckboxComponent } from './components/cic-checkbox/cic-checkbox.component';
 import { UtilitiesService } from './services/shared/utilities.service';
 import { ConfirmDialogComponent } from './logic/dialogs/confirm-dialog/confirm-dialog.component';
+import { UploadFileComponent } from './logic/upload-file/upload-file.component';
+import { NgxFileDropModule } from 'ngx-file-drop';
 
 
 @NgModule({
@@ -154,7 +156,8 @@ import { ConfirmDialogComponent } from './logic/dialogs/confirm-dialog/confirm-d
     CurrencyDialogComponent,
     DaysListComponent,
     CicCheckboxComponent,
-    ConfirmDialogComponent
+    ConfirmDialogComponent,
+    UploadFileComponent
   ],
   imports: [
     BrowserModule,
@@ -190,6 +193,7 @@ import { ConfirmDialogComponent } from './logic/dialogs/confirm-dialog/confirm-d
     TabViewModule,
     ToastModule,
     TableModule,
+    NgxFileDropModule,
     HttpClientModule,
     CheckboxModule,
     AngularFireModule.initializeApp(environment.firebase),

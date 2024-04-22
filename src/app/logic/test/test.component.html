@@ -7,5 +7,33 @@
 <div>{{travels}}</div>
 <p-button label="Get X Travels" (onClick)="getLastTravels()"></p-button>
 <div>{{travelsLast}}</div>
+<p-divider></p-divider>
+<p-button class="btn-def btn-def-small" label="Small4"></p-button>
+<div class="flex flex-column m-2">
+    <button class="btn-def btn-def-small">
+        <i class="pi pi-check"></i>
+        Small
+    </button>
+    <button class="btn-def btn-def-medium">
+        <i class="pi pi-check"></i>
+        Medium
+    </button>
+    <button class="btn-def btn-def-large">
+        <i class="pi pi-check"></i>
+        Large
+    </button>
+</div>
+<p-divider></p-divider>
+<div>
+    <p-toast></p-toast>
+    <p-fileUpload name="demo[]" url="https://www.primefaces.org/cdn/api/upload.php" [multiple]="false" accept="image/*" [maxFileSize]="1000000" [showUploadButton]="false" [showCancelButton]="false">
+        <ng-template pTemplate="content">
+            <ul>
+            </ul>
+        </ng-template>
+    </p-fileUpload>
+</div>
+<p-divider></p-divider>
+<app-upload-file></app-upload-file>
 
 

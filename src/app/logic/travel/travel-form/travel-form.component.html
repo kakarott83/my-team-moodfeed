@@ -179,11 +179,12 @@
                                         </ul>
                                     </ng-template>
                                 </p-fileUpload-->
-                                <p-fileUpload mode="basic" name="demo[]"
+                                <!--p-fileUpload mode="basic" name="demo[]"
                                     url="https://www.primefaces.org/cdn/api/upload.php" accept="image/*"
                                     [maxFileSize]="1000000" (onUpload)="onBasicUploadAuto($event)" [auto]="true"
-                                    chooseLabel="Browse"></p-fileUpload>
-                                <div *ngIf="uploadedFiles.length">
+                                    chooseLabel="Browse">
+                                </p-fileUpload-->
+                                <!--div *ngIf="uploadedFiles.length">
                                     <div *ngFor="let file of uploadedFiles; let i=index">
                                             <div class="flex justify-content-between h-2rem w-full">
                                                 <div>
@@ -200,6 +201,23 @@
                                                 </div>
                                         </div>
                                     </div>
+                                </div-->
+                                <div>
+                                    <p-fileUpload 
+                                        name="demo[]" 
+                                        mode="advanced"
+                                        url="https://www.primefaces.org/cdn/api/upload.php" 
+                                        (onUpload)="onBasicUploadAuto($event)" 
+                                        (onError)="onError($event)"
+                                        [multiple]="true" 
+                                        [maxFileSize]="1000000" 
+                                        [showUploadButton]="true" 
+                                        [showCancelButton]="false"
+                                        >
+                                    </p-fileUpload>
+                                    <ul *ngIf="uploadedFiles.length">
+                                        <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>
+                                    </ul>
                                 </div>
                                 <div *ngIf="filesFromDbList.length">
                                     <div *ngFor="let file of filesFromDbList; let i=index">
@@ -223,9 +241,18 @@
             </div>
         </div>
         <div class="flex">
-            <button pButton class="btn-cic-submit" label="Einreichen" icon="fa-regular fa-paper-plane" (click)="submit('send')" [disabled]="!myTravelForm.valid"></button>
-            <button pButton class="btn-cic-submit" label="Speichern" icon="pi pi-check" (click)="submit('save')" [disabled]="!myTravelForm.valid"></button>
-            <button pButton class="btn-cic-clear" label="Clear" icon="fa-solid fa-text-slash" (click)="clearForm()"></button>
+            <button class="btn-def btn-def-large"  (click)="submit('send')" [disabled]="!myTravelForm.valid">
+                <i class="fa-regular fa-paper-plane"></i>
+                Einreichen
+            </button>
+            <button class="btn-def btn-def-large"  (click)="submit('save')" [disabled]="!myTravelForm.valid">
+                <i class="pi pi-check"></i>
+                Speichern
+            </button>
+            <button class="btn-def btn-def-large"  (click)="clearForm()">
+                <i class="fa-solid fa-text-slash"></i>
+                Clear
+            </button>
         </div>
 
         

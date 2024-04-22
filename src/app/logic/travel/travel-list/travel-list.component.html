@@ -29,7 +29,7 @@
         <div class="flex">
           <div class="flex">
             <button pButton class="btn-cic-submit" [ngStyle]="{'width' : '100%'}" label="Einreichen" icon="fa-regular fa-paper-plane" (click)="submitTravels()" [disabled]="selectedTravels.length == 0"></button>
-            <button pButton class="btn-cic-submit" [ngStyle]="{'width' : '100%'}" label="Export" icon="fa-regular fa-paper-plane" label="Export"></button>
+            <button pButton class="btn-cic-submit" [ngStyle]="{'width' : '100%'}" label="Export" icon="fa-regular fa-paper-plane" (click)="exportExcel()" [disabled]="selectedTravels.length == 0" label="Export"></button>
             <button pButton class="btn-cic-submit" [ngStyle]="{'width' : '100%', 'margin-right' : '0px'}" label="Abgerechnet" icon="fa-solid fa-money-bill-wave" (click)="paidTravels()" [disabled]="selectedTravels.length == 0"></button>
           </div>
         </div>

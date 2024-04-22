@@ -386,7 +386,13 @@ export class TravelFormComponent implements OnInit {
         this.uploadedFiles.push(file);
     }
 
+    console.log(this.uploadFiles)
+
     this.msgService.add({severity: 'info', summary: 'File Uploaded', detail: ''});
+  }
+
+  onError(event: any) {
+    console.log("🚀 ~ TravelFormComponent ~ onError ~ event:", event)
   }
 
   deleteFile(index: number) {

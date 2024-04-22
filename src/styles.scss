@@ -150,6 +150,12 @@ body .p-component
     }
 }
 
+.btn-default-small {
+    background-color: var(--cic-light-blue) !important;
+    border: var(--cic-light-blue) !important;
+    color: var(--cic-white) !important;
+}
+
 .cic-btn-white {
     background-color: var(--cic-white);
     color: var(--surface-900);
@@ -430,4 +436,56 @@ body .p-component
     background: none;
     border-color: var(--surface-900);
 }
+
+.btn-def {
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: bold;
+    border-radius: 0.25rem;
+    background-color: var(--cic-light-blue);
+    border: var(--cic-light-blue);
+    color: var(--cic-white);
+    border-color: var(--surface-900);
+    margin: 0.25rem;
+    cursor: pointer;
+    transition: all 0.5s;
+}
+
+.btn-def-small {
+    width: 5rem;
+    height: 1.5rem;
+    border-radius: 0.25rem;
+    font-size: 13px;
+    i {
+        font-size: 11px;
+    }
+}
+.btn-def-medium {
+    width: 6.5rem;
+    height: 2rem;
+    font-size: 15px;
+    i {
+        font-size: 13px;
+    }
+}
+.btn-def-large {
+    width: 8rem;
+    height: 3rem;
+    border-radius: 0.3rem;
+    font-size: 15px;
+    i {
+        font-size: 13px;
+    }
+}
+  
+.btn-def:hover {
+    transition: 0.5s;
+    background-color: var(--cic-medium-blue);
+}
+
+
+
+
+
+
+
 

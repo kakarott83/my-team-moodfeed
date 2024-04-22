@@ -23,10 +23,10 @@
                             </div>
                             <div class="block mx-8 mt-3">
                                 <textarea rows="4" [style]="{'width':'100%', 'font-family':'Rajdhani'}" pInputTextarea [(ngModel)]="comment" placeholder="Hier kannst du ein Kommentar erfassen"></textarea> 
-                                <div class="cic-btn font-bold text-center p-4" (click)="submitVoting()">
+                                <button class="btn-def btn-def-large" (click)="submitVoting()">
                                     <i class="pi pi-check"></i>
-                                    <span>Abschließen</span>
-                                </div>
+                                    Speichern
+                                </button>
                             </div>
                         </div>
                         <ng-template class="w-full" #loading>

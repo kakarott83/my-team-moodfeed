@@ -20,6 +20,7 @@ import { FireService } from '../../../services/fire';
 import { DatePipe } from '@angular/common';
 import { state } from '@angular/animations';
 import { STATE } from '../../../enums';
+import { ExcelExportService } from '../../../services/shared/excel-export.service';
 
 @Component({
   selector: 'app-travel-list',
@@ -55,7 +56,8 @@ export class TravelListComponent implements OnInit {
     private msgService: MessageService,
     private fire: FireService,
     private datePipe: DatePipe,
-    private customConfirmationService: ConfirmationService
+    private customConfirmationService: ConfirmationService,
+    private excelExport: ExcelExportService
   ) {
     dataService.myUser$.subscribe((data) => {
       this.myUser = data;
@@ -134,6 +136,14 @@ export class TravelListComponent implements OnInit {
     this.dataService.selectedTravel.next(item);
     this.changeTab.emit(true);
 
+  }
+
+  exportExcel() {
+    if(this.selectedTravels) {
+      if (this.selectedTravels.length > 0) {
+        this.excelExport.createExcel(this.selectedTravels,'Reisen');
+      }
+    }
   }
 
   async submitTravels() {

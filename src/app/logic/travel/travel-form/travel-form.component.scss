@@ -14,3 +14,19 @@
     padding: 0;
     min-width: 15px;
 }
+
+:host ::ng-deep .p-fileupload { 
+    background: red !important; 
+    font-size: 20px; 
+    font-weight: 600; 
+} 
+
+:host ::ng-deep .p-fileupload-buttonbar { 
+    background: #0fb800e8 !important; 
+    font-size: 20px; 
+    font-weight: 600; 
+} 
+
+:host ::ng-deep .p-fileupload-content {
+    background: yellow !important; 
+}

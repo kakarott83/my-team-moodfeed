@@ -38,14 +38,13 @@
                                         <label>Kommentar</label>
                                         <textarea rows="5" cols="30" pInputTextarea formControlName="comment" class="text-base text-900 surface-overlay p-2 border-1 border-solid surface-border border-round appearance-none outline-none focus:border-primary w-full"></textarea>
                                     </div>
-        
-                                    <div class="cic-btn font-bold text-center p-4 border-round-lg" (click)="submit()">
-                                        <i class="pi pi-check"></i>
-                                        <span>Speichern</span>
-                                    </div>
                                 </form>
                             </div>
                         </div>
+                        <button class="btn-def btn-def-large" (click)="submit()">
+                            <i class="pi pi-check"></i>
+                            Speichern
+                        </button>
                     </div>
                 </p-tabPanel>
                 <p-tabPanel header="Alle Zeiten">
