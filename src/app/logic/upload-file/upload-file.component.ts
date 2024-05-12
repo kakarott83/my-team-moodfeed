@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { NgxFileDropEntry } from 'ngx-file-drop';
 
 @Component({
@@ -6,7 +6,11 @@ import { NgxFileDropEntry } from 'ngx-file-drop';
   templateUrl: './upload-file.component.html',
   styleUrl: './upload-file.component.scss'
 })
+
 export class UploadFileComponent {
+  @Output() outFilesEvent = new EventEmitter<File[]>();
+
+
   public files: NgxFileDropEntry[] = [];
   public fileList: File [] = []
 
@@ -24,6 +28,8 @@ export class UploadFileComponent {
           // Here you can access the real file
           console.log(droppedFile.relativePath, file);
           this.fileList.push(file)
+
+          this.outFilesEvent.emit(this.fileList)
 
           console.log(this.fileList,'FileList')
 

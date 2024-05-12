@@ -53,6 +53,9 @@ export class TravelFormComponent implements OnInit {
   sumTotal = 0;
   myUser: any;
   dialogRef: DynamicDialogRef | undefined
+  showConfirmDialog = false
+  confirmHeader = 'Dokument löschen'
+  confirmMsg = 'Möchtest du das Dokument wirklich löschen'
   
   //@Input() myUser: any;
   //https://www.amz-steuer.de/reisekostenrechner/
@@ -67,7 +70,7 @@ export class TravelFormComponent implements OnInit {
     public dataService: DataService,
     private mailService: MailService,
     private el: ElementRef,
-    public dialogService: DialogService
+    public dialogService: DialogService,
     ) {
 
       this.days$ = this.dataService.travelsDay$.pipe(
@@ -396,7 +399,17 @@ export class TravelFormComponent implements OnInit {
   }
 
   deleteFile(index: number) {
+    this.showConfirmDialog = true
     this.uploadedFiles.splice(index,1)
+
+    //this.showConfirmDialog = false
+  }
+
+  setShowTest() {
+    this.showConfirmDialog = !this.showConfirmDialog
+    this.dataService.confirm$.subscribe(confirmed => {
+      console.log(confirmed,'confirmed')
+    })
   }
 
   getItems() {
@@ -496,4 +509,10 @@ export class TravelFormComponent implements OnInit {
       this.dataService.travelsDay$.next([]);
     }
   }
+
+  upload(files: File[]) {
+    this.uploadedFiles = files
+  }
+
+
 }

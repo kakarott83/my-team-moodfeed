@@ -1,12 +1,19 @@
 <div class="center">
-    <ngx-file-drop dropZoneLabel="Drop files here" (onFileDrop)="dropped($event)" 
+    <ngx-file-drop 
+    dropZoneClassName="uploadDropZone"
+    (onFileDrop)="dropped($event)"
     (onFileOver)="fileOver($event)" (onFileLeave)="fileLeave($event)">
         <ng-template ngx-file-drop-content-tmp let-openFileSelector="openFileSelector">
-          Optional custom content that replaces the the entire default content.
-          <button type="button" (click)="openFileSelector()">Browse Files</button>
+          <div>
+            Upload hier...oder
+          </div>
+            <button class="btn-def btn-def-small" (click)="openFileSelector()">
+                <i class="fa-solid fa-magnifying-glass"></i>
+                Auswählen
+            </button>
         </ng-template>
     </ngx-file-drop>
-    <div class="flex flex-column">
+    <!--div class="flex flex-column">
         <div class="grid">
             <div class="col">Name</div>
             <div class="col">Grösse</div>
@@ -19,5 +26,5 @@
                     <div class="col">{{i}}</div>
                 </div>   
         </div>
-    </div>
+    </div-->
 </div>

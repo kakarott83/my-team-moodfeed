@@ -10,6 +10,12 @@
     height: 100%;
 }
 
+::ng-deep .p-fieldset-content {
+    padding: 0px;
+}
+
+
+
 ::ng-deep .p-inputgroup-addon {
     padding: 0;
     min-width: 15px;

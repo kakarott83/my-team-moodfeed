@@ -31,6 +31,7 @@ export class DataService {
   public lastXTravel$ = new BehaviorSubject<any>(undefined)
   public travels$ = new BehaviorSubject<Travel[]>([])
   public travelsDay$ = new BehaviorSubject<TravelDays[]>([])
+  public confirm$ = new BehaviorSubject<boolean | undefined>(undefined)
 
 
 }

@@ -451,7 +451,7 @@ body .p-component
 }
 
 .btn-def-small {
-    width: 5rem;
+    width: 6rem;
     height: 1.5rem;
     border-radius: 0.25rem;
     font-size: 13px;
@@ -480,6 +480,32 @@ body .p-component
 .btn-def:hover {
     transition: 0.5s;
     background-color: var(--cic-medium-blue);
+}
+
+.btn-def-icon  {
+    border-radius: 100%;
+    background: none;
+    border: none;
+}
+
+.btn-def-icon-delete  {
+    i {
+        color: var(--cic-red);
+    }
+}
+
+
+
+/***********File Upload*********/
+.uploadDropZone {
+    border: 2px solid;
+    border-style: dotted;
+    border-radius: 10px;
+    border-color: var(--cic-light-blue);
+}
+
+.uploadBtn {
+    background-color: #006C97;
 }
 
 
